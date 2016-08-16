@@ -43,11 +43,11 @@ public class WorkingInoutAction extends BaseAdminAction {
 	private String[] strlen = {"workingbill.workingBillCode","materialCode","planCount","afteroddamount","afterunoddamount","recipientsAmount","multiple","totalSingleAmount",
 								"afterFraction","scrapNumber","totalRepairAmount","totalRepairinAmount","workingbill.productDate","shift","workingbill.aufnr","zjdwyl","dbjyhgs","beforeunoddamount","ychgl",
 								"trzsl","cczsl","slcy","jhdcl","workingbill.matnr","workingbill.maktx","materialName","totalAmount","isHand","jycl","workingbill.workcenter","teamCode","teamName",
-								"bulkProductMount","needAttendance","actulAttendance","zhuren","fuzhuren","minister","deputy","workHours","storage","offset","rkcy","cchzrk"};
+								"bulkProductMount","needAttendance","actulAttendance","zhuren","fuzhuren","minister","deputy","workHours","storage","offset","rkcy","cchzrk","scsrk"};
 	private String[] lavenlen={"随工单编号","子件编码","计划数量","接/零头","接/零头/返","领用","倍数","包装数",
-								"交/零头","报废","返修发货","返修收货","生产日期","班次","生产订单号","用量","生产数","交/零头/返","一次合格率",
+								"交/零头","报废","返修发货","返修收货","生产日期","班次","生产订单号","用量","生产数(参考)","交/零头/返","一次合格率",
 								"投入汇总","产出汇总(包装)","包装差异","计划达成率","物料编码","物料描述","组件描述","报工","单据状态","校验差异","单元",
-								"班组编码","班组名称","待包装数量","应出勤人数","实出勤人数","主任","副主任","部长","副总","工作小时","入库数","偏差","入库差异","产出汇总(入库)"};
+								"班组编码","班组名称","待包装数量","应出勤人数","实出勤人数","主任","副主任","部长","副总","工作小时","入库数","偏差","入库差异","产出汇总(入库)","生产数(入库)"};
 	public String list(){
 		
 		Integer[] sunxulen={};
@@ -180,23 +180,23 @@ public class WorkingInoutAction extends BaseAdminAction {
  	 				
  	 			}
  	 			strList.add("报废");strList.add("接/零头");strList.add("接/零头/返");strList.add("包装数");strList.add("交/零头");strList.add("交/零头/返");strList.add("返修发货");strList.add("返修收货");
- 	 			strList.add("生产数");strList.add("一次合格率");strList.add("投入汇总");strList.add("产出汇总(包装)");strList.add("包装差异");strList.add("计划达成率");strList.add("单据状态");
- 	 			strList.add("报工");strList.add("检验差异");strList.add("应出勤人数");strList.add("实出勤人数");strList.add("生产时间");strList.add("入库数");strList.add("偏差");strList.add("产出汇总(入库)");strList.add("入库差异");
+ 	 			strList.add("生产数(参考)");strList.add("一次合格率");strList.add("投入汇总");strList.add("产出汇总(包装)");strList.add("包装差异");strList.add("计划达成率");strList.add("单据状态");
+ 	 			strList.add("报工");strList.add("检验差异");strList.add("应出勤人数");strList.add("实出勤人数");strList.add("生产时间");strList.add("入库数");strList.add("偏差");strList.add("生产数(入库)");strList.add("产出汇总(入库)");strList.add("入库差异");
  	 			strarry =  strList.toArray( new String[0] );
  			}else{
  				//,"入库数","偏差"
  	 			strarry = new String[]{
  	 	 				"单元","班组","主任","副主任","部长","副总","生产日期","班次","生产订单号","物料编码","物料描述","子件编码","组件描述","用量","计划数量","领用","报废",
- 	 	 				"接/零头","接/零头/返","包装数","交/零头","交/零头/返","返修发货","返修收货","生产数","一次合格率","投入汇总","产出汇总(包装)","包装差异"
- 	 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数","生产时间","入库数","偏差","产出汇总(入库)","入库差异"
+ 	 	 				"接/零头","接/零头/返","包装数","交/零头","交/零头/返","返修发货","返修收货","生产数(参考)","一次合格率","投入汇总","产出汇总(包装)","包装差异"
+ 	 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数","生产时间","入库数","偏差","生产数(入库)","产出汇总(入库)","入库差异"
  	 	 		};
  	 		}
  		}else{
  			//,"入库数","偏差"
  			strarry = new String[]{
  	 				"单元","班组","主任","副主任","部长","副总","生产日期","班次","生产订单号","物料编码","物料描述","子件编码","组件描述","用量","计划数量","领用","报废",
- 	 				"接/零头","接/零头/返","包装数","交/零头","交/零头/返","返修发货","返修收货","生产数","一次合格率","投入汇总","产出汇总","差异"
- 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数","生产时间","入库数","偏差","产出汇总(入库)","入库差异"
+ 	 				"接/零头","接/零头/返","包装数","交/零头","交/零头/返","返修发货","返修收货","生产数(参考)","一次合格率","投入汇总","产出汇总","差异"
+ 	 				,"计划达成率","单据状态","报工","检验差异","应出勤人数","实出勤人数","生产时间","入库数","偏差","生产数(入库)","产出汇总(入库)","入库差异"
  	 		};
  		}
  		List<String[]> body = new ArrayList<String[]>();

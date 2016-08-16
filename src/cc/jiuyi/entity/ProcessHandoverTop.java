@@ -45,6 +45,8 @@ public class ProcessHandoverTop extends BaseEntity {
 	private String revokedUserId;//撤销人
 	private String revokedUserCard;//撤销人卡号
 	private String revokedTime;//撤销时间
+	private String receiveName;//接收人姓名
+	private String receiveId;//接收人ID
 
 
 	
@@ -234,6 +236,18 @@ public class ProcessHandoverTop extends BaseEntity {
 	}
 	public void setRevokedUserId(String revokedUserId) {
 		this.revokedUserId = revokedUserId;
+	}
+	public String getReceiveName() {
+		return receiveName;
+	}
+	public void setReceiveName(String receiveName) {
+		this.receiveName = receiveName;
+	}
+	public String getReceiveId() {
+		return receiveId;
+	}
+	public void setReceiveId(String receiveId) {
+		this.receiveId = receiveId;
 	}
 	
 	

@@ -261,17 +261,19 @@ public class ProcessHandoverServiceImpl extends BaseServiceImpl<ProcessHandover,
 				p.setE_message(ProcessHandover.getE_message());
 				p.setE_type(ProcessHandover.getE_type());
 				p.setMblnr(ProcessHandover.getMblnr());
-//				p.setReceiveName(admin.getName());
-//				p.setReceiveId(admin.getId());
+				p.setReceiveName(admin.getName());
+				p.setReceiveId(admin.getId());
 				processHandoverDao.update(p);
 			}
 		}
 		processHandoverTop.setPhtconfimUser(admin);
 		processHandoverTop.setBudat(budat);
 		processHandoverTop.setState("2");
+		processHandoverTop.setReceiveName(admin.getName());
+		processHandoverTop.setReceiveId(admin.getId());
 		processHandoverTopService.update(processHandoverTop);
 		}
-
+		System.out.println("-------------------结束刷卡确认--------------------");
 		map.put("status", "S");
 		map.put("massge","您的操作已成功!");
 		return map;

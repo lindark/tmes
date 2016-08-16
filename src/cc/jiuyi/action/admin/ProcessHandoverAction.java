@@ -825,9 +825,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+				log.info(e);
 				return ajaxJsonErrorMessage("IO出现异常，请联系系统管理员");
 			} catch (CustomerException e) {
 				e.printStackTrace();
+				log.info(e);
 				return ajaxJsonErrorMessage(e.getMsgDes());
 			}
 	}

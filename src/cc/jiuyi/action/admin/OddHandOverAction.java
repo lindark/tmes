@@ -401,6 +401,8 @@ public class OddHandOverAction extends BaseAdminAction {
 						processHandover1.setPlanCount(wb.getPlanCount()==null?"":wb.getPlanCount().toString());
 						processHandover1.setMatnr(wb.getMatnr());
 						processHandover1.setMaktx(wb.getMaktx());
+						processHandover1.setResponsibleName(admin.getName());
+						processHandover1.setResponsibleId(admin.getId());
 //						WorkingBill wbnext = workingbillservice.getCodeNext(admin,wb.getWorkingBillCode(),admin.getProductDate(),admin.getShift());
 //						if(wbnext!=null){
 //							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());
@@ -482,7 +484,7 @@ public class OddHandOverAction extends BaseAdminAction {
 	 * @return
 	 */
 	public String edit(){
-		Admin admin = adminService.get(loginid);
+		admin = adminService.get(loginid);
 		List<ProcessHandoverAll> lists = processHandoverAllService.getListOfAllProcess(admin.getProductDate(),admin.getShift(),admin.getTeam().getFactoryUnit().getId());
 		if(lists!=null && lists.size() != 0){
 			addActionError("当前班次总体交接已完成!");

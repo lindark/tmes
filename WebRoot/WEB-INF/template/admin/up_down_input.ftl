@@ -385,6 +385,7 @@ $(function() {
 			$("#inputForm").submit();
 		});
 		
+		var regx = /^(\+|-)?\d+($|\.\d+$)/;
 		$(".dwnum").change(function(){
 			if($(this).val()!=null && $(this).val()!=""){
 				if($(this).val!=null&&$(this).val()!=""){

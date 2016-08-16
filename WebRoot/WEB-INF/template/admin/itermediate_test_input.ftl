@@ -332,11 +332,15 @@ $(function () {
 		var noNum = $(this).parent().parent().find(".noNum").val();
 		var passNum = num-noNum;
 		var regx = /^(\+|-)?\d+($|\.\d+$)/;
-		var isNum = regx.test($(this).val());
-		if(isNum == false){
-			layer.msg("输入不合法!", {icon: 5});
-			return false;
+		var flag = true;
+		if(num!=null&&num!=""){
+			isNum = regx.test($(this).val());
+			if(isNum == false){
+				layer.msg("输入不合法!", {icon: 5});
+				return false;
+			}
 		}
+		
 		$(this).parent().parent().find(".pass_num").val(passNum);
 		if(passNum<0){
 			alert("请输入正确数量!");
@@ -525,21 +529,28 @@ function sub_event(my_id)
 {
 	//保存时检查合格数量
 	var nums = $('.pass_num');
+	var regx = /^(\+|-)?\d+($|\.\d+$)/;
+	var isNum = true;
+	$(".test_num").each(function(){
+		if($(this).val()!=null&&$(this).val()!=""){
+			isNum = regx.test($(this).val());
+			if(isNum == false){
+				layer.msg("输入不合法!", {icon: 5});
+				return false;
+			}
+		}
+	});
 	for(i=0;i<nums.length;i++)
 	{
 		var num=nums.eq(i).val();
-		var isNum = true;
-		if(num!=null&&num!=""){
-			var regx = /^(\+|-)?\d+($|\.\d+$)/;
-			isNum = regx.test($(num).val());	
-		}
-		if(num<0||isNum==false){
+		if(num<0){
 			layer.msg("请确认输入的数量", {icon: 5});
 			return false;
 		}
 	}
+	
 	$("#my_id").val(my_id);//赋值
-	if(my_id=="1")
+	if(my_id=="1"&&isNum==true)
 	{
 		var dt=$("#inputForm").serialize();
 		console.log(dt);
@@ -563,7 +574,7 @@ function sub_event(my_id)
 	    	}
 		},dt)
 	}
-	if(my_id=="2")
+	if(my_id=="2"&&isNum==true)
 	{
 		if(!sl_event())
 		{

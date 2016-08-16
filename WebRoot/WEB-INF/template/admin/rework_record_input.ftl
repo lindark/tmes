@@ -92,13 +92,13 @@ body{background:#fff;}
 						                   <div class="profile-info-row">
 												<div class="profile-info-name">产品编号</div>
 												<div class="profile-info-value">
-													<span>${workingbill.matnr}</span>
+													<span>${(workingbill.matnr)!}</span>
 												</div>
 												
 												
 												<div class="profile-info-name">产品名称</div>
 												<div class="profile-info-value">
-													<span>${workingbill.maktx}</span>
+													<span>${(workingbill.maktx)!}</span>
 												</div>
 																								
 											</div>
@@ -329,12 +329,12 @@ $(function(){
 
 	$("#completeRework").click(function(){	
 		var flag=true;
-		var regx = /^(\+|-)?\d+($|\.\d+$)/;
+		var regx = /^(\+|-)?\d+($|\d+$)/;
 		$(".theAmount").each(function(){
 			if($(this).val!=null&&$(this).val()!=""){
 				flag = regx.test($(this).val());
 				if(flag == false){
-					layer.msg("输入不合法!", {icon: 5});
+					layer.msg("数量输入整数或输入不合法!", {icon: 5});
 					return false;
 				}
 			}

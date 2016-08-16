@@ -38,6 +38,8 @@ public class ProcessHandover extends BaseEntity {
 	private String xuh;//序号
 	private String responsibleName;//责任人姓名
 	private String responsibleId;//责任人id
+	private String receiveName;//接收人姓名
+	private String receiveId;//接收人ID
 	private String e_type;
 	private String e_message;
 	private Double actualHOMount;//实际零头数交接数量
@@ -288,6 +290,22 @@ public class ProcessHandover extends BaseEntity {
 			isdel="N";
 		}
 		this.isdel = isdel;
+	}
+
+	public String getReceiveName() {
+		return receiveName;
+	}
+
+	public void setReceiveName(String receiveName) {
+		this.receiveName = receiveName;
+	}
+
+	public String getReceiveId() {
+		return receiveId;
+	}
+
+	public void setReceiveId(String receiveId) {
+		this.receiveId = receiveId;
 	}
 
 	

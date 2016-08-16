@@ -123,10 +123,10 @@
 													
 													    <div class="profile-info-name">生产日期/班次:</div>
 														<div class="profile-info-value">
-														<input type="hidden" name="processHandoverTop.productDate" value="${admin.productDate}">
+														<input type="hidden" name="processHandoverTop.productDate" value="${(admin.productDate)!}">
 														<input type="hidden" name="processHandoverTop.shift" value="${(admin.shift)! }">
 														
-								       								 ${admin.productDate} &nbsp;&nbsp;&nbsp; 
+								       								 ${(admin.productDate)! } &nbsp;&nbsp;&nbsp; 
 								       								 <#if (admin.shift == 1)!>
 								       								 早 
 								       								 <#elseif (admin.shift == 2)!> 
@@ -145,7 +145,7 @@
 						<table id="table" class="table table-striped table-bordered">
 										<thead>
 											<tr>
-												<th class="center" style="width:20%">产品名称</th>
+												<th class="center" style="width:15%">产品名称</th>
 												<th class="center" style="width:5%">计划数量</th>
 												<th class="center" style="width:10%">产品编号</th>
 												<th class="center"style="width:10%">本班随工单编号</th>
@@ -158,6 +158,7 @@
 												<th class="center"style="width:5%">操作</th>
 												</#if>
 												<#if show??>
+												<th class="tabth receive"style="width:5%">接收人</th>
 												<th class="center"style="width:5%">物料凭证号</th>
 												</#if>
 											</tr>
@@ -166,7 +167,7 @@
 										<tbody>
 											<#list processHandoverLists?sort_by("matnr") as list>
 												<tr>
-													<td class="center" style="width:20%">${(list.maktx)! }
+													<td class="center" style="width:15%">${(list.maktx)! }
 													<input type="hidden" name="processHandoverList[${list_index}].id" value="${(list.id)! }">
 													<input type="hidden" name="processHandoverList[${list_index}].maktx" value="${(list.maktx)! }">
 													</td>
@@ -191,8 +192,8 @@
 															<#break>
 															</#list>
 														<#else> 	</#if> -->
-													<td class="center" style="width:10%"><input type="text" style="width:95%"<#if list.mblnr!="">readonly</#if> class="oddhandOverMount state_input " name="processHandoverList[${list_index}].actualHOMount" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"value="${(list.actualHOMount) }"/></td>
-													<td class="center" style="width:10%"><input type="text" style="width:95%"<#if list.mblnr!="">readonly</#if> class="unhandOverMount state_input "onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
+													<td class="center" style="width:10%"><input type="text" style="width:95%"<#if list.mblnr!="">readonly</#if> class="oddhandOverMount state_input " name="processHandoverList[${list_index}].actualHOMount"value="${(list.actualHOMount) }"/></td>
+													<td class="center" style="width:10%"><input type="text" style="width:95%"<#if list.mblnr!="">readonly</#if> class="unhandOverMount state_input " name="processHandoverList[${list_index}].unHOMount" value="${(list.unHOMount) }"/></td>
 														<td style="width:5%">
 																	<#if !show??>
 																	<#list pagerMapList as bl>
@@ -218,7 +219,7 @@
 																	</td>
 														<td style="width:5%">
 														<#if !(show??)>
-														<img id="pId" class="img_addbug" title="添加单元信息" alt="添加单元信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+														<img id="pId" class="img_addbug" title="责任人" alt="责任人" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 														<span id="responsibleName">${(list.responsibleName) }</span>
 														<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
 														<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 			
@@ -227,7 +228,8 @@
 														<#else>
 														<span id="responsibleName">${(list.responsibleName) }</span>
 														</td>
-														<td class="mblnr">${(list.mblnr)! }</td>		
+														<td class="receive"style="width:5%">${(list.receiveName)! }
+														<td class="mblnr"style="width:5%">${(list.mblnr)! }</td>		
 														</#if>
 														<#list list.oddHandOverSet as bl>
 														<input type="hidden" name="oddHandOverList[${list_index}${bl_index }].id" value="${bl.id }">  
@@ -419,6 +421,7 @@ function showUnit(num1){
 		//	var loginId = $("#loginid").val();
 			var productDate = $("#productDate").val();
 			var select = $("#sl_sh").val();
+			var regx = /^(\+|-)?\d+($|\.\d+$)/;
 			
 			if(productDate == ""){
 				layer.alert("请选择下班生产日期",{icon: 7});
@@ -430,6 +433,26 @@ function showUnit(num1){
 				return false;
 			}
 			var flag = true;
+			$(".unhandOverMount").each(function(){
+				if($(this).val!=null&&$(this).val()!=""){
+					flag = regx.test($(this).val());
+					if(flag == false){
+						layer.msg("输入不合法!", {icon: 5});
+						return false;
+					}
+				}
+			});
+			if(flag==true){
+				$(".oddhandOverMount").each(function(){
+					if($(this).val!=null&&$(this).val()!=""){
+						flag = regx.test($(this).val());
+						if(flag == false){
+							layer.msg("输入不合法!", {icon: 5});
+							return false;
+						}
+					}
+				});
+			}
 			$(".afterWork").each(function(){
 				if($(this).val() == $(this).parent().prev().children().val()){
 					flag = false;
@@ -459,7 +482,6 @@ function showUnit(num1){
 						layer.alert("请填写下班随工单",{icon: 7});
 						return false;
 					} */
-					
 					if($("#station").val()==""){
 						flag = false;
 						layer.alert("请选择模具",{icon: 7});

@@ -371,6 +371,7 @@
 														<#if !(show??)>
 														<th class="tabth">操作</th>
 														</#if>
+														<th class="tabth receive"style="display:none">接收人</th>
 														<th class="tabth mblnr"style="display:none">物料凭证号</th>
 													</tr>
 														<#list processHandoverLists?sort_by("matnr") as list>
@@ -427,16 +428,19 @@
 																	${(list.station)! }
 																	</#if>
 																	</td>
+																	<#if !(show??)>
 																	<td>
 																	<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 																	<span id="responsibleName">${(list.responsibleName) }</span>
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 
 																	</td>
-																	<#if !(show??)>
 																	<td style="width:5%"><a href="javascript:void(0);" class="removeLine">删除</a></td>
+																	<#else>
+																	<td style="width:5%">${(list.responsibleName)! }
 																	</#if>
-																	<td class="mblnr" style="display:none">${(list.mblnr)! }
+																	<td class="receive" style="display:none;width:5%">${(list.receiveName)! }
+																	<td class="mblnr" style="display:none;width:5%">${(list.mblnr)! }
 																	</td>
 																</tr>
 																<tr class="tableson"  style="display:none;">
@@ -629,6 +633,7 @@ function showUnit(num1){
 		$(".show_input").attr("readonly","readonly");
 		 $("#btn_save").css("display","none");
 		 $(".mblnr").css("display","table-cell");
+		 $(".receive").css("display","table-cell");
 		</#if>
 		
 		$(".i_plus").click(function(){

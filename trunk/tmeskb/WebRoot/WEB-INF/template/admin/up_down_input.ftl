@@ -234,8 +234,6 @@ inupt.stockMout {
 														<td style="width:150px"><input style="width:95%"
 															type="text" name="updownList[${lns_index}].dwnum" class="dwnum"
 															value="${(lns.xamount)!}"
-															onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"
-															onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value">
 														</td>
 															<#if type="down">
 														<td>${(lns.cqmultiple)!'1'}<input type="hidden"
@@ -298,7 +296,6 @@ inupt.stockMout {
 <script type="text/javascript">
 $(function() {
 		var $select1 = $("#select1");
-		var isNum = true;
 		$select1.change(function(){
 			var warehouse = $(this).val();
 			$("#select2").children().remove();
@@ -320,7 +317,6 @@ $(function() {
 		var $subm = $("#btn_subm");
 		var $sure = $("#btn_subm");
 		//刷卡提交
-		
 		$subm.click(function() {
 			var dt = $("#inputForm").serialize();
 			var loginid = $("#loginid").val();
@@ -385,22 +381,12 @@ $(function() {
 			$("#inputForm").submit();
 		});
 		
-		var regx = /^(\+|-)?\d+($|\.\d+$)/;
 		$(".dwnum").change(function(){
-			if($(this).val()!=null && $(this).val()!=""){
-				if($(this).val!=null&&$(this).val()!=""){
-					isNum = regx.test($(this).val());
-					if(isNum == false){
-						layer.msg("输入不合法!", {icon: 5});
-						return false;
-					}
-				}
-			}
 			var $cqmultiple_input = $(this).parent().next().find(".cqmultiple");
 			if($cqmultiple_input.length>0){
 				var cqmultiple = $cqmultiple_input.val();
 				var $beforeamount_input = $cqmultiple_input.parent().next().find(".beforeamount");
-				var amount = floatDiv($(this).val(),cqmultiple);
+				var amount = floatDiv($(this).val(),cqmultiple).toFixed(2);
 				$beforeamount_input.val(amount);
 			}
 		});

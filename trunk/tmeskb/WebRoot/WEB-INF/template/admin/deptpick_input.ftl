@@ -176,7 +176,7 @@ inupt.stockMout{
 															<td>${(deptpick.materialName)! }</td>
 															<td>${(deptpick.materialBatch)! }</td>
 															<td>${(deptpick.actualMaterialMount)! }</td>
-															<td><input type="text" class="stockMount" name="deptpickList[0].stockMount" value="${(deptpick.stockMount)!}" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value">
+															<td><input type="text" class="stockMount" name="deptpickList[0].stockMount" value="${(deptpick.stockMount)!}" >
 															<input type="hidden" name="deptpickList[0].id" value="${(deptpick.id)! }"/>
 															</td>
 															</tr>
@@ -193,7 +193,7 @@ inupt.stockMout{
 																	<input type="hidden"  name="deptpickList[${lns_index}].materialBatch" value="${(lns.charg)!}">
 																	<td>${(lns.amount)! }</td>
 																	<input type="hidden" name="deptpickList[${lns_index}].actualMaterialMount" value="${(lns.amount)!}">
-																	<td  style="width:150px"><input style="width:95%"type="text" class="stockMount" name="deptpickList[${lns_index}].stockMount" value="" onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value"></td>
+																	<td  style="width:150px"><input style="width:95%"type="text" class="stockMount" name="deptpickList[${lns_index}].stockMount" value="" ></td>
 																</tr>
 															</#list>
 															</#if>

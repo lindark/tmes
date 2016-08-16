@@ -382,14 +382,6 @@ body {
 		
 		$(".cqPickAmount").change(function(){
 			var mount = $(this).val();
-			if(mount!=null&&mount!=""){
-				var regx = /^(\+|-)?\d+($|\.\d+$)/;
-				var isNum = regx.test($(this).val());
-				if(isNum == false){
-					layer.msg("输入不合法!", {icon: 5});
-					return false;
-				}
-			}
 			if(mount!=""){
 				mount = mount*1;
 				var cqmultiple = $(this).parent().prev().prev().prev().text()*1;
@@ -404,14 +396,6 @@ body {
 		
 		$(".charg").change(function(){
 			var num = $(this).val();
-			if(num!=null&&num!=""){
-				var regx = /^(\+|-)?\d+($|\.\d+$)/;
-				var isNum = regx.test($(this).val());
-				if(isNum == false){
-					layer.msg("输入不合法!", {icon: 5});
-					return false;
-				}
-			}
 			if(num!=""){
 				$(this).parent().next().next().children().eq(5).val(num);
 			}

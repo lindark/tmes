@@ -1,31 +1,17 @@
 package cc.jiuyi.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import cc.jiuyi.action.admin.ProductStorageAction;
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.dao.DictDao;
 import cc.jiuyi.dao.ProductStorageDao;
-import cc.jiuyi.dao.WorkingBillDao;
-import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Member;
-import cc.jiuyi.entity.Product;
-import cc.jiuyi.entity.Message.DeleteStatus;
 import cc.jiuyi.entity.ProductStorage;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.util.ThinkWayUtil;
 
-import org.hibernate.HibernateException;
+import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -37,7 +23,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProductStorageDaoImpl extends BaseDaoImpl<ProductStorage, String>
 		implements ProductStorageDao {
-
+	public static Logger log = Logger.getLogger(ProductStorageDaoImpl.class);
 	public void addProductStorage(ProductStorage ps){
 		//String sql="insert into ProductStorage(MBLNR,budat,ZEILE,CPUDT,CPUTM,matnr,maktx,aufnr,SGTXT,werks,bwart,menge,charg,lgort,wemng,zdate,ztime) values(productstorage_sequence.nextval,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		//SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -88,6 +74,7 @@ public class ProductStorageDaoImpl extends BaseDaoImpl<ProductStorage, String>
 				String sql = "SELECT COUNT(*) FROM PRODUCTSTORAGE WHERE MBLNR='"+ps.getMBLNR()+"' AND BUDAT='"+ps.getBudat()+"' AND ZEILE='"+ps.getZEILE()+"'";
 				Object uqinueConstraint = (Object)getSession().createSQLQuery(sql).uniqueResult();
 				if (Integer.parseInt(uqinueConstraint.toString())==0) {
+					log.info("-------save-------"+ps.getMBLNR()+ps.getBudat()+ps.getZEILE()+"---------");
 					save(ps);
 				}
 			}

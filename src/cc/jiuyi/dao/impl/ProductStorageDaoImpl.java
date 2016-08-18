@@ -82,6 +82,19 @@ public class ProductStorageDaoImpl extends BaseDaoImpl<ProductStorage, String>
 		}
 	}
 	
+	public synchronized void addProductStorage(List<ProductStorage> pslist){
+		try {
+			for(ProductStorage ps : pslist){
+				String sql = "SELECT COUNT(*) FROM PRODUCTSTORAGE WHERE MBLNR='"+ps.getMBLNR()+"' AND BUDAT='"+ps.getBudat()+"' AND ZEILE='"+ps.getZEILE()+"'";
+				Object uqinueConstraint = (Object)getSession().createSQLQuery(sql).uniqueResult();
+				if (Integer.parseInt(uqinueConstraint.toString())==0) {
+					save(ps);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public Pager findPagerByjqGrid(Pager pager, Map map) {
 		DetachedCriteria detachedCriteria = DetachedCriteria

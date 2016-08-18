@@ -20,6 +20,7 @@ import cc.jiuyi.util.CustomerException;
 
 public interface ProductStorageService extends BaseService<ProductStorage, String>,WorkingInoutCalculateBase<ProductStorage> {
 	public void savePS(ProductStorage ps);
+	public void savePS(List<ProductStorage> pslist);
 	/**
 	 * 分页查询
 	 * @param pager

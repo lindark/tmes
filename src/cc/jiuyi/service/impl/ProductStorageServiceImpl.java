@@ -65,6 +65,9 @@ public class ProductStorageServiceImpl extends
 	public void savePS(ProductStorage ps){
 		productstoragedao.addProductStorage(ps);
 	}
+	public void savePS(List<ProductStorage> pslist){
+		productstoragedao.addProductStorage(pslist);
+	}
 
 	@Override
 	public void updateisdel(String[] ids, String oper) {

@@ -2,8 +2,10 @@ package cc.jiuyi.sap.rfc.impl;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,7 +68,7 @@ public class ProductStorageRfcImpl  extends BaserfcServiceImpl implements Produc
 		//SAPModel mode = execBapi(parameter,null,null);//执行 并获取返回值
 		ParameterList outs = mode.getOuttab();//返回表
 		Table table01 = outs.getTable("GT_AUFNR");//返回的表名
-		
+		List<ProductStorage> pslist = new ArrayList<ProductStorage>();
 		for(int i=0;i<table01.getNumRows();i++){
 //			WorkingBill workingbill = new WorkingBill();
 			table01.setRow(i);
@@ -99,7 +101,8 @@ public class ProductStorageRfcImpl  extends BaserfcServiceImpl implements Produc
 			ps.setZtime(table01.getString("ZTIME"));
 			//System.out.println("product storage sap BUDAT==>"+ps.getBudat());
 			//throw new IOException();
-			productstorageservice.savePS(ps);
+			pslist.add(ps);
 		}
+		productstorageservice.savePS(pslist);
 	}
 }

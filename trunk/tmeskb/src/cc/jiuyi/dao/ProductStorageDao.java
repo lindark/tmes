@@ -18,6 +18,8 @@ import cc.jiuyi.entity.WorkingBill;
 public interface ProductStorageDao extends BaseDao<ProductStorage, String> {
 	//插入新数据
 	public void addProductStorage(ProductStorage ps);
+	//插入新数据
+	public void addProductStorage(List<ProductStorage> pslist);
 	/**
 	 * 分页查询
 	 * @param pager

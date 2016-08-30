@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Scrap;
+import cc.jiuyi.entity.WorkingBill;
 
 /**
  * 报废
@@ -26,6 +27,7 @@ public interface ScrapDao extends BaseDao<Scrap, String>
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
+	public List<Scrap> getScrapList(WorkingBill workingBill);
 }
 
 

@@ -60,7 +60,7 @@ import com.opensymphony.xwork2.validator.annotations.Validations;
 public class ProductStorageAction extends BaseAdminAction {
 
 	private static final long serialVersionUID = 1341979251254008699L;
-	public static Logger log = Logger.getLogger(ProductStorage.class);
+	public static Logger log = Logger.getLogger(ProductStorageAction.class);
 	
 	private WorkingBill workingbill;
 	private List<Material> materialList;

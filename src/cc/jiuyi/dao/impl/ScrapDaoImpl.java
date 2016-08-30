@@ -13,6 +13,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.ScrapDao;
 import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.Scrap;
+import cc.jiuyi.entity.WorkingBill;
 
 /**
  * 报废
@@ -71,5 +72,10 @@ public class ScrapDaoImpl extends BaseDaoImpl<Scrap, String> implements ScrapDao
 		}
 		detachedCriteria.add(Restrictions.eq("isDel", "N"));//取出未删除标记数据
 		return super.findByPager(pager,detachedCriteria);
+	}
+	
+	public List<Scrap> getScrapList(WorkingBill workingBill){
+		String hql="from Scrap where workingBill=? and isDel = 'N' and state = '2'";
+		return this.getSession().createQuery(hql).setParameter(0, workingBill).list();
 	}
 }

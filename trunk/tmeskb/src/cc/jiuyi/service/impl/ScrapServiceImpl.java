@@ -292,7 +292,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 					map.put("wbid", s2.getWorkingBill().getId());//随工单ID
 					map.put("count", count+"");//数量
 					map.put("newstate", newstate);//2确认3撤销
-					updateWorkingInoutCalculate(null,map);
+//					updateWorkingInoutCalculate(null,map);
 				}
 			}
 		}
@@ -334,7 +334,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 					map.put("wbid", scrap.getWorkingBill().getId());//随工单ID
 					map.put("count", count+"");//数量
 					map.put("newstate", "2");//2确认3撤销
-					updateWorkingInoutCalculate(null,map);
+//					updateWorkingInoutCalculate(null,map);
 				}
 			}
 		}
@@ -441,7 +441,7 @@ public class ScrapServiceImpl extends BaseServiceImpl<Scrap, String> implements 
 					map.put("wbid", s2.getWorkingBill().getId());//随工单ID
 					map.put("count", count+"");//数量
 					map.put("newstate", newstate);//2确认3撤销
-					updateWorkingInoutCalculate(null,map);
+//					updateWorkingInoutCalculate(null,map);
 				}
 			}
 		}

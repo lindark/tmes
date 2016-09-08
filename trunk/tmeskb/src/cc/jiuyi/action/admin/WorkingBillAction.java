@@ -236,9 +236,9 @@ public class WorkingBillAction extends BaseAdminAction {
 			//newdate = DateUtils.addDays(newdate, 1);
 			//String enddate = String.format("%tF%n", newdate);
 			String endtime = String.format("%tT%n", newdate);
-			//FactoryUnit factoryunit = this.factoryUnitService.get("factoryUnitCode",workcode);
-			//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
-			String workshopcode = "201";
+			FactoryUnit factoryunit = this.factoryUnitService.get("factoryUnitCode",workcode);
+			String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
+//			String workshopcode = "201";
 			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
 			Object[] propertyValues = {workcode,"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeProductService.getList(propertyNames,propertyValues);

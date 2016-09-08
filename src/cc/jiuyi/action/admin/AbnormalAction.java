@@ -479,6 +479,7 @@ public class AbnormalAction extends BaseAdminAction {
 			String workshop=admin.getTeam().getFactoryUnit().getWorkShop().getWorkShopName();
 			String unit=admin.getTeam().getFactoryUnit().getFactoryUnitName();
 			String adminName =admin.getName();
+			String adminPhoneNo =admin.getPhoneNo();
 			for(int i=0;i<callReasonSet.size();i++){//向指定人员发送指定短信，同时将人员和短信信息放入map中，方便定时任务的开启和执行
 				HashMap<String,String> map = new HashMap<String,String>();
 				//String message="";//这里显示需要的格式?										
@@ -489,7 +490,7 @@ public class AbnormalAction extends BaseAdminAction {
 				Callreason call1 = callReasonService.get(call.getId());//短信				
 				SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH:mm"); 
 				String time=sdf.format(new Date()); 
-				String message=workshop+" "+unit+" "+product.getMaterialName()+" 出现"+call1.getCallReason()+"。"+"呼叫人:"+adminName+" 呼叫时间:"+time;
+				String message=workshop+" "+unit+" "+product.getMaterialName()+" 出现"+call1.getCallReason()+"。"+"呼叫人:"+adminName+"("+adminPhoneNo+")"+" 呼叫时间:"+time;
 				//log.info("调用发送短信接口开始");		
 				
 				String str = SendMsgUtil.SendMsg(admin.getPhoneNo(),message);	//调用发送短信接口

@@ -71,25 +71,30 @@ body {
 								    	<li><a href="#tabs-1"><#if isAdd??>添加配送单<#else>编辑配送单</#if></a></li>
 									</ul>
 									<div id="tabs-1" class="tab1">
-										<div class="profile-user-info profile-user-info-striped">
-											<div class="profile-info-row">
-												<div class="profile-info-name">发出库存地点</div>
-												<div class="profile-info-value">
-													<span>${(factoryunit.psaddress)!}</span>
-													<input id="input_psaddress" type="hidden" value="${(factoryunit.psaddress)!}">
-												</div>
-												<div class="profile-info-name">配送仓位</div>
-												<div class="profile-info-value">
-													<span>${(factoryunit.psPositionAddress)!}</span>
-													<input id="input_psPositionAddress" type="hidden" value="${(factoryunit.psPositionAddress)!}">
-												</div>
-												<div class="profile-info-name">接收库存地点</div>
-												<div class="profile-info-value">
-													<span>${(factoryunit.warehouse)!}</span>
-													<input id="input_jsaddress" type="hidden" value="${(factoryunit.warehouse)!}">
-												</div>
+									<div class="profile-user-info profile-user-info-striped">
+										<div class="profile-info-row">
+											<div class="profile-info-name">发出库存地点</div>
+											<div class="profile-info-value" style="width:200px">
+												<span id="pddname">${(factoryunit.psaddress)!}</span>
+												<input id="input_psaddress" type="hidden" value="${(factoryunit.psaddress)!}">
+											</div>
+											<div class="profile-info-name">配送仓位</div>
+											<div class="profile-info-value" style="width:200px">
+												<span id="ppaname">${(factoryunit.psPositionAddress)!}</span>
+												<input id="input_psPositionAddress" type="hidden" value="${(factoryunit.psPositionAddress)!}">
+											</div>
+											<div class="profile-info-name">接收库存地点</div>
+											<div class="profile-info-value">
+												<select id="select_jsaddress">
+													<option value=""></option>
+													<#list factoryUnitList as list>
+													<option value="${(list.id)!}" <#if (length == 1)!> selected</#if>>${(list.factoryUnitName)!}</option>
+													</#list>
+												<select>
+												<input id="input_jsaddress" type="hidden" value="${(factoryunit.warehouse)!}">
 											</div>
 										</div>
+									</div>
 										<div class="profile-user-info profile-user-info-striped">
 								  			<!-- 
 								  			<div class="profile-info-row">
@@ -117,6 +122,7 @@ body {
 												<#list list_material as list>
 													<div class="col-md-4 div_click">
 														<!-- <input type="checkbox" class="ckbox" value="${(list.factoryunit.id)!}" /> -->
+														<input type="hidden" class="isThisFacotryUnit" value="${(list.factoryunit.id)!}" />
 														<a href="javascript:void(0)" class="a_click">
 															<input type="hidden" value="${(list.factoryunit.id)!}" />
 															<span>${(list.materialCode)! } </span>
@@ -190,6 +196,36 @@ body {
 				$(this).removeClass("open");
 			}
 			
+		});
+		var $select = $("#select_jsaddress");
+		$select.change(function(){
+			var fuid = $(this).val();
+			$.ajax({	
+				url: "dump!ajGetFactoryUnit.action",
+				data:{"fuid":fuid},
+				dataType: "json",
+				async: false,
+				success: function(data) {
+					var psaddress = data.psaddress;
+					var psaddressdes = data.psaddressdes;
+					var warehouse = data.warehouse;
+					var factoryunitId = data.factoryunitId;
+					$("#input_psaddress").val(psaddress);
+					$("#input_psPositionAddress").val(psaddressdes);
+					$("#input_jsaddress").val(warehouse);
+					$("#pddname").text(psaddress);
+					$("#ppaname").text(psaddressdes);
+					$(".isThisFacotryUnit").each(function(){
+						if($(this).val()!=factoryunitId){
+							$(this).parent().hide();
+						}else{
+							$(this).parent().show();
+						}
+					});
+				},error:function(data){
+					alert("发生异常");
+				}
+			});
 		});
 	});
 </script>

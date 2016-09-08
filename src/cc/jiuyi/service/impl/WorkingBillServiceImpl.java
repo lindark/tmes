@@ -173,7 +173,7 @@ public class WorkingBillServiceImpl extends
 	}
 
 	@Override
-	public  void mergeWorkingBill(List<WorkingBill> workingbillList,
+	public synchronized void mergeWorkingBill(List<WorkingBill> workingbillList,
 			List<Orders> orderList, List<ProcessRoute> processrouteList, List<Bom> bomList) {
 		log.info("生产订单:"+orderList.size()+"-----"+"随工单:"+workingbillList.size()+"-----"+"工艺:"+processrouteList.size()+"-----"+"BOM:"+bomList.size());
 		//生产订单

@@ -74,5 +74,10 @@ public class WorkShopServiceImpl extends BaseServiceImpl<WorkShop, String>implem
 		return workShopDao.getAllFactory();
 	}
 
+	@Override
+	public List<WorkShop> getWorkShopBySyc() {
+		return workShopDao.getWorkShopBySyc();
+	}
+
 	
 }

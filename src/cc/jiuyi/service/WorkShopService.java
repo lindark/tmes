@@ -32,4 +32,5 @@ public interface WorkShopService extends BaseService<WorkShop, String> {
 	public boolean isExistByWorkShopCode(String workShopCode);
 	
 	public List<Factory> getAllFactory();
+	public List<WorkShop> getWorkShopBySyc();
 }

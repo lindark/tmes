@@ -12,7 +12,7 @@
 			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-	<bean id="quartzManagerBean" class="cc.jiuyi.action.cron.QuartzManager">
+	<!-- <bean id="quartzManagerBean" class="cc.jiuyi.action.cron.QuartzManager">
 		<property name="scheduler" ref="schedulerManager" />
 	</bean>
 	<bean id="quartzManagerJobDetail"
@@ -20,25 +20,25 @@
 		<property name="targetObject" ref="quartzManagerBean" />
 		<property name="targetMethod" value="reScheduleJob" />
 		<property name="concurrent" value="false" />
-	</bean> 
+	</bean>  -->
 	<!-- 主定时计划 -->
-	<bean id="quartzManagerTrigger"
+	<!-- <bean id="quartzManagerTrigger"
 		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
 		<property name="jobDetail" ref="quartzManagerJobDetail" />
-		<!-- 延时1秒 执行任务 -->
+		延时1秒 执行任务
 		<property name="startDelay" value="30000" />
-		<!-- 任务执行周期 6秒 -->
+		任务执行周期 6秒
 		<property name="repeatInterval" value="180000" />
-	</bean>
+	</bean> -->
 	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
-	<bean id="schedulerManager" lazy-init="false" autowire="no"
+	<!-- bean id="schedulerManager" lazy-init="false" autowire="no"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref bean="quartzManagerTrigger" /> 
 			</list> 
 		</property>
-	</bean>
+	</bean> -->
 	
 	<!-- 总调度器 -->
 	<bean id="mapScheduler" lazy-init="false"  autowire="no"  
@@ -48,7 +48,8 @@
 	   		<ref local="cronTriggerCA_DocBM"/> 
 	   		 <ref local="cronTriggerEquipment"/>
 	   		 <ref local="cronTriggerdeleteCardJob"/>
-	   		 <ref local="cronTriggerdProductStorageJob"/>
+	   		 <ref local="cronTriggerdProductStorageJob"/>  
+	   		 <ref local="cronTriggerdWBJobNew"/>
             </list>   
         </property>   
         <property name="applicationContextSchedulerContextKey" value="applicationContext" />   
@@ -152,4 +153,17 @@
             </list>  
         </property>  
     </bean>   -->
+    <!-- 定时任务  随工单自动同步 -->
+	<bean name="wbJobNew" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="cc.jiuyi.action.cron.WorkingBillJobAllNew"></property>
+	</bean>
+	<!-- 任务的执行 -->
+	<bean id="cronTriggerdWBJobNew" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	 <property name="jobDetail">
+		   <ref bean="wbJobNew"/>
+		  </property>
+		  <property name="cronExpression">
+		  <value>0 0/10 * * * ?</value> 
+		  </property>
+	</bean>
 </beans>

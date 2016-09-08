@@ -34,4 +34,6 @@ public interface WorkShopDao extends BaseDao<WorkShop,String> {
 	public boolean isExistByWorkShopCode(String workShopCode);
 	
 	public List<Factory> getAllFactory();
+	
+	public List<WorkShop> getWorkShopBySyc();
 }

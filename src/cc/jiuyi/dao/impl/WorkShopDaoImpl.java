@@ -100,4 +100,10 @@ public class WorkShopDaoImpl extends BaseDaoImpl<WorkShop, String> implements
 		List<Factory> factoryList=getSession().createQuery(hql).setParameter(0, "N").list();
 		return factoryList;
 	}
+
+	@Override
+	public List<WorkShop> getWorkShopBySyc() {
+		String hql = "from WorkShop workShop where workShop.state='1' and workShop.isDel='N' ";
+		return ( List<WorkShop>)getSession().createQuery(hql).list();
+	}
 }

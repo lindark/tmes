@@ -50,8 +50,8 @@ public class WorkingBillJobAll{
 			unitdistributeproductservice = (UnitdistributeProductService)SpringUtil.getBean("unitdistributeProductServiceImpl");
 			factoryunitservice = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
 			FactoryUnit factoryunit = factoryunitservice.get("workCenter",workcode);
-			//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
-			String workshopcode = "201";
+			String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
+//			String workshopcode = "201";
 			String[] propertyNames = {"factoryunit.workCenter","state","isDel"};
 			Object[] propertyValues = {workcode,"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);

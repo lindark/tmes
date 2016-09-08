@@ -445,6 +445,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		tkq.setEmpid(admin.getId());//员工主键ID
 		tkq.setTardyHours(null);//误工小时数
 		tkq.setIsdaiban(admin.getIsdaiban());
+		List<TempKaoqin> tkqlist =  tempKqDao.getToWorkList(procutdate,shift,"2",admin.getTeam());
+		tkq.setWorkHours(tkqlist.get(0).getWorkHours());
 		if(p!=null)
 		{
 			tkq.setPostname(p.getPostName());//岗位名称
@@ -581,7 +583,7 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 		kq.setStationName(tkq.getStationName());
 		kq.setWorkName(tkq.getWorkName());
 		kq.setIsdaiban(tkq.getIsdaiban());						
-		
+		kq.setWorkHours(tkq.getWorkHours());
 		kqDao.save(kq);
 	}
 	

@@ -257,7 +257,7 @@ public class UpDownAction extends BaseAdminAction {
 								updown.getUplgpla(),
 								updown.getDownlgpla(),
 								updown.getLgort(),
-								updown.getAmount(),
+								updown.getDwnum(),
 								
 								updown.getTanum(),
 								updown.getTapos(),

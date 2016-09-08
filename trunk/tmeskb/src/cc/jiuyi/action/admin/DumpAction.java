@@ -24,12 +24,13 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
+import cc.jiuyi.entity.Deptpick;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Dump;
 import cc.jiuyi.entity.DumpDetail;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.sap.rfc.DumpRfc;
-import cc.jiuyi.sap.rfc.impl.DumpRfcImpl;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.DumpDetailService;
@@ -79,6 +80,7 @@ public class DumpAction extends BaseAdminAction {
 	private String materialCode;
 	private String end;
 	private String start;
+	private int length;
 	
 	@Resource
 	private TempKaoqinService tempKaoqinService;
@@ -522,9 +524,11 @@ public class DumpAction extends BaseAdminAction {
 		HttpServletRequest request = getRequest();
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
-		factoryunit=this.fuservice.getById(ip);
+//		factoryunit=this.fuservice.getById(ip);
+		factoryUnitList = this.fuservice.getByIds(ip);
 		list_map=new ArrayList<HashMap<String,String>>();
-		list_map=this.dumpService.getMengeByConditions(emp,factoryunit);
+//		list_map=this.dumpService.getMengeByConditions(emp,factoryunit);
+		list_map=this.dumpService.getMengeByConditions(emp,factoryUnitList);
 		return "all";
 	}
 	
@@ -601,7 +605,7 @@ public class DumpAction extends BaseAdminAction {
 		String ip = ThinkWayUtil.getIp2(request);
 		//根据ip获取单元
 		//factoryunit=this.fuservice.getById("192.168.40.40");// 
-		factoryunit=this.fuservice.getById(ip);
+		factoryUnitList=this.fuservice.getByIds(ip);
 		
 		//测试时使用
 		//admin=adminService.getLoginAdmin();
@@ -611,9 +615,23 @@ public class DumpAction extends BaseAdminAction {
 		//System.out.println(ip);
 		
 		//根据单元获取物料
-		if(factoryunit!=null)
+		if(factoryUnitList!=null)
 		{
-			list_material=new ArrayList<Material>(factoryunit.getMaterialSet());
+			length = factoryUnitList.size();
+//			list_material=new ArrayList<Material>(factoryunit.getMaterialSet());
+			list_material=new ArrayList<Material>();
+			for(int i=0;i<factoryUnitList.size();i++){
+				FactoryUnit factoryUnit = factoryUnitList.get(i);
+				Set<Material> materialSet = factoryUnit.getMaterialSet();
+				for(Material m:materialSet){
+					list_material.add(m);
+				}
+			}
+		}
+		if(factoryUnitList.size()==1){
+			for(int i=0;i<factoryUnitList.size();i++){
+				factoryunit = factoryUnitList.get(i);
+			}
 		}
 		return "entry";
 	}
@@ -809,7 +827,6 @@ public class DumpAction extends BaseAdminAction {
 					this.dumpDetailService.update(dd);
 				}
 			}
-			ddlist=new ArrayList<DumpDetail>(d.getDumpDetail());//子表
 			str = this.dumpService.updateToSAP(d,ddlist,emp);
 		}
 		catch (IOException e)
@@ -912,15 +929,17 @@ public class DumpAction extends BaseAdminAction {
 		Map<String, String> jsonMap = new HashMap<String, String>();
 		if(factoryunit!=null&&!factoryunit.equals("")){
 			String psaddress = factoryunit.getPsaddress();
-			String psaddressdes = factoryunit.getPsaddressdes();
+			String psaddressdes = factoryunit.getPsPositionAddress();
 			String warehouse = factoryunit.getWarehouse();
 			jsonMap.put("psaddress", psaddress);
 			jsonMap.put("psaddressdes", psaddressdes);
 			jsonMap.put("warehouse", warehouse);
+			jsonMap.put("factoryunitId", factoryunit.getId());
 		}else{
 			jsonMap.put("psaddress", "");
 			jsonMap.put("psaddressdes", "");
 			jsonMap.put("warehouse", "");
+			jsonMap.put("factoryunitId", "");
 		}
 		jsonMap.put(STATUS, SUCCESS);
 		jsonMap.put(MESSAGE, "保存成功");
@@ -928,55 +947,8 @@ public class DumpAction extends BaseAdminAction {
 		return ajax(jsonObject.toString(), "text/html");
 	}
 	
-//	public String testSAP(){
-//		int i=0;
-//		while(i<2){
-//			Thread1 mTh1=new Thread1("A"+i);
-//			Thread1 mTh2=new Thread1("B"+i);
-//			Thread1 mTh3=new Thread1("C"+i);
-//			//Thread1 mTh4=new Thread1("d"+i);
-//			//Thread1 mTh5=new Thread1("e"+i);
-//			mTh1.start();
-//			 try {
-//		            Thread.sleep(300);
-//		        } catch (InterruptedException e) {
-//		            e.printStackTrace(); 
-//		        }
-//			mTh2.start();
-//			mTh3.start();
-//			//mTh4.start();
-//			//mTh5.start();
-//			i++;
-//		}
-//		return null;
-//	}
-//
-//	class Thread1 extends Thread{
-//		private String name;
-//	    public Thread1(String name) {
-//	       this.name=name;
-//	    }
-//		public void run() {
-//			int i=0;
-//			String str = "test"+name;
-//			try {
-//				//DumpRfcImpl d = new DumpRfcImpl();
-//				dumpRfc.testSAP("X",str);
-////				try {
-////					sleep(300);
-////					for(int k=0;k<100;k++){
-////						
-////					}
-//					System.out.println("---------------");
-////				} catch (InterruptedException e) {
-////					e.printStackTrace();
-////				}
-//				dumpRfc.testSAP("",str);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	/**============================================*/
+	
 	public Dump getDump() {
 		return dump;
 	}
@@ -1219,6 +1191,15 @@ public class DumpAction extends BaseAdminAction {
 
 	public void setFactoryUnitList(List<FactoryUnit> factoryUnitList) {
 		this.factoryUnitList = factoryUnitList;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
 	}	
+	
 	
 }

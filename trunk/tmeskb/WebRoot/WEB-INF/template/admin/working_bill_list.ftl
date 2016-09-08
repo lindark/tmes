@@ -183,11 +183,12 @@
 			var choose = iframeWin.getGridId();
 			if (choose != "ERROR") {
 				var id = choose.split(",");
-				var workcode =id[0];
+				//var workcode =id[0];
+				var aufnr =id[0];
 				var start = id[1];
 				var end = id[2];
 				layer.close(index);
-				window.location.href = "working_bill!sync.action?workcode="+workcode+"&start="+start+"&end="+end;
+				window.location.href = "working_bill!syncnew.action?aufnr="+aufnr+"&start="+start+"&end="+end;
 			}		
 		});
 	}

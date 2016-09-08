@@ -258,7 +258,47 @@ public class WorkingBillAction extends BaseAdminAction {
 		
 		return SUCCESS;
 	}
-	
+	//同步
+	public String syncnew() throws SchedulerException {
+		/*System.out.println(aufnr+","+start+","+end);
+		
+		
+		SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
+		Scheduler scheduler = gSchedulerFactory.getScheduler();
+		int state = scheduler.getTriggerState("cronTriggerWorkingBill", "DEFAULT");
+		System.out.println(state);*/
+		log.info("手工同步生产订单开始...");
+		try {
+//			Date newdate = new Date();
+//			String startdate = String.format("%tF%n", newdate);
+//			String starttime = String.format("%tT%n", newdate);
+//			newdate = DateUtils.addDays(newdate, 1);
+			//String enddate = String.format("%tF%n", newdate);
+			//String endtime = String.format("%tT%n", newdate);
+			//FactoryUnit factoryunit = this.factoryUnitService.get("factoryUnitCode",workcode);
+			//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
+//			String workshopcode = "201";
+//			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
+//			Object[] propertyValues = {workcode,"1","N"};
+//			List<UnitdistributeProduct> unitdistributeList = unitdistributeProductService.getList(propertyNames,propertyValues);
+			//手工同步
+			//type  A 自动同步，B手工同步 type ，aufnr 
+			workingbillrfc.syncRepairorderAllNew(start,end,"00:00:00","23:59:59",aufnr,"B");
+		} catch (IOException e){
+			log.info("同步生产订单出错"+e);
+			e.printStackTrace();
+		} catch (CustomerException e){
+			log.info("同步生产订单出错"+e);
+			e.printStackTrace();
+		} catch (Exception e){
+			log.info("错误"+e);
+			e.printStackTrace();
+		}
+		
+		log.info("手工同步生产订单结束...");
+		
+		return SUCCESS;
+	}	
 	
 	//投入产出
 	public String inout(){

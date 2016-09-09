@@ -43,6 +43,7 @@ public class WorkingBillJob extends MyDetailQuartzJobBean {
 	//@Resource
 	private WorkingBillRfc workingbillrfc;
 	private UnitdistributeProductService unitdistributeproductservice;
+	private FactoryUnitService factoryunitservice;
 	
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
@@ -101,10 +102,10 @@ public class WorkingBillJob extends MyDetailQuartzJobBean {
 				String endtime = String.format("%tT%n", newdate);
 				workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");
 				unitdistributeproductservice = (UnitdistributeProductService)SpringUtil.getBean("unitdistributeProductServiceImpl");
-				//factoryunitservice = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
-				//FactoryUnit factoryunit = factoryunitservice.get("workCenter",workcode);
-				//String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
-				String workshopcode = "201";
+				factoryunitservice = (FactoryUnitService)SpringUtil.getBean("factoryUnitServiceImpl");
+				FactoryUnit factoryunit = factoryunitservice.get("workCenter",workcode);
+				String workshopcode  = factoryunit.getWorkShop().getWorkShopCode();//车间编码
+//				String workshopcode = "201";
 				String[] propertyNames = {"factoryunit.workCenter","state","isDel"};
 				Object[] propertyValues = {workcode,"1","N"};
 				List<UnitdistributeProduct> unitdistributeList = unitdistributeproductservice.getList(propertyNames,propertyValues);

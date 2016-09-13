@@ -87,13 +87,10 @@ body{background:#fff;}
 						            <div class="profile-info-row">
 										<div class="profile-info-name">车间名称</div>
 										<div class="profile-info-value">
-											<#if isAdd??><button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>			
-				                            <input type="text" name="factoryworkShopId" value="" id="workShopId1" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>
-				                            <input type="hidden" name="workShopId" id="workShopId2" value="" />
+											<button type="button" class="btn btn-xs btn-info" id="userAddBtn" data-toggle="button">选择</button>			
+				                            <input type="text" name="factoryworkShopId" value="${(factoryUnit.workShop.workShopName)!}" id="workShopId1" class=" input input-sm  formText {required: true,minlength:2,maxlength: 100}" readonly="readonly"/>
+				                            <input type="hidden" name="workShopId" id="workShopId2" value="${(factoryUnit.workShop.id)!}" />
 										    <label class="requireField">*</label>	
-										    <#else>
-										        ${(factoryUnit.workShop.factory.factoryName)!}     ${(factoryUnit.workShop.workShopName)!}   
-										    </#if>
 										</div>
 									</div>
 						            

@@ -32,6 +32,8 @@ public interface ProcessRouteService extends BaseService<ProcessRoute, String> {
 	
 	public List<ProcessRoute> findProcessRoute(String aufnr,String productDate);
 	
+	public List<ProcessRoute> findProcessRoute(String aufnr);
+	
 	/**
 	 * 根据生产订单获取最大版本号
 	 * @param aufnr

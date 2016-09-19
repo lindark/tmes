@@ -503,7 +503,7 @@ public class DailyWorkAction extends BaseAdminAction {
 				WorkingBill workingBill = workingbillService.get(dailyWork.getWorkingbill().getId());
 				//Products products = productsService.getByPcode(workingBill.getMatnr());
 				//String time = ThinkWayUtil.formatdateDate(workingBill.get);
-				List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr(),workingBill.getProductDate());
+				List<ProcessRoute> processrouteList=processrouteservice.findProcessRoute(workingBill.getAufnr());
 				List<String> ProcessRouteIdList = new ArrayList<String>();
 				if(processrouteList	!=	null){
 					for(ProcessRoute pr:processrouteList){
@@ -511,7 +511,7 @@ public class DailyWorkAction extends BaseAdminAction {
 					}
 				}else{
 					if(processrouteList==null || ProcessRouteIdList.size()==0){
-						return ajaxJsonErrorMessage("工艺路线未找到，生效日期不一致!");
+						return ajaxJsonErrorMessage("工艺路线未找到");
 					}
 				}
 				String process = processRouteService.getProcess(ProcessRouteIdList,steus);

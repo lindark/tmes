@@ -514,7 +514,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					}else{
 						PieceworkMap.put("workState", workState);
 					}
-					PieceworkMap.put("workHour", judgeNull(kq.getTardyHours()));
+					PieceworkMap.put("workHour", judgeNull(kq.getWorkHours()));
 					PieceworkLists.add(PieceworkMap);
 				}
 			}
@@ -683,7 +683,7 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 					}else{
 						PieceworkMap.put("workState", workState);
 					}
-					PieceworkMap.put("workHour", judgeNull(kq.getTardyHours()));
+					PieceworkMap.put("workHour", judgeNull(kq.getWorkHours()));
 					/*String jiaban = "";//加班
 					String daiban = "";//代班
 					String shijia = "";//事假

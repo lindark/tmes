@@ -41,41 +41,43 @@ body {
 						<div class="col-xs-12">
 							<!-- ./ add by welson 0728 -->
 							<form class="form-horizontal" id="searchform" action="">
-							  <div class="profile-user-info profile-user-info-striped">
-							    <div class="profile-info-row">
- 								<#-- <div class="profile-info-value div-value">
-										<label class="col-sm-3" style="text-align:right">单元编码:</label>
-										<div class="col-sm-6">
-											<input type="text" id="workcode"name="workcode" class="input input-sm form-control" value="">
+								  <div class="profile-user-info profile-user-info-striped">
+								    <div class="profile-info-row">
+									<div class="profile-info-value div-value">
+											<label class="col-sm-3" style="text-align:right">单元编码:</label>
+											<div class="col-sm-6">
+												<input type="text" id="workcode"name="workcode" class="input input-sm form-control" value="">
+											</div>
+											    <label class="requireField">*</label>	
 										</div>
-										    <label class="requireField">*</label>	
-									</div>
-							    </div>-->
-							    <div class="profile-info-value div-value">
+								    </div>
+								    <div class="profile-info-row">
+									<div class="profile-info-value div-value">
 										<label class="col-sm-3" style="text-align:right">生产订单号:</label>
-										<div class="col-sm-6">
-											<input type="text" id="aufnr"name="aufnr" class="input input-sm form-control" value="">
+											<div class="col-sm-6">
+												<input type="text" id="aufnr"name="aufnr" class="input input-sm form-control" value="">
+											</div>
+											    <label class="requireField">*</label>	
 										</div>
+								    </div>
+								
+								   <div class="profile-info-row">
+								    <div class="profile-info-value div-value">
+											<label class="col-sm-3" style="text-align:right">生产日期:</label>
+											<div class="col-sm-7">
+												<div class="input-daterange input-group">
+													<input type="text" id="start" class="input-sm form-control datePicker" name="start">
+													<span class="input-group-addon">
+														<i class="fa fa-exchange"></i>
+													</span>
+													<input type="text" id="end" class="input-sm form-control datePicker" name="end">
+											</div>	
+										</div>								
+											<label class="requireField">*</label>	
 									</div>
-							    </div>
-							
-							   <div class="profile-info-row">
-							    <div class="profile-info-value div-value">
-										<label class="col-sm-3" style="text-align:right">生产日期:</label>
-										<div class="col-sm-7">
-											<div class="input-daterange input-group">
-												<input type="text" id="start" class="input-sm form-control datePicker" name="start">
-												<span class="input-group-addon">
-													<i class="fa fa-exchange"></i>
-												</span>
-												<input type="text" id="end" class="input-sm form-control datePicker" name="end">
-										</div>	
-									</div>								
-										<label class="requireField">*</label>	
+							      </div>
 								</div>
-						      </div>
-							</div>
-				     </form>
+					     </form>
 
 
 							<table id="grid-table"></table>
@@ -105,7 +107,7 @@ body {
 
 	function getGridId() {
 		var choose ="ERROR";
-		//var workcode = $("#workcode").val();
+		var workcode = $("#workcode").val();
 		var aufnr = $("#aufnr").val();
 		var start = $("#start").val();
 		var end = $("#end").val();
@@ -121,7 +123,11 @@ body {
 			layer.alert("生产日期不能为空!");
 		}
 		else{			
-		 choose = aufnr + "," + start + "," + end;
+			if(workcode==""&&aufnr==""){
+				layer.alert("至少填写单元编码或生产订单号");
+				return false;
+			}
+		 choose = workcode+"," + aufnr + "," + start + "," + end;
 		}
 		//alert(choose);
 		return choose;

@@ -51,6 +51,11 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 	}
 	
 	public Integer getMaxVersion(String aufnr){
+		String hql="select max(a.version) from ProcessRoute a where a.orders.aufnr = ?";
+		return (Integer)getSession().createQuery(hql).setParameter(0, aufnr).uniqueResult();
+	}
+	
+	public Integer getMaxVersionNew(String aufnr){
 		String hql="select max(a.version) from ProcessRoute a where a.orders.id = ?";
 		return (Integer)getSession().createQuery(hql).setParameter(0, aufnr).uniqueResult();
 	}

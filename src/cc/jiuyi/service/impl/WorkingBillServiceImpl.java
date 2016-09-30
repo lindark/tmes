@@ -387,7 +387,8 @@ public class WorkingBillServiceImpl extends
 			}
 		}
 		boolean flag = true;
-		Integer maxversion = processrouteservice.getMaxVersion(order.getAufnr());
+		String aufnr = order.getAufnr();
+		Integer maxversion = processrouteservice.getMaxVersion(aufnr);
 		if(maxversion == null){
 			flag = false;
 		}else{

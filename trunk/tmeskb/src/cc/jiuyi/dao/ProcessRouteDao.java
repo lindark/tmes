@@ -37,6 +37,8 @@ public interface ProcessRouteDao extends BaseDao<ProcessRoute, String> {
 	 * @return
 	 */
 	public Integer getMaxVersion(String aufnr);
+	
+	public Integer getMaxVersionNew(String aufnr);
 
 	/**
 	 * 生产订单号,版本号,编码查询一条工艺路线

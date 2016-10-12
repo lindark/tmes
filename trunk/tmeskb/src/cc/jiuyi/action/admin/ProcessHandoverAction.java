@@ -35,6 +35,7 @@ import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverAll;
@@ -53,6 +54,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProcessHandoverService;
 import cc.jiuyi.service.ProcessHandoverSonService;
@@ -133,6 +135,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private ProcessHandoverAllService processHandoverAllService;
+	@Resource
+	private OrdersService  ordersservice;
 	
 	/**
 	 * 列表
@@ -466,6 +470,8 @@ public class ProcessHandoverAction extends BaseAdminAction {
 						
 						processHandover1.setResponsibleName(admin.getName());
 						processHandover1.setResponsibleId(admin.getId());
+						Orders order = ordersservice.get("aufnr",wb.getAufnr());
+						processHandover1.setModule(order.getMujuntext());
 //						WorkingBill wbnext = workingbillservice.getCodeNext(admin,wb.getWorkingBillCode(),admin.getProductDate(),admin.getShift());
 //						if(wbnext!=null){
 //							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());

@@ -47,7 +47,8 @@ public class ProcessHandover extends BaseEntity {
 	private String station;//模具组号
 	private String processid;//工序id
 	private String isdel;// 是否删除
-	
+	private String module;//本版模具
+	private String afterModule;//下班模具
 	/**
 	 * 假字段
 	 */
@@ -56,6 +57,7 @@ public class ProcessHandover extends BaseEntity {
 	private ProcessHandoverTop processHandoverTop;
 	private Set<ProcessHandoverSon> processHandoverSonSet;
 	private Set<OddHandOver> oddHandOverSet;
+
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	public WorkingBill getWorkingBill() {
@@ -307,6 +309,24 @@ public class ProcessHandover extends BaseEntity {
 	public void setReceiveId(String receiveId) {
 		this.receiveId = receiveId;
 	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public String getAfterModule() {
+		return afterModule;
+	}
+
+	public void setAfterModule(String afterModule) {
+		this.afterModule = afterModule;
+	}
+
+	
 
 	
 

@@ -190,7 +190,12 @@ public class WorkingBillServiceImpl extends
 			/***处理工艺路线***/
 			mergeprocessroutedeal(order,processrouteList);
 		}
-
+		try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+        	log.info("睡眠出现错误"+e);
+			e.printStackTrace();
+        }
 }
 	@Override
 	public void mergeWorkingBillNew(List<WorkingBill> workingbillList,

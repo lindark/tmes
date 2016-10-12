@@ -613,7 +613,7 @@
 	        scrollbar: false,
 	        btn:['确认','取消'],
 	        area: ["40%", "50%"],//弹出框的高度，宽度
-	        content:"process_handover!browser.action",
+	        content:"admin!empchoose.action",
 	        yes:function(index,layero){//确定
 	        	var iframeWin = window[layero.find('iframe')[0]['name']];//获得iframe 的对象
 	        	var work=iframeWin.getGridId();

@@ -364,7 +364,9 @@
 														<th class="tabth">计划数量</th>
 														<th class="tabth">产品编号</th>
 														<th class="tabth">本班随工单</th>
+														<th class="tabth">本班模具</th>
 														<th class="tabth">下班随工单</th>
+														<th class="tabth">下班模具</th>
 														<th class="tabth">成品数</th>
 														<th class="tabth">模具</th>
 														<th class="tabth">责任人</th>
@@ -393,13 +395,21 @@
 																	<input type="hidden" name="processHandoverList[${list_index}].matnr" value="${(list.matnr)! }">
 																	</td>
 																	
-																	<td class="workingCode" name="workingCode" class="workingCode">${(list.workingBillCode)! }
+																	<td class="workingCode" name="workingCode">${(list.workingBillCode)! }
 																	<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" class="workingCode1" value="${(list.workingBillCode)! }">
+																	</td>
+																	<td>${(list.module)! }
+																	<input type="hidden" name="processHandoverList[${list_index}].module" value="${(list.module)! }">
 																	</td>
 																	<!--  
 																	<#if (list.afterWorkingBillCode)!??> -->
 																	<td class="center" ><input type="text" class="show_input afterWork state_input"
 																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/></td>
+																	<td class="afterModule" name="afterModule">${(list.afterModule)! }
+																	</td>
+																	<td>
+																	<input type="hidden" name="processHandoverList[${list_index}].afterModule" class="afterModuleHide" value="${(list.afterModule)! }">
+																	</td>
 																	<!-- 
 																	<#else>
 																	<input type="text" name="processHandoverList[${list_index}].afterWorkingBillCode" value="">
@@ -759,7 +769,7 @@ function showUnit(num1){
 				var productDate = $("#productDate").val();
 				var select = $("#sl_sh").val();
 				var regx = /^(\+|-)?\d+($|\.\d+$)/;
-				
+
 				if(productDate == ""){
 					layer.alert("请选择下班生产日期",{icon: 7});
 					return false;
@@ -890,6 +900,8 @@ function showUnit(num1){
 		 $("#sl_sh").change(function(){
 				var shift = $("#sl_sh").val();
 				var $afterwork = $(".afterWork");
+				var $afterModule = $(".afterModule");
+				var $afterModuleHide = $(".afterModuleHide");
 				if(shift==""){
 					
 					for(var i=0;i<$afterwork.length;i++){
@@ -917,10 +929,14 @@ function showUnit(num1){
 							if(data.status=="error"){
 								for(var i=0;i<$afterwork.length;i++){
 									$afterwork.eq(i).val("");
+									$afterModule.eq(i).text("");
+									$afterModuleHide.eq(i).val("");
 								}
 							}else{
 								for(var i=0;i<$afterwork.length;i++){
 									$afterwork.eq(i).val(data[i].afterCode);
+									$afterModule.eq(i).text(data[i].afterModule);
+									$afterModuleHide.eq(i).val(data[i].afterModule);
 								}
 							}
 						},
@@ -963,7 +979,9 @@ function showUnit(num1){
 								array.push($(this).text());
 							});
 							var $afterwork = $(".afterWork");
+							var $afterModule = $(".afterModule");
 							var loginid = $("#loginid").val();
+							var $afterModuleHide = $(".afterModuleHide");
 						  $.ajax({
 								url:"odd_hand_over!findAfterWorkingCode.action?loginid="+loginid,
 								data:{"nowDate":productDate,"shift":shift,"workingCode":array},
@@ -974,10 +992,14 @@ function showUnit(num1){
 									if(data.status=="error"){
 										for(var i=0;i<$afterwork.length;i++){
 											$afterwork.eq(i).val("");
+											$afterModule.eq(i).text("");
+											$afterModuleHide.eq(i).val("");
 										}
 									}else{
 										for(var i=0;i<$afterwork.length;i++){
 											$afterwork.eq(i).val(data[i].afterCode);
+											$afterModule.eq(i).text(data[i].afterModule);
+											$afterModuleHide.eq(i).val(data[i].afterModule);
 										}
 									}
 								},

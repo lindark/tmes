@@ -242,7 +242,7 @@ public class WorkingBillAction extends BaseAdminAction {
 			String[] propertyNames = {"factoryunit.factoryUnitCode","state","isDel"};
 			Object[] propertyValues = {workcode,"1","N"};
 			List<UnitdistributeProduct> unitdistributeList = unitdistributeProductService.getList(propertyNames,propertyValues);
-			workingbillrfc.syncRepairorderAll(start, end,starttime,endtime,"",workshopcode,unitdistributeList,workcode);
+			workingbillrfc.syncRepairorderAll(start, end,starttime,endtime,aufnr,workshopcode,unitdistributeList,workcode);
 		} catch (IOException e){
 			log.info("同步生产订单出错"+e);
 			e.printStackTrace();
@@ -544,11 +544,11 @@ public class WorkingBillAction extends BaseAdminAction {
 	public String updatePerson(){
 		try {
 			WorkingBill wk = workingbillService.get(wbid);
-			Kaoqin kaoqin = kaoqinService.get(empid);
+			Admin theAdmin = adminService.get(empid);
 			if(mark.equals("1")){
-				wk.setFuzhuren(kaoqin.getEmpname());
+				wk.setFuzhuren(theAdmin.getName());
 			}else{
-				wk.setZhuren(kaoqin.getEmpname());
+				wk.setZhuren(theAdmin.getName());
 			}
 			workingbillService.update(wk);
 			return ajaxJsonSuccessMessage("保存成功");

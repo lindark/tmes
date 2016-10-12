@@ -166,6 +166,8 @@ public class Admin extends BaseEntity implements UserDetails {
 	private String xgongwei;//工位
 	private String xstationval;//模组信息
 	private String xfactoryUnit;//单元名称
+	private String xfactory;//工厂名称
+	private String xWorkshop;//
 	
 	@OneToMany(fetch=FetchType.LAZY,mappedBy="appvaladmin")
 	public Set<UpDown> getUpdownSet() {
@@ -1384,7 +1386,25 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.phaConfimUser = phaConfimUser;
 	}
 	
+	@Transient
+	public String getXfactory() {
+		return xfactory;
+	}
 
+	public void setXfactory(String xfactory) {
+		this.xfactory = xfactory;
+	}
+	
+	@Transient
+	public String getxWorkshop() {
+		return xWorkshop;
+	}
+
+	public void setxWorkshop(String xWorkshop) {
+		this.xWorkshop = xWorkshop;
+	}
+	
+	
 	
 
 }

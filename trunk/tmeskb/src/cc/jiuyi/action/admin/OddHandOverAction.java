@@ -29,6 +29,7 @@ import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.HandOverProcess;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
+import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverAll;
@@ -42,6 +43,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.HandOverProcessService;
 import cc.jiuyi.service.MaterialService;
 import cc.jiuyi.service.OddHandOverService;
+import cc.jiuyi.service.OrdersService;
 import cc.jiuyi.service.ProcessHandoverAllService;
 import cc.jiuyi.service.ProcessHandoverTopService;
 import cc.jiuyi.service.ProcessService;
@@ -128,6 +130,9 @@ public class OddHandOverAction extends BaseAdminAction {
 	private TempKaoqinService tempKaoqinService;
 	@Resource
 	private ProcessHandoverAllService processHandoverAllService;
+	@Resource
+	private OrdersService ordersservice;
+	
 	
 	// 零头数记录表 @author Reece 2016/3/15
 	public String history() {
@@ -403,6 +408,8 @@ public class OddHandOverAction extends BaseAdminAction {
 						processHandover1.setMaktx(wb.getMaktx());
 						processHandover1.setResponsibleName(admin.getName());
 						processHandover1.setResponsibleId(admin.getId());
+						Orders order = ordersservice.get("aufnr",wb.getAufnr());
+						processHandover1.setModule(order.getMujuntext());
 //						WorkingBill wbnext = workingbillservice.getCodeNext(admin,wb.getWorkingBillCode(),admin.getProductDate(),admin.getShift());
 //						if(wbnext!=null){
 //							//workingbillList.get(i).setAfterworkingBillCode(wbnext.getWorkingBillCode());
@@ -821,8 +828,11 @@ public class OddHandOverAction extends BaseAdminAction {
 				WorkingBill nextWorkingbill = workingBillService.getCodeNext(admin,workingCode[i],nowDate,shift);//下一随工单
 				if(nextWorkingbill == null){
 					map.put("afterCode","");
+					map.put("afterModule","");
 				}else{
+					Orders order = ordersservice.get("aufnr",nextWorkingbill.getAufnr());
 					map.put("afterCode", nextWorkingbill.getWorkingBillCode());
+					map.put("afterModule", order.getMujuntext());
 				}
 				mapList.add(map);
 			}

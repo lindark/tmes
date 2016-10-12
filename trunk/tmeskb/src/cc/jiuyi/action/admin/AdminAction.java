@@ -40,6 +40,7 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Post;
@@ -915,6 +916,15 @@ public class AdminAction extends BaseAdminAction {
 				}
 				a.setXgongwei(str);//工位
 			}
+			if(a.getTeam()!=null){
+				a.setXfactoryUnit(a.getTeam().getFactoryUnit()
+						.getWorkShop().getFactory().getFactoryName());
+				a.setxWorkshop(a.getTeam().getFactoryUnit()
+						.getWorkShop().getWorkShopName());
+				a.setXfactoryUnit(a.getTeam()
+						.getFactoryUnit().getFactoryUnitName());
+				a.setXteam(a.getTeam().getTeamName());
+			}
 			newlist.add(a);
 		}
 		return newlist;
@@ -1361,6 +1371,14 @@ public class AdminAction extends BaseAdminAction {
 	}
 	
 	/**
+	 * 跳到员工选择页面
+	 * @return
+	 */
+	public String empchoose(){		
+		return "empchoose";	
+	}
+	
+	/**
 	 * 查询所有员工
 	 * @return
 	 */
@@ -1425,6 +1443,23 @@ public class AdminAction extends BaseAdminAction {
 		@SuppressWarnings("unchecked")
 		List<Admin> pagerlist = pager.getList();
 		List<Admin> newlist=getNewAdminList(pagerlist);
+//		try {
+//			for (int i = 0; i < pagerlist.size(); i++) {
+//				Admin theAdmin = pagerlist.get(i);
+//				if(theAdmin.getTeam()!=null){
+//					theAdmin.setXfactoryUnit(theAdmin.getTeam().getFactoryUnit()
+//							.getWorkShop().getFactory().getFactoryName());
+//					theAdmin.setxWorkshop(theAdmin.getTeam().getFactoryUnit()
+//							.getWorkShop().getWorkShopName());
+//					theAdmin.setXfactoryUnit(theAdmin.getTeam()
+//							.getFactoryUnit().getFactoryUnitName());
+//					theAdmin.setXteam(theAdmin.getTeam().getTeamName());
+//				}
+//				newlist.add(theAdmin);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		pager.setList(newlist);
 		JsonConfig jsonConfig=new JsonConfig();   
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);//防止自包含

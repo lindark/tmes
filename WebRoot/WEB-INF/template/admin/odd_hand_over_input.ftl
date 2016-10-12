@@ -149,7 +149,9 @@
 												<th class="center" style="width:5%">计划数量</th>
 												<th class="center" style="width:10%">产品编号</th>
 												<th class="center"style="width:10%">本班随工单编号</th>
+												<th class="center"style="width:5%">本班模具</th>
 												<th class="center"style="width:15%">下班随工单编号</th>
+												<th class="center"style="width:5%">下班模具</th>
 												<th class="center"style="width:10%">零头交接数量</th>
 												<th class="center"style="width:10%">异常交接数量</th>
 												<th class="center"style="width:5%">模具</th>
@@ -180,8 +182,16 @@
 													<td class="center workingCode" style="width:10%"name="workingCode">${(list.workingBillCode)! }
 													<input type="hidden" name="processHandoverList[${list_index}].workingBillCode" value="${(list.workingBillCode)! }">
 													</td>
+													<td class="center" style="width:3%">${(list.module)! }
+													<input type="hidden" name="processHandoverList[${list_index}].module" value="${(list.module)! }">
+													</td>
 													<td class="center" style="width:15%">
 													<input type="text" style="width:95%" class="afterWork state_input" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"<#if list.mblnr!="">readonly</#if>/>
+													</td>
+													<td class="afterModule" name="afterModule">${(list.afterModule)! }
+													</td>
+													<td style="display:none">
+													<input type="hidden" name="processHandoverList[${list_index}].afterModule" class="afterModuleHide" value="${(list.afterModule)! }">
 													</td>
 														<!--  
 														<#if (list.oddHandOverSet!=null && list.oddHandOverSet?size>0)! >
@@ -317,6 +327,8 @@ function showUnit(num1){
 	   $("#sl_sh").change(function(){
 			var shift = $("#sl_sh").val();
 			var $afterwork = $(".afterWork");
+			var $afterModule = $(".afterModule");
+			var $afterModuleHide = $(".afterModuleHide");
 			if(shift==""){
 				
 				for(var i=0;i<$afterwork.length;i++){
@@ -344,10 +356,14 @@ function showUnit(num1){
 						if(data.status=="error"){
 							for(var i=0;i<$afterwork.length;i++){
 								$afterwork.eq(i).val("");
+								$afterModule.eq(i).text("");
+								$afterModuleHide.eq(i).val("");
 							}
 						}else{
 							for(var i=0;i<$afterwork.length;i++){
 								$afterwork.eq(i).val(data[i].afterCode);
+								$afterModule.eq(i).text(data[i].afterModule);
+								$afterModuleHide.eq(i).val(data[i].afterModule);
 							}
 						}
 					},
@@ -391,6 +407,8 @@ function showUnit(num1){
 						});
 						var $afterwork = $(".afterWork");
 						var loginid = $("#loginid").val();
+						var $afterModule = $(".afterModule");
+						var $afterModuleHide = $(".afterModuleHide");
 					  $.ajax({
 							url:"odd_hand_over!findAfterWorkingCode.action?loginid="+loginid,
 							data:{"nowDate":productDate,"shift":shift,"workingCode":array},
@@ -401,10 +419,14 @@ function showUnit(num1){
 								if(data.status=="error"){
 									for(var i=0;i<$afterwork.length;i++){
 										$afterwork.eq(i).val("");
+										$afterModule.eq(i).text("");
+										$afterModuleHide.eq(i).val("");
 									}
 								}else{
 									for(var i=0;i<$afterwork.length;i++){
 										$afterwork.eq(i).val(data[i].afterCode);
+										$afterModule.eq(i).text(data[i].afterModule);
+										$afterModuleHide.eq(i).val(data[i].afterModule); 不v                                                    
 									}
 								}
 							},

@@ -947,6 +947,10 @@ public class DumpAction extends BaseAdminAction {
 		return ajax(jsonObject.toString(), "text/html");
 	}
 	
+	public String sucess(){
+		return SUCCESS;
+	}
+	
 	/**============================================*/
 	
 	public Dump getDump() {

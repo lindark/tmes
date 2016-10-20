@@ -28,6 +28,7 @@ import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Sample;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.service.AdminService;
@@ -37,6 +38,7 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.KaoqinService;
 import cc.jiuyi.service.OddHandOverService;
 import cc.jiuyi.service.OrdersService;
+import cc.jiuyi.service.TempKaoqinService;
 import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.ThinkWayUtil;
@@ -57,6 +59,8 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 	private OddHandOverService oddHandOverService;
 	@Resource
 	private KaoqinService kaoqinService;
+	@Resource
+	private TempKaoqinService temKaoqinService;
 	@Resource
 	private AdminService adminService;
 	@Resource
@@ -439,15 +443,15 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
         }
 		List<Map<String,Object>> PieceworkLists = new ArrayList<Map<String,Object>>();
 		if(!"".equals(factoryUnit)){
-			List<Kaoqin> KaoqinList = kaoqinService.getKaoqinList(productDate, shift,factoryUnit);
-			String mouldNumber = "";
-			if(KaoqinList!=null && KaoqinList.size()>0){
-				for(Kaoqin kq : KaoqinList){
+			List<TempKaoqin> kaoqinList = temKaoqinService.getKaoqinList(productDate, shift,factoryUnit);
+//			String mouldNumber = "";
+			if(kaoqinList!=null && kaoqinList.size()>0){
+				for(TempKaoqin kq : kaoqinList){
 					Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 					PieceworkMap.put("factoryUnit", kq.getFactoryUnitCode());//单元
 					PieceworkMap.put("productDate", productDate);//生产日期
 					PieceworkMap.put("shift", judgeNull(kq.getClasstime()));//班次
-					String[] mud = judgeNull(kq.getModleNum()).split(",");
+					String[] mud = judgeNull(kq.getModelNum()).split(",");
 					String mudle = "";
 					if(mud.length>0){
 						for(int i=0; i<mud.length;i++){
@@ -519,16 +523,17 @@ public class PieceworkWebServiceImpl implements PieceworkWebService {
 				}
 			}
 		}else{
-			List<Kaoqin> KaoqinList = kaoqinService.getKaoqinList(productDate, shift);
+//			List<Kaoqin> KaoqinList = kaoqinService.getKaoqinList(productDate, shift);
+			List<TempKaoqin> kaoqinList = temKaoqinService.getKaoqinList(productDate, shift,factoryUnit);
 			String mouldNumber = "";
-			if(KaoqinList!=null && KaoqinList.size()>0){
-				for(Kaoqin kq : KaoqinList){
+			if(kaoqinList!=null && kaoqinList.size()>0){
+				for(TempKaoqin kq : kaoqinList){
 					Map<String,Object> PieceworkMap = new HashMap<String,Object>();
 					PieceworkMap.put("factoryUnit", kq.getFactoryUnitCode());//单元
 					PieceworkMap.put("productDate", productDate);//生产日期
 					PieceworkMap.put("shift", judgeNull(kq.getClasstime()));//班次
 					//PieceworkMap.put("mouldNumber", judgeNull(kq.getModleNum()));// 模具组号
-					String[] mud = judgeNull(kq.getModleNum()).split(",");
+					String[] mud = judgeNull(kq.getModelNum()).split(",");
 					String mudle = "";
 					if(mud.length>0){
 						for(int i=0; i<mud.length;i++){

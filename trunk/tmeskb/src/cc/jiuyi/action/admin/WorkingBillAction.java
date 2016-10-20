@@ -111,7 +111,7 @@ public class WorkingBillAction extends BaseAdminAction {
 			json.put("workingbillCode", workingbill.getWorkingBillCode());//随工单号
 			json.put("matnr", workingbill.getMatnr());//物料号
 			json.put("maktx", workingbill.getMaktx());//物料描述
-			json.put("charg", ThinkWayUtil.getCharg());//批次
+			json.put("charg", ThinkWayUtil.getCharg(workingbill.getProductDate()));//批次
 			json.put("amount", unitconversion.getConversationRatio());//数量
 			json.put("time",ThinkWayUtil.formatDateByPattern(new Date(), "HH:mm:ss") );
 		}catch(Exception e){

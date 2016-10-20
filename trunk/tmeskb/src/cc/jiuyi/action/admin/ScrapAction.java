@@ -300,13 +300,34 @@ public class ScrapAction extends BaseAdminAction
 		this.workingbill=this.wbService.get(wbId);
 		String aufnr = workingbill.getWorkingBillCode().substring(0,workingbill.getWorkingBillCode().length()-2);
 		//Date productDate = ThinkWayUtil.formatStringDate(workingbill.getProductDate(),workingbill.getWorkingBillCode());
-		List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+//		List<Bom> l_material = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
 		/**获取维护物料信息*/
 		List<Material> ml= materialservice.getAll();
-		employeeList = adminService.getAllList();//员工列表 
+		List<Bom> bomList = bomservice.findBom(aufnr, workingbill.getProductDate(),workingbill.getWorkingBillCode());
+//		employeeList = adminService.getAllList();//员工列表 
+		//System.out.println(employeeList);
+//		if(ml!=null && ml.size()>0){
+//			for(int y=0;y<l_material.size();y++){
+//				Bom bom = l_material.get(y);
+//				for(Material mt : ml){
+//					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
+//						boolean f = true;
+//						for(Bom b : list_material){
+//							if(b.getMaterialCode().equals(bom.getMaterialCode())){
+//								f=false;
+//							}
+//						}
+//						if(f){
+//							list_material.add(bom);	
+//						}
+//						break;
+//					}
+//				}
+//			}
+//		}
 		if(ml!=null && ml.size()>0){
-			for(int y=0;y<l_material.size();y++){
-				Bom bom = l_material.get(y);
+			for(int y=0;y<bomList.size();y++){
+				Bom bom = bomList.get(y);
 				for(Material mt : ml){
 					if(bom.getMaterialCode().equals(mt.getMaterialCode()) && workingbill.getWerks().equals(mt.getFactoryunit().getWorkShop().getFactory().getFactoryCode())){
 						boolean f = true;
@@ -316,6 +337,7 @@ public class ScrapAction extends BaseAdminAction
 							}
 						}
 						if(f){
+							bom.setCqmultiple(mt.getCqmultiple());
 							list_material.add(bom);	
 						}
 						break;

@@ -391,6 +391,21 @@ public class ThinkWayUtil {
 		
 		return ye+mo+da;
 	}
-	
+	/**
+	 * 获取批次
+	 * 批次规则: 年后两位 + 月+ 日
+	 * @return
+	 */
+	public static String getCharg(String productDate){
+		if(productDate!=null && !"".equals(productDate)){
+			String[] date = productDate.split("-");
+			String year = date[0].substring(2);
+			String time = year+date[1]+date[2];
+			return time;
+		}else{
+			return "";
+		}
+		
+	}
 
 }

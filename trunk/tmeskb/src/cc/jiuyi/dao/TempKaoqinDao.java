@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cc.jiuyi.bean.Pager;
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.TempKaoqin;
 
@@ -59,4 +60,6 @@ public interface TempKaoqinDao extends BaseDao<TempKaoqin, String>
     public List<TempKaoqin> getToWorkList(String productDate, String shift, String workState,Team team);
     
     public Object[] sumAmount(String productDate, String shift,String workState,String teamid);
+    
+    public List<TempKaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
 }

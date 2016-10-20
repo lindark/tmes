@@ -1,7 +1,6 @@
 package cc.jiuyi.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 /**

@@ -681,4 +681,10 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 	public Object[] sumAmount(String productDate, String shift,String workState,String teamid){
 		return tempKqDao.sumAmount(productDate, shift, workState, teamid);
 	}
+
+	@Override
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift,
+			String factoryUnitCode) {
+		return tempKqDao.getKaoqinList(productDate, shift, factoryUnitCode);
+	}
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.TempKaoqinDao;
-
+import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.TempKaoqin;
 
@@ -219,4 +219,24 @@ public class TempKaoqinDaoImpl extends BaseDaoImpl<TempKaoqin, String>implements
 						.setParameter(2, workState).setParameter(3, team).list();
 			}
 		}
+
+	@Override
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift,
+			String factoryUnitCode) {
+		String hql = "";
+		if( !"".equals(shift) && "".equals(factoryUnitCode) ){
+			hql =  "from TempKaoqin where productdate=? and classtime=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
+		}else if(!"".equals(shift) && !"".equals(factoryUnitCode)){
+			hql =  "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).setParameter(2, factoryUnitCode).list();
+		}else if("".equals(shift) && !"".equals(factoryUnitCode)){
+			hql =  "from TempKaoqin where productdate=? and factoryUnitCode=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, factoryUnitCode).setParameter(1,factoryUnitCode).list();
+		}else{
+			hql =  "from TempKaoqin where productdate=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();	
+		}
+	}
+	 
 }

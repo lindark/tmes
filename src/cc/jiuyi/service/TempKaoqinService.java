@@ -97,4 +97,5 @@ public interface TempKaoqinService extends BaseService<TempKaoqin, String>
     public List<TempKaoqin> getToWorkList(String productDate, String shift, String workState,Team team);
     
     public Object[] sumAmount(String productDate, String shift,String workState,String teamid);
+    public List<TempKaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
 }

@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.action.admin.ReturnProductAction;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
 import cc.jiuyi.sap.rfc.CartonRfc;
@@ -21,6 +23,8 @@ import cc.jiuyi.util.TableModel;
 @Component
 public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 
+	public static Logger log = Logger.getLogger(ReturnProductAction.class);
+	
 	@Override
 	public Carton CartonCrt(String testrun,List<CartonSon>list_cs) throws IOException, CustomerException {
 		super.setProperty("pickbatch");//根据配置文件读取到函数名称
@@ -150,8 +154,10 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		for(int i=0;i<t_data1.getNumRows();i++){
 			t_data1.setRow(i);
 			String xuh = t_data1.getString("XUH1");//序号
+			log.info("-------------------X--------------xuh---"+xuh);
 			for(CartonSon cs:list_cs){
 				if(cs.getId().equals(xuh)){
+					log.info("-------------------X--------------cs.getId()---"+cs.getId());
 					cs.setEBELN(t_data1.getString("EBELN"));
 					cs.setEBELP(t_data1.getString("EBELP"));
 					break;

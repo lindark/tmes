@@ -36,7 +36,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<form class="form-horizontal" id="searchform" action="factory_unit!getgetfaunlist.action" role="form">
+							<form class="form-horizontal" id="searchform" action="factory_unit!getfaunlist.action" role="form">
 							   <div class="operateBar">
 							   <#if teamList?? && teamList?size!=0>
 							   <#list teamList as list>

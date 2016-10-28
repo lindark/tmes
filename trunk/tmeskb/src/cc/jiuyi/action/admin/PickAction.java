@@ -480,7 +480,7 @@ public class PickAction extends BaseAdminAction {
 				return ajaxJsonErrorMessage("已确认的不需要再次确认!");
 			}
 			if(pick.getEx_mblnr() != null && !"".equals(pick.getEx_mblnr())){
-				continue;
+				return ajaxJsonErrorMessage("已确认的不需要再次确认!请刷新后重试");
 			}
 			pickList.add(pick);
 			pkList = pickDetailService.getPickDetail(pickId);
@@ -492,6 +492,13 @@ public class PickAction extends BaseAdminAction {
 		}
 		
 			Boolean flag = true;
+			List<Pick> list1 = pickService.get(ids);
+			for(Pick pick:list1){
+				System.out.println(pick.getEx_mblnr());
+				if(!pick.getState().equals(UNCHECK)||(pick.getEx_mblnr()!=null&&!pick.getEx_mblnr().equals(""))){
+					return ajaxJsonErrorMessage("部分数据已经确认或撤销，请刷新重新提交");
+				}
+			}
 			pickRfc = pickRfcImple.BatchMaterialDocumentCrt("X", pickList,
 					pickdetailList);
 			for (Pick pick2 : pickRfc) {

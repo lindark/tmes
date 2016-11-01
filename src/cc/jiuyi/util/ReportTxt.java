@@ -41,7 +41,7 @@ public class ReportTxt {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		 //byte[] utf8Bom =  new byte[]{(byte) 0xef, (byte) 0xbb, (byte) 0xbf};  
 		
-		 CsvWriter wr =new CsvWriter(output,',',Charset.forName("GB18030"));
+		 CsvWriter wr =new CsvWriter(output,',',Charset.forName("GBK"));
 		 //output.write(utf8Bom);
 		 //String utf8BomStr = new String(utf8Bom,"GB18030"); 
 		 //wr.write(utf8BomStr); 

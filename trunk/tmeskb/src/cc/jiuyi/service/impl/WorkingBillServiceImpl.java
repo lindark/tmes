@@ -175,6 +175,12 @@ public class WorkingBillServiceImpl extends
 	@Override
 	public synchronized void mergeWorkingBill(List<WorkingBill> workingbillList,
 			List<Orders> orderList, List<ProcessRoute> processrouteList, List<Bom> bomList) {
+		try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+        	log.info("睡眠出现错误"+e);
+			e.printStackTrace();
+        }
 		log.info("生产订单:"+orderList.size()+"-----"+"随工单:"+workingbillList.size()+"-----"+"工艺:"+processrouteList.size()+"-----"+"BOM:"+bomList.size());
 		//生产订单
 		for(int i=0;i<orderList.size();i++){
@@ -190,12 +196,6 @@ public class WorkingBillServiceImpl extends
 			/***处理工艺路线***/
 			mergeprocessroutedeal(order,processrouteList);
 		}
-		try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-        	log.info("睡眠出现错误"+e);
-			e.printStackTrace();
-        }
 }
 	@Override
 	public void mergeWorkingBillNew(List<WorkingBill> workingbillList,

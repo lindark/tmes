@@ -84,7 +84,7 @@ public class WorkingBillDaoImpl extends BaseDaoImpl<WorkingBill, String>
 	
 	@SuppressWarnings("unchecked")
 	public List<WorkingBill> getListWorkingBillByDate(String productDate,String shift,String workcenter,String matnr) {
-		String hql = "from WorkingBill where productDate = ? and workingBillCode like ? and workcenter = ? and matnr = ?";
+		String hql = "from WorkingBill where productDate = ? and workingBillCode like ? and workcenter = ? and matnr = ? and isDel = 'N'";
 		List<WorkingBill> list = getSession().createQuery(hql)
 				.setParameter(0, productDate)
 				.setParameter(1, "%" + shift)

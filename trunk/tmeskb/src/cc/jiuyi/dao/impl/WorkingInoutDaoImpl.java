@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.HashMap;
 import java.util.List;
 
 
+
+import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -20,8 +21,10 @@ import org.springframework.stereotype.Repository;
 
 
 
+
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.WorkingInoutDao;
+import cc.jiuyi.entity.WorkingBill;
 import cc.jiuyi.entity.WorkingInout;
 
 /**
@@ -31,7 +34,7 @@ import cc.jiuyi.entity.WorkingInout;
 @Repository
 public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> implements
 		WorkingInoutDao {
-
+	public static Logger log = Logger.getLogger(WorkingInoutDaoImpl.class);
 	@Override
 	public boolean isExist(String workingBillId, String materialCode) {
 		String hql = "from WorkingInout a where a.workingbill.id=? and materialCode=?";
@@ -308,7 +311,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 				}
 			}
 		}																																																		//																																						
-			String sql3 = "SELECT JSSJ2.*,DECODE(SUBSTR(JSSJ2.MATERIALCODE,0,1),'5',JSSJ2.RKS*JSSJ2.YL,(JSSJ2.RKS+JSSJ2.LTZCJX+JSSJ2.LTYCJX-JSSJ2.LTZCJS-JSSJ2.LTYCJS)*JSSJ2.YL+JSSJ2.FXFHMT-JSSJ2.FXSHMT+JSSJ2.BFS) CCZSL,TO_CHAR(DECODE(NVL(JSSJ2.JHS,0),0,0,ROUND((JSSJ2.SCS/JSSJ2.JHS*100),2)),'fm999999990.999999999')||'%' JHDCL "
+			String sql3 = "SELECT JSSJ2.*,DECODE(SUBSTR(JSSJ2.MATERIALCODE,0,1),'5',JSSJ2.RKS*JSSJ2.YL,(JSSJ2.RKS+JSSJ2.LTZCJX+JSSJ2.LTYCJX-JSSJ2.LTZCJS-JSSJ2.LTYCJS)*JSSJ2.YL+JSSJ2.FXFHMT-JSSJ2.FXSHMT+JSSJ2.BFS) CCZSL,TO_CHAR(DECODE(NVL(JSSJ2.JHS,0),0,0,ROUND((JSSJ2.RKS/JSSJ2.JHS*100),2)),'fm999999990.999999999')||'%' JHDCL "
 					+ " FROM "
 					+ "(SELECT JSSJ1.*,(JSSJ1.RKS+JSSJ1.LTZCJX+JSSJ1.LTYCJX-JSSJ1.LTZCJS-JSSJ1.LTYCJS+JSSJ1.TFXFH-JSSJ1.TFXSH)SCS FROM "  //JSSJ1.FXFHMT-JSSJ1.FXSHMT  --  totalRepairAmount  totalRepairinAmount
 					+ "(SELECT ZZD.*,NVL(LYS1.REPMOUNT,0)LYS , NVL(DWYL6.DL,0)YL, NVL(JSLT.ZCJS,0)LTZCJS,NVL(JSLT.YCJS,0)LTYCJS, NVL(JXLT.ZCJX,0)LTZCJX,  NVL(JXLT.YCJX,0)LTYCJX, NVL(FXFH.FHMT,0)FXFHMT,NVL(FXSH.SHMT,0) FXSHMT,(ZZD.RKS+NVL(JXLT.ZCJX,0)-ZZD.BGS-NVL(JSLT.ZCJS,0)-NVL(FXSH.SHMT,0))JYCY,NVL(BF.BFS,0)BFS FROM "
@@ -353,7 +356,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 					//领用数
 					+ " LEFT JOIN (SELECT (TRUNC(SUM(DECODE(PD.PICKTYPE,'261',TO_NUMBER(PD.PICKAMOUNT),0)),3)-TRUNC(SUM(DECODE(PD.PICKTYPE,'262',TO_NUMBER(PD.PICKAMOUNT),0)),3))REPMOUNT,PK.WORKINGBILL_ID PWBID,PD.MATERIALCODE PMC  FROM PICKDETAIL PD ,PICK PK WHERE  PK.STATE='2' AND PD.PICK_ID=PK.ID GROUP BY PK.WORKINGBILL_ID,PD.MATERIALCODE)LYS1 ON ZZD.WBID=LYS1.PWBID AND ZZD.MATERIALCODE=LYS1.PMC ) JSSJ1 )JSSJ2 ";
 			sql3 = sql3 + sqlhu+sqlha+sqles+sqlhj;
-			System.out.println(sql3);
+			log.info("sql3=------------------------------------------------"+sql3);
 			String sql4;
 			String strbt = "";
 			if(!"".equals(selectsum)){
@@ -390,7 +393,7 @@ public class WorkingInoutDaoImpl extends BaseDaoImpl<WorkingInout, String> imple
 			//sql5 ="SELECT JSSJ3.*,JSSJ3.RKS-ROUND(DECODE(SIGN(JSSJ3.RKS1),1,JSSJ3.RKS1,0),2)PC FROM ("+sql5+")JSSJ3";
 				//listobject = (List<Object[]>)getSession().createSQLQuery(sql5).list();
 			
-		
+			log.info("sql5=----------------------------------------------"+sql5);
 		return (List<String[]>)getSession().createSQLQuery(sql5).list();
 	}
 	public List<String[]> findProcess(){

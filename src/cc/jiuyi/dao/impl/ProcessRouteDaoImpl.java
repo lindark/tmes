@@ -46,7 +46,7 @@ public class ProcessRouteDaoImpl extends BaseDaoImpl<ProcessRoute, String>
 	}
 	
 	public Integer getMaxVersion(String orderid,String productDate){
-		String hql="select max(a.version) from ProcessRoute a where a.orders.id = ? and a.effectiveDate <= ?";
+		String hql="select max(a.version) from ProcessRoute a where a.orders.id = ? ";/** a.effectiveDate <= ? */
 		return (Integer)getSession().createQuery(hql).setParameter(0, orderid).setParameter(1, productDate).uniqueResult();
 	}
 	

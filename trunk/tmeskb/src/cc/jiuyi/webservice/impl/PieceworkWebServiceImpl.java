@@ -23,7 +23,6 @@ import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.DailyWork;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Sample;

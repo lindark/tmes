@@ -212,6 +212,9 @@ inupt.stockMout {
 														<input type="hidden"
 															name="updownList[${lns_index}].lgortname"
 															value="${(lns.locationName)!}">
+														<input type="hidden"
+															name="updownList[${lns_index}].meins"
+															value="${(lns.meins)!}">
 														<#if type="down">
 														<td>${(lns.locationName)! }</td>
 														 <!-- <input type="hidden" name="updownList[${lns_index}].lgpla"

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Table;
 
+import cc.jiuyi.action.admin.CartonAction;
 import cc.jiuyi.action.admin.ReturnProductAction;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
@@ -23,7 +24,7 @@ import cc.jiuyi.util.TableModel;
 @Component
 public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 
-	public static Logger log = Logger.getLogger(ReturnProductAction.class);
+	public static Logger log = Logger.getLogger(CartonAction.class);
 	
 	@Override
 	public Carton CartonCrt(String testrun,List<CartonSon>list_cs) throws IOException, CustomerException {
@@ -157,7 +158,7 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 			log.info("-------------------X--------------xuh---"+xuh);
 			for(CartonSon cs:list_cs){
 				if(cs.getId().equals(xuh)){
-					log.info("-------------------X--------------cs.getId()---"+cs.getId());
+					log.info("-------------------X--------------cs.getId()---"+"-----------"+cs.getId()+t_data1.getString("EBELN")+"-----------"+t_data1.getString("EBELP"));
 					cs.setEBELN(t_data1.getString("EBELN"));
 					cs.setEBELP(t_data1.getString("EBELP"));
 					break;

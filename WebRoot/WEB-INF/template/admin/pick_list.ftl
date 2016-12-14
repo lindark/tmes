@@ -253,9 +253,12 @@
 			}else if(row_state=="3"){
 				layer.msg("已撤销的无法再确认!", {icon: 5});
 			}else{
+					var confirmPick = $("#confirmPick");
+					confirmPick.disabled = true;
 					var url="pick!creditapproval.action?id="+id+"&matnr="+${(workingbill.matnr)!}+"&loginid="+loginid;
 					credit.creditCard(url,function(data){
 						$.message(data.status,data.message);
+						confirmPick.disabled = false;
 						$("#grid-table").trigger("reloadGrid");
 				})
 			 }

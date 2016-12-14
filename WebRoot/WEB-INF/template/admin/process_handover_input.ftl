@@ -404,7 +404,7 @@
 																	<!--  
 																	<#if (list.afterWorkingBillCode)!??> -->
 																	<td class="center" ><input type="text" class="show_input afterWork state_input"
-																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"/></td>
+																	 name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }" readonly="readonly"/></td>
 																	<td class="afterModule" name="afterModule">${(list.afterModule)! }
 																	</td>
 																	<td>
@@ -440,7 +440,7 @@
 																	</td>
 																	<#if !(show??)>
 																	<td>
-																	<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
+																	<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息" style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
 																	<span id="responsibleName">${(list.responsibleName) }</span>
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleName" id="responsibleNa" value="${(list.responsibleName) }" class="formText {required: true}" />
 																	<input type="hidden" name="processHandoverList[${list_index}].responsibleId" id="responsibleId" value="${(list.responsibleId) }" class="formText {required: true}" /> 

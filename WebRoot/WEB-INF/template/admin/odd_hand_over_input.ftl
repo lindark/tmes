@@ -186,7 +186,7 @@
 													<input type="hidden" name="processHandoverList[${list_index}].module" value="${(list.module)! }">
 													</td>
 													<td class="center" style="width:15%">
-													<input type="text" style="width:95%" class="afterWork state_input" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }"<#if list.mblnr!="">readonly</#if>/>
+													<input type="text" style="width:95%" class="afterWork state_input" name="processHandoverList[${list_index}].afterWorkingBillCode" value="${(list.afterWorkingBillCode)! }" readonly="readonly"/>
 													</td>
 													<td class="afterModule" name="afterModule">${(list.afterModule)! }
 													</td>

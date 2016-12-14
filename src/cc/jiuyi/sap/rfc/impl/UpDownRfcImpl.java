@@ -41,7 +41,7 @@ public class UpDownRfcImpl extends BaserfcServiceImpl implements UpDownRfc{
 			HashMap<String,Object> item = new HashMap<String,Object>();
 			item.put("MATNR", hashput.get("matnr"));//物料编码
 			item.put("CHARG", hashput.get("charg"));//批次
-			item.put("MEINS", "PC");//单位
+			item.put("MEINS", hashput.get("meins"));//单位
 			item.put("LGPLA", hashput.get("lgpla"));//发出仓位
 			item.put("DWNUM", hashput.get("dwnum"));//数量
 			item.put("NLPLA", hashput.get("nlpla"));//目的地仓位

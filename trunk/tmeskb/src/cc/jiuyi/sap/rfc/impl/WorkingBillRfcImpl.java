@@ -113,7 +113,12 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		Table table02 = outs.getTable("ET_AFKO");//订单
 		Table table03 = outs.getTable("ET_AFVC");//订单工艺路线
 		Table table04 = outs.getTable("ET_RESB");//生产订单BOM
+		
 		List<WorkingBill> list = new ArrayList<WorkingBill>();
+		List<Orders> orderlist = new ArrayList<Orders>();//生产订单
+		List<ProcessRoute> processrouteList = new ArrayList<ProcessRoute>();//工艺路线
+		List<Bom> bomList = new ArrayList<Bom>();//BOM
+		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);
 		for(int i=0;i<table01.getNumRows();i++){
 			WorkingBill workingbill = new WorkingBill();
 			table01.setRow(i);
@@ -127,7 +132,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			workingbill.setWorkcenter(table01.getString("ARBPL"));//工作中心
 			list.add(workingbill);
 		}
-		List<Orders> orderlist = new ArrayList<Orders>();//生产订单
+		
 		for(int i=0;i<table02.getNumRows();i++){
 			Orders order = new Orders();
 			table02.setRow(i);
@@ -149,7 +154,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			orderlist.add(order);
 		}
 		
-		List<ProcessRoute> processrouteList = new ArrayList<ProcessRoute>();//工艺路线
+		
 		for(int i=0;i<table03.getNumRows();i++){
 			table03.setRow(i);
 			ProcessRoute processroute = new ProcessRoute();
@@ -161,7 +166,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			processrouteList.add(processroute);
 		}
 		
-		List<Bom> bomList = new ArrayList<Bom>();//BOM
+		
 		for(int i=0;i<table04.getNumRows();i++){
 			table04.setRow(i);
 			Bom bom = new Bom();
@@ -180,7 +185,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			}
 			bomList.add(bom);
 		}
-		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);
+		
 	}
 
 	@Override

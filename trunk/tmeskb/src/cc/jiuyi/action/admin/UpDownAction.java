@@ -1,3 +1,4 @@
+
 package cc.jiuyi.action.admin;
 
 import java.io.IOException;
@@ -359,7 +360,7 @@ public class UpDownAction extends BaseAdminAction {
 				if(!materialCode.equals(matnr02)){
 					continue;
 				}
-			
+				locationonside.setMeins(hashmap.get("meins"));
 				locationonside.setLocationCode(lgort);//库存地点
 				locationonside.setLocationName(lgpla);//仓位
 				locationonside.setMaterialCode(matnr01);//物料编码
@@ -436,6 +437,7 @@ public class UpDownAction extends BaseAdminAction {
 				if(!materialCode.equals(matnr02)){
 					continue;
 				}
+				locationonside.setMeins(hashmap.get("meins"));
 				locationonside.setLocationCode(lgort);//库存地点
 				locationonside.setMaterialCode(matnr01);//物料编码
 				locationonside.setMaterialName(maktx01);//物料描述
@@ -634,6 +636,7 @@ public class UpDownAction extends BaseAdminAction {
 						}
 					}
 					if(flag){
+					locationonside.setMeins(hashmap.get("meins"));
 					locationonside.setLocationCode(lgort);//库存地点
 					locationonside.setLocationName(lgpla);//仓位
 					locationonside.setMaterialCode(matnr01);//物料编码
@@ -749,6 +752,7 @@ public class UpDownAction extends BaseAdminAction {
 					}
 				}
 				if(flag){
+				locationonside.setMeins(hashmap.get("meins"));
 				locationonside.setLocationCode(lgort);//库存地点
 				locationonside.setLocationName(lgpla);//仓位
 				locationonside.setMaterialCode(matnr01);//物料编码
@@ -835,6 +839,7 @@ public class UpDownAction extends BaseAdminAction {
 			hashmap.put("charg", updown.getCharg());//批次
 			hashmap.put("lgpla", lgpla);//发出仓位
 			hashmap.put("nlpla", lgplaun);//目的地仓位
+			hashmap.put("meins", updown.getMeins());//单位
 			if("0".equals(flag) || "3".equals(flag)){
 				hashmap.put("dwnum", ""+updown.getDwnum());
 			}else if("2".equals(flag)){
@@ -878,9 +883,10 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setProductDate(admin1.getProductDate());//将生产日期和班次写入
 				updown.setShift(admin1.getShift());
 				updown.setFactoryUnit(admin1.getTeam().getFactoryUnit());//添加的单元 jjt
+				updown.setMeins(updown.getMeins());
 				updownList.set(i, updown);
 				try {
-					updownservice.save(updown);
+//					updownservice.save(updown);
 					log.info("--------------保存成功----------"+updown.getTanum());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -895,7 +901,7 @@ public class UpDownAction extends BaseAdminAction {
 
 				lgpla = ThinkWayUtil.null2String(lgpla);
 				Pick pick = new Pick();
-//				pick.setBudat("2015-11-01");// SAP测试数据 随工单的日期
+//				pick.setBudat("2015-11-01");// 测试数据 随工单的日期
 //				pick.setLgort("2201");// 库存地点 SAP测试数据 单元库存地点
 //				pick.setZtext("测试凭证");// 抬头文本 SAP测试数据 随工单位最后两位
 //				pick.setWerks("1000");// 工厂 SAP测试数据 工厂编码

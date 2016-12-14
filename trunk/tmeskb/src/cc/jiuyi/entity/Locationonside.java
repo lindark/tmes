@@ -23,6 +23,7 @@ public class Locationonside extends BaseEntity implements Comparable<Locationons
 	private String charg;//批次
 	private String isDel;//是否删除
 	private String lgpla;//仓位
+	private String meins;//单位
 	
 	/**
 	 * 假字段
@@ -126,6 +127,14 @@ public class Locationonside extends BaseEntity implements Comparable<Locationons
 
 	public void setCqmultiple(String cqmultiple) {
 		this.cqmultiple = cqmultiple;
+	}
+
+	public String getMeins() {
+		return meins;
+	}
+
+	public void setMeins(String meins) {
+		this.meins = meins;
 	}
 	
 	

@@ -107,6 +107,7 @@ jQuery(function($) {
         		{
         			var bstr="";
         			jQuery(grid_selector).jqGrid('setRowData', ids[i], { isdaiban : bstr });
+        			be+= "<a onclick=remove_daiban('"+rowData.id+"') href='javascript:void(0)'>[移除]</a>";
         		}
         		else
         		{

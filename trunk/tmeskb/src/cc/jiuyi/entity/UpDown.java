@@ -35,6 +35,7 @@ public class UpDown extends BaseEntity {
 	private String adminname;//确认人名称
 	private String productDate;//生产日期
 	private String shift;//班次
+	private String meins;//单位
 	private FactoryUnit factoryUnit;//单元    jjt
 	
 	private String typex;//类型描述
@@ -195,6 +196,12 @@ public class UpDown extends BaseEntity {
 	}
 	public void setCqmultiple(String cqmultiple) {
 		this.cqmultiple = cqmultiple;
+	}
+	public String getMeins() {
+		return meins;
+	}
+	public void setMeins(String meins) {
+		this.meins = meins;
 	}
 	
 	

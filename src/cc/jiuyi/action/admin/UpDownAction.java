@@ -886,7 +886,7 @@ public class UpDownAction extends BaseAdminAction {
 				updown.setMeins(updown.getMeins());
 				updownList.set(i, updown);
 				try {
-//					updownservice.save(updown);
+					updownservice.save(updown);
 					log.info("--------------保存成功----------"+updown.getTanum());
 				} catch (Exception e) {
 					e.printStackTrace();

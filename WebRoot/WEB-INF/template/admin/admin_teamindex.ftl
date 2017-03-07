@@ -110,9 +110,7 @@
 												   <div class="profile-info-row">
 														<div class="profile-info-name">工厂/车间：</div>
 														<div class="profile-info-value">
-															${(admin.team.factoryUnit.workShop.factory.factoryName)!
-															} &nbsp;&nbsp;&nbsp;    ${(admin.team.factoryUnit.workShop.workShopName)!
-															}
+															${(admin.team.factoryUnit.workShop.factory.factoryName)!} &nbsp;&nbsp;&nbsp;    ${(admin.team.factoryUnit.workShop.workShopName)!}
 														</div>
 													</div>
 
@@ -123,6 +121,7 @@
 														<div class="profile-info-value">
 															${(admin.team.factoryUnit.factoryUnitName)! }
 															<input type="hidden" id="funid" value="${(admin.team.factoryUnit.id)!}">
+															<input type="hidden" id="unit" value="${(admin.team.factoryUnit.factoryUnitCode)!}">
 														</div>										
 													</div>
 													
@@ -130,7 +129,12 @@
 														<div class="profile-info-name">班组：</div>
 														<div class="profile-info-value">															
 															${(admin.team.teamName)! }
-															<button class="btn btn-white btn-default btn-sm btn-round access"data-access-list="changeTeamButton"  id="changeTeamButton">更换班组</button>													   												   														
+															<button class="btn btn-white btn-default btn-sm btn-round access"data-access-list="changeTeamButton"  id="changeTeamButton">更换班组</button>	
+															<button class="btn btn-green btn-success btn-bold btn-round" id="getWagesButton" style="float: right;">
+																<i class="ace-icon fa fa-money fa-1g"></i> 
+																<span class="no-text-shadow">日工资查询</span>
+															</button>												   												   														
+															<input type="hidden" id="teamname" value="${(admin.team.teamCode)! }">
 														</div>		
 													</div>
 													
@@ -151,7 +155,9 @@
 														<option value="1" <#if (admin.shift == 1)!> selected</#if>>早</option>
 														<option value="2" <#if (admin.shift == 2)!> selected</#if>>白</option> 
 														<option value="3" <#if (admin.shift == 3)!> selected</#if>>晚</option>
-													    </select>&nbsp;&nbsp;&nbsp; <button class="btn btn-white btn-default btn-sm btn-round" id="submitButton" type="button">保存</button>														   
+													    </select>&nbsp;&nbsp;&nbsp; 
+													    	<button class="btn btn-white btn-default btn-sm btn-round" id="submitButton" type="button">保存</button>&nbsp;&nbsp;&nbsp;
+													    	<button class="btn btn-white btn-default btn-sm btn-round" onclick="printReport()" id="report" type="button">随工单</button>													   
 													    </form>
 														</div>
 													</div>
@@ -529,6 +535,56 @@
 		});
 		
 		/**
+		* 查询工资
+		*/
+		$("#getWagesButton").click(function(){
+			credit.creditCard1(function(worknumber,statuses){
+				var productDate = $("#productDate").val();
+				var array = productDate.split("-");
+				var yaer = array[0].substring(2);
+				var date = yaer+array[1];
+				if(statuses=="success"){
+					window.open("http://mes.jianxin.com/FineReport/ReportServer?reportlet=mfcx/DaySalary.cpt&FENo="+worknumber+"&fperiod="+date+"&__bypagesize__=false");
+				}else{
+					layer.alert(worknumber);
+				}
+								
+			});
+			
+		});
+		
+		
+		var credit = {
+				"creditCard1":function(callback){
+					credit.index= layer.msg('请刷卡', {icon: 16,time:20000,shade:0.3,shadeClose:true},function(){
+						
+						if(typeof(credit.cardnumber) == "undefined"){
+							$('body').stopTime ();
+							return false;
+						}
+						callback(credit.worknumber,credit.statuses);
+					});
+					
+					$.post("base_admin!getSystemDate.action",function(data){
+						var systemDate = data.systemDate;
+						$.post("credit_card!getCredit.action", { createDate: systemDate},function(data){
+							if(data.status == "no"){//未找到
+								layer.alert(data.cardnumber);
+								layer.close(credit.index);
+							}else if(data.status == "yes"){//已找到
+								credit.cardnumber = data.cardnumber;//获取卡号
+								credit.worknumber = data.worknumber;//获取工号
+								credit.statuses = data.statuses;
+								layer.close(credit.index);
+							}
+							
+						},"json" );
+					},"json" );
+					
+				}
+		}
+		
+		/**
 		 * 获取班组
 		 */
 		function teamName_event(t,funid,wbid)
@@ -648,6 +704,14 @@
 	    });
 		return false;
 	}
+		/** 报表 */
+		function printReport(){
+			var productDate = $("#productDate").val();
+			var classtime = $("#shift").val();
+			var unit = $("#unit").val();
+			var teamname = $("#teamname").val();
+			window.open("http://mes.jianxin.com/FineReport/ReportServer?reportlet=WorkingInout/WorkingInout.cpt&productdate="+productDate+"&classtime="+classtime+"&unit="+unit+"&teamname="+teamname);
+		}
 	</script>
 	<script type="text/javascript">
 		function downloadJSAtOnload() {

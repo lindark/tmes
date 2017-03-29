@@ -16,6 +16,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.KaoqinDao;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.TempKaoqin;
 
 /**
  * 考勤
@@ -120,7 +121,7 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	
 	@Override
 	public Pager historyjqGrid(Pager pager, HashMap<String, String> map) {
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Kaoqin.class);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(TempKaoqin.class);
 		if (!existAlias(detachedCriteria, "emp", "admin")) {
 			detachedCriteria.createAlias("emp", "admin");
 		}
@@ -166,7 +167,7 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	
 	
 	public List<Object[]> historyExcelExport(HashMap<String,String> map){
-		String hql="from Kaoqin model join model.emp model1";
+		String hql="from TempKaoqin model join model.emp model1";
 		Integer ishead=0;
 		Map<String,Object> parameters = new HashMap<String,Object>();
 			if (!map.get("productdate").equals("")) {

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,7 +18,6 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
-import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.TempKaoqin;
@@ -308,19 +306,19 @@ public class TempKaoqinAction extends BaseAdminAction {
 		
 		
 		//修改Kaoqin
-		Kaoqin kq=kqService.getByTPSA(DBkaoqin.getTeam().getFactoryUnit().getId(), DBkaoqin.getProductdate(), DBkaoqin.getClasstime(), DBkaoqin.getEmp().getId()).get(0);
-		kq.setPhoneNum(DBkaoqin.getPhoneNum());
-		kq.setWorkState(DBkaoqin.getWorkState());//
-		kq.setTardyHours(DBkaoqin.getTardyHours());//误工小时数
-		kq.setPostCode(DBkaoqin.getPostCode());
-		kq.setPostname(DBkaoqin.getEmpname());		
-		kq.setStationCode(DBkaoqin.getStationCode());
-		kq.setStationName(DBkaoqin.getStationName());
-		kq.setModleNum(DBkaoqin.getModelNum());
-		kq.setWorkNum(DBkaoqin.getWorkNum());
-		kq.setWorkName(DBkaoqin.getWorkName());
-		kq.setModifyDate(new Date());		
-		kqService.update(kq);
+//		Kaoqin kq=kqService.getByTPSA(DBkaoqin.getTeam().getFactoryUnit().getId(), DBkaoqin.getProductdate(), DBkaoqin.getClasstime(), DBkaoqin.getEmp().getId()).get(0);
+//		kq.setPhoneNum(DBkaoqin.getPhoneNum());
+//		kq.setWorkState(DBkaoqin.getWorkState());//
+//		kq.setTardyHours(DBkaoqin.getTardyHours());//误工小时数
+//		kq.setPostCode(DBkaoqin.getPostCode());
+//		kq.setPostname(DBkaoqin.getEmpname());		
+//		kq.setStationCode(DBkaoqin.getStationCode());
+//		kq.setStationName(DBkaoqin.getStationName());
+//		kq.setModleNum(DBkaoqin.getModelNum());
+//		kq.setWorkNum(DBkaoqin.getWorkNum());
+//		kq.setWorkName(DBkaoqin.getWorkName());
+//		kq.setModifyDate(new Date());		
+//		kqService.update(kq);
 		
 			
 		return ajaxJsonSuccessMessage("您的操作已成功!");
@@ -359,10 +357,10 @@ public class TempKaoqinAction extends BaseAdminAction {
 		}
 		
 		//String adminId=tkq.getEmp().getId();		
-		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
+//		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
 
 		tkqService.delete(id);
-		kqService.delete(kq);
+//		kqService.delete(kq);
 		
 		/*Admin rda=adminService.get(adminId);
 		rda.setIsdaiban("N");
@@ -405,8 +403,40 @@ public class TempKaoqinAction extends BaseAdminAction {
 			return this.ajaxJsonErrorMessage(a.getName() + "非本班或本班代班员工刷卡无效!");
 		}
 	}
-
-		
+	/**
+	 * 关闭
+	 */
+	public String creditundo() {
+		HashMap<String, String> hashmap = new HashMap<String, String>();
+		if (!isnull()) {
+			return this.ajaxJsonErrorMessage("生产日期或班次不能为空!");
+		}
+		String productdate = admin.getProductDate();// 生产日期
+		String shift = admin.getShift();// 班次
+		String str = this.kqService.mergeGoOffWork(this.sameTeamId, admin);
+		if ("s".equals(str)) {
+			// 操作成功
+			hashmap.put("info", str);
+			hashmap.put(STATUS, "success");
+			hashmap.put(MESSAGE, "您的操作已成功!");
+			return this.ajaxJson(hashmap);
+		} else if ("e".equals(str)) {
+			// 操作错误
+			hashmap.put("info", str);
+			hashmap.put(STATUS, "error");
+			hashmap.put(MESSAGE, "该班组已经下班,请刷新页面查看!");
+			return this.ajaxJson(hashmap);
+		} else {
+			// 操作成功,考勤已保存过,提示本次不在保存
+			String xshift = ThinkWayUtil.getDictValueByDictKey(dictService,
+					"kaoqinClasses", shift);
+			hashmap.put("info", "t");
+			hashmap.put(STATUS, "success");
+			hashmap.put(MESSAGE, "班组下班成功!班组:" + str + ",生产日期:" + productdate
+					+ ",班次:" + xshift + ",已经记录到考勤,本次不再重复记录!");
+			return this.ajaxJson(hashmap);
+		}
+	}
 	
 	/**
 	 * 导出Excel表
@@ -495,7 +525,7 @@ public class TempKaoqinAction extends BaseAdminAction {
 //		System.out.println(teamid);
 		Team team = teamService.get(teamid);
 		tkqService.updateWorkHours(workHours,productdate,classtime,team);
-		kqService.updateWorkHours(workHours,productdate,classtime,team);
+//		kqService.updateWorkHours(workHours,productdate,classtime,team);
 		return this.ajaxJsonSuccessMessage("操作成功!");
 	}
 

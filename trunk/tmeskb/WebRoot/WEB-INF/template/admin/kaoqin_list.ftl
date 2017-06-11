@@ -190,6 +190,13 @@
 														点击刷卡上班
 													</button>
 												</div>
+												<div class="div-btn3">
+													<button id="btn_closework" class="btn_gooffwork">
+														<img style=""
+															src="${base}/template/admin/images/gooffwork3.gif"></img>
+														关闭考勤
+													</button>
+												</div>
 												<!--<div class="div-btn4" >
 													<button id="btn_gooffwork" class="btn_gooffwork">
 														<img style=""

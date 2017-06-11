@@ -26,7 +26,6 @@ import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Pick;
-import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
 import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.WorkingBill;
@@ -263,7 +262,7 @@ public class PickAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());

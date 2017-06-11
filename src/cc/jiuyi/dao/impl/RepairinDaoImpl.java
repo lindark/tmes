@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -14,9 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.RepairinDao;
-import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Repairin;
-import cc.jiuyi.entity.WorkingBill;
 
 /**
  * Dao接口 - 返修收货
@@ -70,9 +67,9 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 			}
 			if (map.get("start") != null && map.get("end")==null) {
 				try {
-					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-					Date start=sd.parse(map.get("start"));
- 					//Date now=sd.parse(sd.format(new Date()));
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date start=sd.parse(map.get("start")+" 00:00:00");
+						//Date now=sd.parse(sd.format(new Date()));
 					//now = DateUtils.addDays(now, 1);
 					detachedCriteria.add(Restrictions.ge("createDate", start));
 				} catch (Exception e) {
@@ -81,21 +78,22 @@ public class RepairinDaoImpl extends BaseDaoImpl<Repairin, String> implements
 			}
 			if (map.get("start") == null && map.get("end")!=null ) {
 				try {
-					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-					Date end=sd.parse(map.get("end"));
-					end = DateUtils.addDays(end, 1);
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date end=sd.parse(map.get("end")+" 23:59:59");
 					//Date now=sd.parse(sd.format(new Date()));
 					//now = DateUtils.addDays(now, 1);
+//					end = DateUtils.addDays(end, 1);
 					detachedCriteria.add(Restrictions.le("createDate", end));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			if(map.get("start")!=null||map.get("end")!=null){
+			if(map.get("start")!=null && map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try{
 					Date start=sdf.parse(map.get("start")+" 00:00:00");
 					Date end=sdf.parse(map.get("end")+" 23:59:59");
+//					end = DateUtils.addDays(end, 1);
 					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();

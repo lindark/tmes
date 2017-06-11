@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Repository;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.UpDownDao;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Deptpick;
-import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.UpDown;
 
 /**
@@ -102,30 +99,6 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 				detachedCriteria.add(Restrictions.like("maktx",
 						"%" + map.get("maktx") + "%"));
 			}
-			if (map.get("start") != null && map.get("end") == null) {
-				try {
-					SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
-					Date start = sd.parse(map.get("start"));
-					Date now = sd.parse(sd.format(new Date()));
-					now = DateUtils.addDays(now, 1);
-					detachedCriteria.add(Restrictions.between("createDate",
-							start, now));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if (map.get("start") == null && map.get("end") != null) {
-				try {
-					SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
-					Date end = sd.parse(map.get("end"));
-					Date now = sd.parse(sd.format(new Date()));
-					now = DateUtils.addDays(now, 1);
-					detachedCriteria.add(Restrictions.between("createDate",
-							end, now));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
 			if (map.get("tanum") != null) {
 				detachedCriteria.add(Restrictions.like("tanum",
 						"%" + map.get("tanum") + "%"));
@@ -135,14 +108,37 @@ public class UpDownDaoImpl extends BaseDaoImpl<UpDown, String> implements
 				detachedCriteria.add(Restrictions.eq("type",
 						map.get("type")));
 			}
-			if (map.get("start") != null && map.get("end") != null) {
- 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			if (map.get("start") != null && map.get("end")==null) {
 				try {
-					Date start = sdf.parse(map.get("start")+" 00:00:00");
-					Date end = sdf.parse(map.get("end")+" 23:59:59");
-					detachedCriteria.add(Restrictions.between("createDate",
-							start, end));
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date start=sd.parse(map.get("start")+" 00:00:00");
+						//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+					detachedCriteria.add(Restrictions.ge("createDate", start));
 				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (map.get("start") == null && map.get("end")!=null ) {
+				try {
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date end=sd.parse(map.get("end")+" 23:59:59");
+					//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+//					end = DateUtils.addDays(end, 1);
+					detachedCriteria.add(Restrictions.le("createDate", end));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(map.get("start")!=null && map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				try{
+					Date start=sdf.parse(map.get("start")+" 00:00:00");
+					Date end=sdf.parse(map.get("end")+" 23:59:59");
+//					end = DateUtils.addDays(end, 1);
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}

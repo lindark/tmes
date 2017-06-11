@@ -21,7 +21,6 @@ import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.Material;
-import cc.jiuyi.entity.Model;
 import cc.jiuyi.entity.Process;
 import cc.jiuyi.entity.Products;
 import cc.jiuyi.service.DictService;
@@ -96,7 +95,7 @@ public class ProductsAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		return LIST;
 	}

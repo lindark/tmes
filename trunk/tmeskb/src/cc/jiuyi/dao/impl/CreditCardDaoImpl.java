@@ -1,29 +1,14 @@
 package cc.jiuyi.dao.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.dao.AccessFunctionDao;
-import cc.jiuyi.dao.AccessObjectDao;
-import cc.jiuyi.dao.AdminDao;
-import cc.jiuyi.dao.CreditCardDao;
-import cc.jiuyi.entity.AccessFunction;
-import cc.jiuyi.entity.AccessObject;
-import cc.jiuyi.entity.AccessResource;
-import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.CreditCard;
-import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.util.ThinkWayUtil;
-
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.Query;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+
+import cc.jiuyi.dao.CreditCardDao;
+import cc.jiuyi.entity.CreditCard;
 
 /**
  * Dao实现类 - 权限对象
@@ -38,14 +23,37 @@ public class CreditCardDaoImpl extends BaseDaoImpl<CreditCard, String> implement
 	}
 	@Override
 	public CreditCard get(String[] propertyNames, Object[] propertyValues) {
-
+		
 		if (!(propertyNames != null && propertyValues != null && propertyValues.length == propertyNames.length)) {
 			throw new RuntimeException(
 					"请提供正确的参数值！propertyNames与propertyValues必须一一对应!");
 		} //     rtrim(replace(creditcard0_.deviceCode,chr(10),''))
-		String hql = "from CreditCard as model where model."+ propertyNames[0] + " > ?  and rtrim(replace(model." + propertyNames[1] +",chr(10),'')) = ? order by model.createDate asc";
-		return (CreditCard)getSession().createQuery(hql).setParameter(0, propertyValues[0]).setParameter(1, propertyValues[1].toString().trim()).setMaxResults(1).uniqueResult();
-	}
+		try {
+			String hql = "from CreditCard as model where rtrim(replace(model." + propertyNames[1] +",chr(10),''))= ?  order by model.createDate desc";
+			CreditCard cc = (CreditCard)getSession().createQuery(hql).setParameter(0, propertyValues[1].toString().trim()).setMaxResults(1).uniqueResult();
+//			System.out.println("------1111111111111------");
+			if(cc!=null){
+//				System.out.println("------222222222------"+cc.getDeviceCode()+"--------"+cc.getCardNumber());
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				Long d1 = Long.parseLong(sdf.format((Date)propertyValues[0]));
+				Long d2 = Long.parseLong(sdf.format(cc.getCreateDate()));
+//				System.out.println("d1-------"+d1+"----------------d2"+d2);
+				if(d2>=d1){
+//					System.out.println("------------dddddddddddddd22222222>ddd11111------------");
+					return cc;
+				}else{
+//					System.out.println("------------dddddddddddddd11111111>ddd2222222------------");
+					return new CreditCard();
+				}
+			}else{
+				return new CreditCard();
+			}
+			
+//			return cc;
+		} catch (Exception e) {
+			e.printStackTrace();return new CreditCard();
+		}
+	}	
 	/**
 	 * 根据开始时间和当前时间查询出刷卡表该时间段刷卡的人
 	 */

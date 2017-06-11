@@ -101,7 +101,7 @@ public class Resources extends BaseEntity {
 		this.orderList = orderList;
 	}
 	
-	@ManyToMany(mappedBy = "resourcesSet", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "resourcesSet", fetch = FetchType.LAZY)
 	public Set<Role> getRoleSet() {
 		return roleSet;
 	}

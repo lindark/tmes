@@ -6,17 +6,17 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.entity.Dict;
-import cc.jiuyi.service.DictService;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
+
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
+import cc.jiuyi.entity.Dict;
+import cc.jiuyi.service.DictService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
@@ -97,7 +97,7 @@ public class DictAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		pager = dictService.findByPager(pager);
 		
@@ -121,7 +121,7 @@ public class DictAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件,复杂查询
 			JSONObject filt = JSONObject.fromObject(filters);

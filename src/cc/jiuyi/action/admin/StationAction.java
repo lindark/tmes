@@ -3,6 +3,7 @@ package cc.jiuyi.action.admin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.service.DictService;
@@ -69,26 +71,20 @@ public class StationAction extends BaseAdminAction
 	public String ajlist()
 	{
 		HashMap<String, String> map = new HashMap<String, String>();
-		if (pager == null)
-		{
+		if(pager == null) {
 			pager = new Pager();
-		}
-		if(pager.getOrderBy()!=null&&!"".equals(pager.getOrderBy()))
-		{
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
-		//自带查询
-		/*if (pager.is_search() == true && filters != null)
-		{
+		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);
 			Pager pager1 = new Pager();
 			Map m = new HashMap();
 			m.put("rules", jqGridSearchDetailTo.class);
-			pager1 = (Pager) JSONObject.toBean(filt, Pager.class, m);
+			pager1 = (Pager)JSONObject.toBean(filt,Pager.class,m);
 			pager.setRules(pager1.getRules());
 			pager.setGroupOp(pager1.getGroupOp());
-		}*/
+		}
 		//普通查询
 		if (pager.is_search() == true && Param != null)
 		{

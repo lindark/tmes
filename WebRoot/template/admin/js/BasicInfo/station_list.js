@@ -227,7 +227,7 @@ jQuery(function($) {
 	);
 	
 	//搜索按钮
-	$("#searchButton").click(function(){
-		$("#searchform").submit();
-	});
+//	$("#searchButton").click(function(){
+//		$("#searchform").submit();
+//	});
 });

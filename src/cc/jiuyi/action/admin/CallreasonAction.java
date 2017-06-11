@@ -17,9 +17,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Callreason;
-import cc.jiuyi.entity.Factory;
 import cc.jiuyi.service.CallreasonService;
-import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -98,7 +96,7 @@ public class CallreasonAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);

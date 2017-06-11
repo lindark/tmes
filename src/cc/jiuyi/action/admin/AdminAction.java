@@ -1,7 +1,7 @@
 package cc.jiuyi.action.admin;
 
-import java.math.BigDecimal;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.Collator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,10 +37,8 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.Department;
 import cc.jiuyi.entity.Factory;
-import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Pollingtest;
 import cc.jiuyi.entity.Post;
@@ -286,8 +284,13 @@ public class AdminAction extends BaseAdminAction {
 			{
 				workingbillList = workingbillservice.getListWorkingBillByDate(admin);
 				Collections.sort(workingbillList, new SortChineseName());  
-				
-				info = "";
+				for(WorkingBill wb : workingbillList){
+					Orders order = ordersservice.get("aufnr",wb.getAufnr());
+					if(order!=null){
+						wb.setModule(order.getMujuntext());
+					} 
+				}
+				/*info = "";
 				HashMap<String,List<String>> mapcheck = new HashMap<String,List<String>>();
 				List<String> list1 = new ArrayList<String>();
 				List<String> list2 = new ArrayList<String>();
@@ -323,7 +326,7 @@ public class AdminAction extends BaseAdminAction {
 					if(order!=null){
 						wb.setModule(order.getMujuntext());
 					} 
-				}
+				}*/
 				//System.out.println("-------------");
 			}
 		}catch(Exception e){

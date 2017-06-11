@@ -18,10 +18,10 @@ import org.springframework.beans.BeanUtils;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.bean.jqGridSearchDetailTo;
-import cc.jiuyi.entity.Dict;
 import cc.jiuyi.entity.CardManagement;
-import cc.jiuyi.service.DictService;
+import cc.jiuyi.entity.Dict;
 import cc.jiuyi.service.CardManagementService;
+import cc.jiuyi.service.DictService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -60,8 +60,6 @@ public class CardManagementAction extends BaseAdminAction {
 	public String list(){
 		if(pager == null) {
 			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
 		}
 //		List<CardManagement> cardManagementList = pager.getList();
 //		for (CardManagement cardManagement1 : cardManagementList) {
@@ -82,7 +80,7 @@ public class CardManagementAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);

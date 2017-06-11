@@ -10,17 +10,16 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.sap.mw.jco.JCO.ParameterList;
-import com.sap.mw.jco.JCO.Table;
-
 import cc.jiuyi.action.admin.CartonAction;
-import cc.jiuyi.action.admin.ReturnProductAction;
 import cc.jiuyi.entity.Carton;
 import cc.jiuyi.entity.CartonSon;
 import cc.jiuyi.sap.rfc.CartonRfc;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
+
+import com.sap.mw.jco.JCO.ParameterList;
+import com.sap.mw.jco.JCO.Table;
 @Component
 public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 
@@ -155,10 +154,10 @@ public class CartonRfcImpl extends BaserfcServiceImpl implements CartonRfc{
 		for(int i=0;i<t_data1.getNumRows();i++){
 			t_data1.setRow(i);
 			String xuh = t_data1.getString("XUH1");//序号
-			log.info("-------------------X--------------xuh---"+xuh);
+			log.info("-------------------"+testrun+"--------------xuh---"+xuh);
 			for(CartonSon cs:list_cs){
 				if(cs.getId().equals(xuh)){
-					log.info("-------------------X--------------cs.getId()---"+"-----------"+cs.getId()+t_data1.getString("EBELN")+"-----------"+t_data1.getString("EBELP"));
+					log.info("-------------------"+testrun+"--------------cs.getId()---"+"-----------"+cs.getId()+t_data1.getString("EBELN")+"-----------"+t_data1.getString("EBELP"));
 					cs.setEBELN(t_data1.getString("EBELN"));
 					cs.setEBELP(t_data1.getString("EBELP"));
 					break;

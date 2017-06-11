@@ -6,19 +6,18 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.SystemConfig;
-import cc.jiuyi.bean.Pager.OrderType;
-import cc.jiuyi.entity.Brand;
-import cc.jiuyi.service.BrandService;
-import cc.jiuyi.util.CommonUtil;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
+
+import cc.jiuyi.bean.Pager;
+import cc.jiuyi.bean.SystemConfig;
+import cc.jiuyi.entity.Brand;
+import cc.jiuyi.service.BrandService;
+import cc.jiuyi.util.CommonUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
@@ -58,8 +57,6 @@ public class BrandAction extends BaseAdminAction {
 	public String list() {
 		if(pager == null) {
 			pager = new Pager();
-			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
 		}
 		pager = brandService.findByPager(pager);
 		return LIST;

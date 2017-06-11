@@ -1,9 +1,7 @@
 package cc.jiuyi.action.cron;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -11,9 +9,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.stereotype.Component;
 
-import cc.jiuyi.entity.WorkShop;
 import cc.jiuyi.sap.rfc.WorkingBillRfc;
-import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SpringUtil;
 /**
@@ -33,11 +29,11 @@ public class WorkingBillJobAllNew extends MyDetailQuartzJobBean {
 		log.info("同步生产订单开始...");
 		try {
 			Date newdate = new Date();
-			newdate = DateUtils.addMinutes(newdate, -30);
+			newdate = DateUtils.addMinutes(newdate, -35);
 			String startdate = String.format("%tF%n", newdate);
 			String starttime = String.format("%tT%n", newdate);
 			//newdate = DateUtils.addDays(newdate, 1);
-			newdate = DateUtils.addMinutes(newdate, +35);
+			newdate = DateUtils.addMinutes(newdate, +40);
 			String enddate = String.format("%tF%n", newdate);
 			String endtime = String.format("%tT%n", newdate);
 			workingbillrfc = (WorkingBillRfc) SpringUtil.getBean("workingBillRfcImpl");

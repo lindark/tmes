@@ -11,26 +11,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.springframework.beans.BeanUtils;
 
-
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
-import cc.jiuyi.entity.CardManagement;
-import cc.jiuyi.entity.EndProduct;
 import cc.jiuyi.entity.FactoryUnit;
 import cc.jiuyi.entity.Locationonside;
-import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.UnitConversion;
 import cc.jiuyi.sap.rfc.LocationonsideRfc;
 import cc.jiuyi.service.AdminService;
@@ -39,7 +33,6 @@ import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.LocationonsideService;
 import cc.jiuyi.service.UnitConversionService;
 import cc.jiuyi.util.CustomerException;
-import cc.jiuyi.util.ThinkWayUtil;
 import cc.jiuyi.webservice.PieceworkWebService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -130,7 +123,7 @@ public class LocationonsideAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		if (pager.is_search() == true && filters != null) {// 需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);

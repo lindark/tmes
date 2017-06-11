@@ -119,16 +119,17 @@ body {
 			if(ids.length <1){
 				alert("请选择一条记录");
 				return false;
+			}else{
+				var array = [];
+				for(var i=0;i<ids.length;i++){
+					var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
+					var rowName=rowData.empname;
+					var rowCode=rowData.workCode;
+					var work=""+ids[i]+""+","+rowName+","+rowCode;
+					array[i]=work;	
+				}
+				return array;
 			}
-			if(ids.length >1){
-				alert("请选择一条记录");
-				return false;
-			}
-			var rowData = $("#grid-table").jqGrid('getRowData',ids);
-			var rowName=rowData.empname;
-			var rowCode=rowData.workCode;
-			var work=""+ids+""+","+rowName+","+rowCode;
-			return work;
 		}
 	
 	$(function(){

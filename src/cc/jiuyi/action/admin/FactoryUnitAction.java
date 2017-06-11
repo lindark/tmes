@@ -16,11 +16,8 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.quartz.Scheduler;
-import org.quartz.impl.StdScheduler;
 import org.springframework.beans.BeanUtils;
 
-import cc.jiuyi.action.cron.QuartzManager;
 import cc.jiuyi.action.cron.WorkingBillJob;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -33,7 +30,6 @@ import cc.jiuyi.service.DictService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.service.WorkShopService;
 import cc.jiuyi.util.QuartzManagerUtil;
-import cc.jiuyi.util.SpringUtil;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -248,7 +244,9 @@ public class FactoryUnitAction extends BaseAdminAction {
 			//factoryUnitSyn.setState("1");
 			factoryUnit.setReadme("readme");
 			factoryUnit.setIsspringbean("0");
-			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate","workShop",""});
+			workShop=workShopService.load(workShopId);
+			factoryUnit.setWorkShop(workShop);
+			BeanUtils.copyProperties(factoryUnit, persistent, new String[] { "id","createDate"});
 			factoryUnitService.update(persistent);
 			reshSyn(factoryUnit);//重启quartz 任务
 			redirectionUrl = "factory_unit!list.action";

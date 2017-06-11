@@ -9,12 +9,21 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.quartz.SchedulerException;
+import org.springframework.beans.BeanUtils;
+
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.Orders;
 import cc.jiuyi.entity.Team;
@@ -35,15 +44,6 @@ import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
-
-import org.apache.log4j.Logger;
-import org.apache.struts2.convention.annotation.ParentPackage;
-import org.quartz.SchedulerException;
-import org.springframework.beans.BeanUtils;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;

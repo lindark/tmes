@@ -83,7 +83,7 @@ public class ProcessAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		return LIST;
 	}
@@ -101,7 +101,7 @@ public class ProcessAction extends BaseAdminAction {
 			if(pager == null) {
 				pager = new Pager();
 				pager.setOrderType(OrderType.asc);
-				pager.setOrderBy("orderList");
+				pager.setOrderBy("createDate");
 			}
 			if(pager.is_search()==true && filters != null){
 				JSONObject filt = JSONObject.fromObject(filters);
@@ -280,7 +280,7 @@ public class ProcessAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		return "browser";
 	}

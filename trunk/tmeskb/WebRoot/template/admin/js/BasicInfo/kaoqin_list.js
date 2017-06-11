@@ -265,6 +265,10 @@ function btn_event()
 	$("#btn_gooffwork").click(function(){
 		gooffwork_event();
 	});
+	//关闭
+	$("#btn_closework").click(function(){
+		closework_event();
+	});
 	$("#submitButton").click(function(){
 		selectWorkHours();
 	});
@@ -511,9 +515,56 @@ function clickandcredit()
 	{
 		//考勤未开启,不可以点击及刷卡
 		layer.alert("考勤未开启!",{icon:5,skin:'error'});
+	}else if(iscancreditcard=="C"){
+		//考勤未开启,不可以点击及刷卡
+		layer.alert("考勤已关闭!",{icon:5,skin:'error'});
 	}
 }
 
+//关闭
+function closework_event()
+{
+	var $img_startkaoqi=$("#img_startkaoqin");
+	if(iswork=="N")
+	{
+		layer.alert("班组未上班,无需关闭!",{icon:5,skin:'error'});
+	}
+	else if(iswork=="Y")
+	{
+		layer.confirm("你确定关闭考勤吗？", {icon: 3,btn:["确定","取消"]},function(){
+			var url="temp_kaoqin!creditundo.action?sameTeamId="+$("#sameteamid").val()+"&loginid="+$("#loginid").val();
+			credit.creditCard(url,function(data){
+				if(data.status=="success")
+				{
+					if(data.info=="s")
+					{
+						$.message(data.status,data.message);
+						iswork="N";
+						iscancreditcard="Y";
+						$("#span_startkaoqin").text("考勤未开启");
+						$img_startkaoqi.attr("src","/template/admin/images/btn_close.gif");
+						$("#grid-table").trigger("reloadGrid");
+					}
+					else
+					{
+						layer.alert(data.message,{icon:7,closeBtn:0,title:"提示"},function(){
+							layer.closeAll();
+						});
+					}
+				}
+				else
+				{
+					layer.alert(data.message, {
+				        icon:5,
+				        skin:'error'
+				    },function(){layer.closeAll();});
+				}
+			});
+		},function(){
+			
+		});
+	}
+}
 //下班
 function gooffwork_event()
 {
@@ -596,7 +647,6 @@ function gooffwork_event()
 		});
 	}
 }
-
 //样式1，绿色
 /*function sapn_stype1(obj)
 {
@@ -685,6 +735,10 @@ function btn_style()
 	
 	//刷卡下班
 	var $gooffwork=$("#btn_gooffwork");
+	
+	//刷卡下班
+	var $closework=$("#closefwork");
+	
 	//鼠标移到按钮上时事件
 	$gooffwork.mouseover(function(){
 		$(this).attr("style","background-color:#FF8C69;");
@@ -701,6 +755,25 @@ function btn_style()
 	$gooffwork.mouseup(function(){
 		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
 	});
+	
+	//鼠标移到按钮上时事件
+	$closework.mouseover(function(){
+		$(this).attr("style","background-color:#FF8C69;");
+	});
+	//鼠标移开按钮时事件
+	$closework.mouseout(function(){
+		$(this).attr("style","background-color:#FFD39B;");
+	});
+	//鼠标按下按钮事件
+	$closework.mousedown(function(){
+		$(this).attr("style","background-color:#FF8C69;height:52px;box-shadow:1px 3px 3px #CD8162;margin-top:10px;");
+	});
+	//鼠标按下之后抬起事件
+	$closework.mouseup(function(){
+		$(this).attr("style","background-color:#FF8C69;height:50px;box-shadow:3px 5px 3px #CD8162;margin-top:8px;");
+	});
+	
+	
 }
 
 //开启考勤按钮样式

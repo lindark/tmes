@@ -1,7 +1,6 @@
 package cc.jiuyi.action.admin;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
 import org.apache.struts2.convention.annotation.ParentPackage;
-import org.springframework.beans.BeanUtils;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
@@ -181,7 +179,7 @@ public class ItermediateTestAction extends BaseAdminAction {
 		if (pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		admin = adminService.getLoginAdmin();
 		admin = adminService.get(admin.getId());

@@ -6,21 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.PickDetailDao;
-import cc.jiuyi.entity.Material;
-import cc.jiuyi.entity.Pick;
 import cc.jiuyi.entity.PickDetail;
-import cc.jiuyi.util.ThinkWayUtil;
 
 /**
  * Dao实现类 - PickDetail
@@ -126,8 +119,8 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 				}
 				if (map.get("start") != null && map.get("end")==null) {
 					try {
-						SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-						Date start=sd.parse(map.get("start"));
+						SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+						Date start=sd.parse(map.get("start")+" 00:00:00");
  						//Date now=sd.parse(sd.format(new Date()));
 						//now = DateUtils.addDays(now, 1);
 						detachedCriteria.add(Restrictions.ge("createDate", start));
@@ -137,11 +130,11 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 				}
 				if (map.get("start") == null && map.get("end")!=null ) {
 					try {
-						SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-						Date end=sd.parse(map.get("end"));
+						SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+						Date end=sd.parse(map.get("end")+" 23:59:59");
 						//Date now=sd.parse(sd.format(new Date()));
 						//now = DateUtils.addDays(now, 1);
-						end = DateUtils.addDays(end, 1);
+//						end = DateUtils.addDays(end, 1);
 						detachedCriteria.add(Restrictions.le("createDate", end));
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -152,7 +145,7 @@ public class PickDetailDaoImpl extends BaseDaoImpl<PickDetail, String> implement
 					try{
 						Date start=sdf.parse(map.get("start")+" 00:00:00");
 						Date end=sdf.parse(map.get("end")+" 23:59:59");
-						end = DateUtils.addDays(end, 1);
+//						end = DateUtils.addDays(end, 1);
 						detachedCriteria.add(Restrictions.between("createDate", start, end));
 					}catch(Exception e){
 						e.printStackTrace();

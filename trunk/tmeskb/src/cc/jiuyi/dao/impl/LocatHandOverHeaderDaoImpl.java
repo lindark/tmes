@@ -17,8 +17,6 @@ import cc.jiuyi.dao.LocatHandOverHeaderDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.LocatHandOver;
 import cc.jiuyi.entity.LocatHandOverHeader;
-import cc.jiuyi.entity.OddHandOver;
-import cc.jiuyi.entity.ReturnProduct;
 /**
  * Dao接口 - 线边仓交接 主表
  */
@@ -59,14 +57,37 @@ public class LocatHandOverHeaderDaoImpl extends BaseDaoImpl<LocatHandOverHeader,
 						"lgpla",
 						"%" + map.get("lgpla") + "%"));
 			}	
-			if (map.get("start") != null && map.get("end") != null) {
+			if (map.get("start") != null && map.get("end")==null) {
 				try {
-					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-					Date start=sd.parse(map.get("start"));
-					Date end=sd.parse(map.get("end"));
-					end = DateUtils.addDays(end,1);
-					detachedCriteria.add(Restrictions.between("createDate", start, end));
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date start=sd.parse(map.get("start")+" 00:00:00");
+						//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+					detachedCriteria.add(Restrictions.ge("createDate", start));
 				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (map.get("start") == null && map.get("end")!=null ) {
+				try {
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date end=sd.parse(map.get("end")+" 23:59:59");
+					//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+//					end = DateUtils.addDays(end, 1);
+					detachedCriteria.add(Restrictions.le("createDate", end));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(map.get("start")!=null && map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				try{
+					Date start=sdf.parse(map.get("start")+" 00:00:00");
+					Date end=sdf.parse(map.get("end")+" 23:59:59");
+//					end = DateUtils.addDays(end, 1);
+					detachedCriteria.add(Restrictions.between("createDate", start, end));
+				}catch(Exception e){
 					e.printStackTrace();
 				}
 			}			

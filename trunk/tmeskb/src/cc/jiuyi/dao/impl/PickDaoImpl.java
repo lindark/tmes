@@ -5,16 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.ParseException;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.PickDao;
-import cc.jiuyi.entity.EnteringwareHouse;
 import cc.jiuyi.entity.Pick;
 
 /**
@@ -91,11 +87,35 @@ public class PickDaoImpl extends BaseDaoImpl<Pick, String> implements
 						"workingbill.maktx",
 						"%" + map.get("maktx") + "%"));
 			}	
-			if(map.get("start")!=null||map.get("end")!=null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			if (map.get("start") != null && map.get("end")==null) {
+				try {
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date start=sd.parse(map.get("start")+" 00:00:00");
+						//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+					detachedCriteria.add(Restrictions.ge("createDate", start));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (map.get("start") == null && map.get("end")!=null ) {
+				try {
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date end=sd.parse(map.get("end")+" 23:59:59");
+					//Date now=sd.parse(sd.format(new Date()));
+					//now = DateUtils.addDays(now, 1);
+//					end = DateUtils.addDays(end, 1);
+					detachedCriteria.add(Restrictions.le("createDate", end));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(map.get("start")!=null && map.get("end")!=null){
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try{
-					Date start=sdf.parse(map.get("start"));
-					Date end=sdf.parse(map.get("end"));
+					Date start=sdf.parse(map.get("start")+" 00:00:00");
+					Date end=sdf.parse(map.get("end")+" 23:59:59");
+//					end = DateUtils.addDays(end, 1);
 					detachedCriteria.add(Restrictions.between("createDate", start, end));
 				}catch(Exception e){
 					e.printStackTrace();

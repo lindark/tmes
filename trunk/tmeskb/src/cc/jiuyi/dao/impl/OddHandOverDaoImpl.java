@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.OddHandOverDao;
-import cc.jiuyi.entity.CartonSon;
 import cc.jiuyi.entity.OddHandOver;
 /**
  * Dao实现类 - 零头交接
@@ -50,8 +48,8 @@ public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> impleme
 			}	
 			if (map.get("start") != null && map.get("end")==null) {
 				try {
-					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-					Date start=sd.parse(map.get("start"));
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
+					Date start=sd.parse(map.get("start")+" 00:00:00");
  					//Date now=sd.parse(sd.format(new Date()));
 					//now = DateUtils.addDays(now, 1);
 					detachedCriteria.add(Restrictions.ge("createDate", start));
@@ -61,11 +59,11 @@ public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> impleme
 			}
 			if (map.get("start") == null && map.get("end")!=null ) {
 				try {
-					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-					Date end=sd.parse(map.get("end"));
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
+					Date end=sd.parse(map.get("end")+" 23:59:59");
 					//Date now=sd.parse(sd.format(new Date()));
 					//now = DateUtils.addDays(now, 1);
-					end =  DateUtils.addDays(end, 1);
+//					end =  DateUtils.addDays(end, 1);
 					detachedCriteria.add(Restrictions.le("createDate", end));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,7 +74,7 @@ public class OddHandOverDaoImpl extends BaseDaoImpl<OddHandOver, String> impleme
 						"state",
 						"%" + map.get("state") + "%"));
 			}	
-			if(map.get("start")!=null||map.get("end")!=null){
+			if(map.get("start")!=null && map.get("end")!=null){
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try{
 					Date start=sdf.parse(map.get("start")+" 00:00:00");

@@ -4,17 +4,17 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import cc.jiuyi.entity.ArticleCategory;
-import cc.jiuyi.entity.ProductCategory;
-import cc.jiuyi.entity.Navigation;
-import cc.jiuyi.service.ArticleCategoryService;
-import cc.jiuyi.service.ProductCategoryService;
-import cc.jiuyi.service.NavigationService;
-
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.BeanUtils;
+
+import cc.jiuyi.entity.ArticleCategory;
+import cc.jiuyi.entity.Navigation;
+import cc.jiuyi.entity.ProductCategory;
+import cc.jiuyi.service.ArticleCategoryService;
+import cc.jiuyi.service.NavigationService;
+import cc.jiuyi.service.ProductCategoryService;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;

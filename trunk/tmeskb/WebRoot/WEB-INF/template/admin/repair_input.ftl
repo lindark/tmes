@@ -37,6 +37,84 @@ body {
 	cursor: pointer;
 	margin-left: 1px;
 }
+.jianxin_input{
+	width:350px;
+    min-height: 30px;
+    border: 1px solid #c7c0c0;
+    float: left;
+    text-align: -webkit-left;
+    display: block;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+a.jianxin_a{
+	content: "\f00d";
+    color: #888;
+    font-family: '微软雅黑',FontAwesome;
+    position: absolute;
+    top: 4px;
+    right: 3px;
+    display: block;
+    width: 12px;
+    height: 12px;
+    font-size: 1px;
+    font-weight: bold;
+    text-decoration: none;
+}
+li.jianxin_li{
+	position: relative;
+    margin: 3px 0 3px 5px;
+    padding: 3px 5px 3px 5px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background-color: #e4e4e4;
+    background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(20%,#f4f4f4),color-stop(50%,#f0f0f0),color-stop(52%,#e8e8e8),color-stop(100%,#eee));
+    background-image: -webkit-linear-gradient(#f4f4f4 20%,#f0f0f0 50%,#e8e8e8 52%,#eee 100%);
+    background-image: -moz-linear-gradient(#f4f4f4 20%,#f0f0f0 50%,#e8e8e8 52%,#eee 100%);
+    background-image: -o-linear-gradient(#f4f4f4 20%,#f0f0f0 50%,#e8e8e8 52%,#eee 100%);
+    background-image: linear-gradient(#f4f4f4 20%,#f0f0f0 50%,#e8e8e8 52%,#eee 100%);
+    background-clip: padding-box;
+    box-shadow: 0 0 2px #fff inset,0 1px 0 rgba(0,0,0,.05);
+    color: #333;
+    line-height: 13px;
+    cursor: default;
+    float: left;
+    list-style: none;
+}
+ul.jianxin_ul{
+	position: relative;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto!important;
+    height: 1%;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(1%,#eee),color-stop(15%,#fff));
+    background-image: -webkit-linear-gradient(#eee 1%,#fff 15%);
+    background-image: -moz-linear-gradient(#eee 1%,#fff 15%);
+    background-image: -o-linear-gradient(#eee 1%,#fff 15%);
+    background-image: linear-gradient(#eee 1%,#fff 15%);
+    cursor: text;
+    list-style-type: none;
+    box-shadow: none!important;
+}
+a{
+	color: #4a4a4a;;
+	font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    margin-left:5px;
+}
+a:hover {
+    color: #888;
+    text-decoration: none;
+    
+}
 </style>
 </head>
 <body class="no-skin input">
@@ -90,7 +168,7 @@ body {
 								<input type="hidden" name="repair.CXORJC" id="input_cxorjc"
 									value="${(repair.CXORJC)! }" />
 								<div id="inputtabs">
-									<ul>
+									<ul >
 										<li><a href="#tabs-1">成品返修</a>
 										</li>
 
@@ -134,30 +212,90 @@ body {
 												</div>
 
 												<div class="profile-info-name">返修部位</div>
-												<div class="profile-info-value">
+												<#-- <div class="profile-info-value">
 													<#if show??> ${(repair.repairPart)!} <#else> <input
 														type="text" id="input_part" name="repair.repairPart"
 														value="${(repair.repairPart)!}"
 														class=" input input-sm formText {required: true}" /> <label
 														class="requireField">*</label> </#if>
+												</div> -->
+												<div class="profile-info-row">
+												<div class="profile-info-value">
+													<#if show??> 
+														${(repair.repairPart)! } 
+													<#else> 
+														<select name="repair.repairPart" id="rpart_select" multiple class="chosen-select">
+															<#if repairDetailList??>
+															<option value=""<#if (repair.repairPart=="")!>selected</#if>></option>
+																<#if (repair.repairPart??)!>
+																	<#assign arry = repair.repairPart?split(",")>
+																	<#assign flag = false>
+																	<#list repairDetailList as list>
+																		<#list arry as ar>
+																			<#if ar?trim==list.dictvalue>
+																				<#assign flag = true>
+																				<#break>
+																			</#if>
+																		</#list>
+																		<option value="${(list.dictvalue)! }"<#if flag==true>selected</#if>>
+																			${(list.dictvalue)! }
+																		</option>	
+																	</#list>
+																<#else>
+																	<#list repairDetailList as list>
+																		<option value="${(list.dictvalue)! }">
+																			${(list.dictvalue)! }
+																		</option>
+																	</#list>
+																</#if>
+															</#if>
+														</select>
+													</#if>
 												</div>
+											</div>
 											</div>
 											<div class="profile-info-row">
 												<div class="profile-info-name">责任人</div>
-												<div class="profile-info-value">	
+												<div class="profile-info-value" style="width: 45%; word-break: break-all; word-wrap: break-word;">	
 												<#if show??> 
-												${(repair.duty)! }( ${(repair.responsibleNum)! } )
+														<#assign  rname=(repair.responsibleNum?split(","))! />
+														<#assign  rdu=(repair.duty?split(","))! />
+														<#list rdu as rdulist>
+															<#assign  rn=rdulist_index />
+															${rdulist?trim}(${rname[rn]?trim}),
+														</#list>
+														
 												<#else>	
 													<td>
-													<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息 style="cursor:pointer" src="${base}/template/shop/images/add_bug.gif" />
-													<span id="responsibleName">${(repair.duty)! }</span>
-														<input type="hidden" name="repair.duty" id="responsibleNa" value="${(repair.duty)!}" class="formText {required: true}" />
-														<input type="hidden" name="repair.responsibleId" id="responsibleId" value="${(repair.responsibleId)!}" class="formText {required: true}" /> 
-														<input type="hidden" name="repair.responsibleNum" id="responsibleNum" value="${(repair.responsibleNum)!}" class="formText {required: true}" /> 			 			 
+													<img id="pId" class="img_addbug" title="添加责任人信息" alt="添加责任人信息" style="cursor:pointer;margin-left:20px" src="${base}/template/shop/images/add_bug.gif" />&nbsp;&nbsp;&nbsp;*
+														<!-- <input type="hidden" name="repair.duty" id="responsibleNa" value="${(repair.duty)!}" class="formText {required: true}" /> -->
+														<div class="jianxin_input">
+															<ul class="jianxin_ul" id="jianxin_ul">
+															<#assign  rid=(repair.responsibleId?split(","))! />
+															<#assign  rname=(repair.responsibleNum?split(","))! />
+															<#assign  rdu=(repair.duty?split(","))! />
+															<#list rid as ridlist>
+																<li class="jianxin_li" >
+																	<#assign  rn=ridlist_index />
+																	<span>${rdu[rn]?trim}${rname[rn]?trim}</span>
+																	<a href="javascript:void(0);" id="${rname[rn]?trim}" onclick="del_li('#${rname[rn]?trim}')">X</a>
+																	<input type="hidden" name="repair.responsibleId" value="${ridlist?trim}"/>	
+																	<input type="hidden" name="repair.duty" value="${rdu[rn]?trim}"/>
+																	<input type="hidden" name="repair.responsibleNum" value="${rname[rn]?trim}"/>													
+																</li>
+															
+															</#list>
+															<!--	<li class="jianxin_li">
+																	<span>111111</span>
+																	<a href="javascript:void(0);" onclick="del_li">X</a>
+																	<input type="hidden" name="repair.responsibleId"/>	
+																	<input type="hidden" name="repair.responsibleNum"/>													
+																</li> -->
+															</ul>	
+														</div>
 													</td>
 												</#if>
 												</div>
-
 												<div class="profile-info-name">批次</div>
 												<div class="profile-info-value">
 													<#if show??> ${(repair.charg)!} <#else> <input type="text"
@@ -172,32 +310,36 @@ body {
 											<div class="profile-info-row">
 												<div class="profile-info-name">责任工序</div>
 												<div class="profile-info-value">
-													<#if show??> ${(repair.responseName)! } 
+													<#if show??> 
+														${(repair.responseName)! } 
 													<#else> 
-													<!--  
-													<select
-														name="repair.processCode" id="r_select"
-														class="chosen-select"> <#if processRouteList??>
-														<#list processRouteList as list>
-														<option id="opt_${(list.processCode)!}"
-															value="${(list.processCode)!}"<#if
-															(repair.processCode==list.processCode)!>
-															selected</#if>>${(list.processName)!}</option> </#list> </#if>
-													</select> -->
-													<select name="repair.processCode" id="r_select" multiple class="chosen-select">
-													<#if processList??>
-													<option value=""
-													<#if (repair.processCode=="")!>selected</#if>>
-													
-													</option>
-													<#list processList as list>
-													<option value="${(list.dictkey)! }"
-													<#if (repair.processCode==list.dictkey)!>selected</#if>>
-													${(list.dictvalue)! }
-													</option>
-													</#list>
-													</#if>
-													</select>
+														<select name="repair.processCode" id="r_select" multiple class="chosen-select">
+															<#if processList??>
+																<option value="" <#if (repair.processCode=="")!>selected</#if>></option>
+																<#if (repair.processCode??)!>
+																	<#assign arry = repair.processCode?split(",")>
+																	<#assign flag = false>
+																	<#list processList as list>
+																		<#list arry as ar>
+																			<#if ar?trim==list.dictkey>
+																				<#assign flag = true>
+																				<#break>
+																			</#if>
+																		</#list>
+																		<option value="${(list.dictkey)! }"<#if flag==true>selected</#if>>
+																			${(list.dictvalue)! }
+																		</option>
+																		<#assign flag = false>
+																	</#list>
+																<#else>
+																	<#list processList as list>
+																		<option value="${(list.dictkey)! }"<#if (repair.processCode==list.dictkey)!>selected</#if>>
+																			${(list.dictvalue)! }
+																		</option>
+																	</#list>
+																</#if>
+															</#if>
+														</select>
 													</#if>
 												</div>
 												
@@ -444,14 +586,21 @@ function showUnit(num1){
 	var content="process_handover!browser.action";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
-		var work=iframeWin.getGridId();
-		var id=work.split(",");
-		num1.next().text(id[1]);
-		num1.next().next().val(id[1]);
-		num1.next().next().next().val(id[0]);
-		num1.next().next().next().next().val(id[2]);
+		var array=iframeWin.getGridId();
+		var behtml = "";
+		//alert(array);
+		for(var i=0;i<array.length;i++){
+			var work = array[i];
+			var id=work.split(",");
+			//alert(id);
+			behtml = behtml+"<li class=\"jianxin_li\"><span>"+id[1]+id[2]+"</span><a href=\"javascript:void(0);\" id=\"a_"+id[2]+"\" onclick=\"del_li('#a_"+id[2]+"')\">X</a><input type=\"hidden\" name=\"repair.responsibleId\" value=\""+id[0]+"\"><input type=\"hidden\" name=\"repair.duty\" value=\""+id[1]+"\"><input type=\"hidden\" name=\"repair.responsibleNum\"  value=\""+id[2]+"\"></li>";
+		}
+		num1.parent().find("#jianxin_ul").append(behtml);
 		layer.close(index); 
 	});
+}
+function del_li(a_li){
+	$(a_li).parents("li").remove();
 }
 /*
 $(function(){
@@ -487,5 +636,16 @@ $(function(){
 	$("#btn_back").click(function(){
 		window.history.back();
 	});
+	
+	
+	/* $("#r_select").on("change",function(){
+		var rpt = '<option value="1">weq</option>';
+		
+		$("#rpart_select option").remove();
+		$("#rpart_select").append(rpt);		
+		$("#rpart_select").val("1");
+		$("#rpart_select").chosen();
+		$("#rpart_select").trigger("chosen:updated");
+	}); */
 });
 </script>

@@ -82,7 +82,7 @@ public class ProductCategory extends BaseEntity {
 		this.parent = parent;
 	}
 
-	@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
 	@OrderBy("orderList asc")
 	public Set<ProductCategory> getChildren() {
 		return children;

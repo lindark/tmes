@@ -40,10 +40,13 @@
 							   <div class="operateBar">
 							   <#if teamList?? && teamList?size!=0>
 							   <#list teamList as list>
-								  <div class="form-group"style="text-align:center">
-								   	<input type="radio" class="wbteam" name="wbteam" value="${(list.teamName)!}" >${(list.teamName)!}
-									<input type="hidden" value="${(list.id)!}">
-									</div>	
+								   <#if list.isDel=="N" && list.state=="1">
+									  <div class="form-group"style="text-align:center">
+									   	<input type="radio" class="wbteam" name="wbteam" value="${(list.teamName)!}" >${(list.teamName)!}
+										<input type="hidden" value="${(list.id)!}">
+										</div>	
+										
+									</#if>
 									</#list>
 								<#else>
 								<div class="form-group"style="text-align:center">未找到相关班组

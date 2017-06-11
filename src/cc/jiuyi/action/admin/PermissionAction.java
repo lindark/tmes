@@ -23,8 +23,6 @@ import cc.jiuyi.service.PermissionService;
 import cc.jiuyi.util.ThinkWayUtil;
 
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 
@@ -60,7 +58,7 @@ public class PermissionAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 //		List<Permission> permissionList = pager.getList();
 //		for (Permission permission1 : permissionList) {
@@ -81,7 +79,7 @@ public class PermissionAction extends BaseAdminAction {
 		if(pager == null) {
 			pager = new Pager();
 			pager.setOrderType(OrderType.asc);
-			pager.setOrderBy("orderList");
+			pager.setOrderBy("createDate");
 		}
 		if(pager.is_search()==true && filters != null){//需要查询条件
 			JSONObject filt = JSONObject.fromObject(filters);

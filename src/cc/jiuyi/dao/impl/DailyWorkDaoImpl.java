@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -69,8 +68,8 @@ public class DailyWorkDaoImpl extends BaseDaoImpl<DailyWork, String> implements
 			}	
 			if (map.get("start") != null && map.get("end")==null) {
 				try {
-					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-					Date start=sd.parse(map.get("start"));
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date start=sd.parse(map.get("start")+" 00:00:00");
  					//Date now=sd.parse(sd.format(new Date()));
 					//now = DateUtils.addDays(now, 1);
 					detachedCriteria.add(Restrictions.ge("createDate", start));
@@ -80,11 +79,11 @@ public class DailyWorkDaoImpl extends BaseDaoImpl<DailyWork, String> implements
 			}
 			if (map.get("start") == null && map.get("end")!=null ) {
 				try {
-					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd");
-					Date end=sd.parse(map.get("end"));
+					SimpleDateFormat sd=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					Date end=sd.parse(map.get("end")+" 23:59:59");
 					//Date now=sd.parse(sd.format(new Date()));
 					//now = DateUtils.addDays(now, 1);
-					end = DateUtils.addDays(end, 1);
+//					end = DateUtils.addDays(end, 1);
 					detachedCriteria.add(Restrictions.le("createDate", end));
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -24,15 +24,12 @@ import net.sf.json.util.CycleDetectionStrategy;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.bean.Pager.OrderType;
+import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.FactoryUnit;
-import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Material;
 import cc.jiuyi.entity.OddHandOver;
 import cc.jiuyi.entity.Orders;
@@ -41,11 +38,10 @@ import cc.jiuyi.entity.ProcessHandover;
 import cc.jiuyi.entity.ProcessHandoverAll;
 import cc.jiuyi.entity.ProcessHandoverSon;
 import cc.jiuyi.entity.ProcessHandoverTop;
-import cc.jiuyi.entity.ReworkRecord;
+import cc.jiuyi.entity.TempKaoqin;
 import cc.jiuyi.entity.UnitdistributeModel;
 import cc.jiuyi.entity.UnitdistributeProduct;
 import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.entity.WorkingInout;
 import cc.jiuyi.sap.rfc.HandOverProcessRfc;
 import cc.jiuyi.service.AdminService;
 import cc.jiuyi.service.BomService;
@@ -65,7 +61,6 @@ import cc.jiuyi.service.UnitdistributeModelService;
 import cc.jiuyi.service.UnitdistributeProductService;
 import cc.jiuyi.service.WorkingBillService;
 import cc.jiuyi.service.WorkingInoutService;
-import cc.jiuyi.util.CommonUtil;
 import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.ThinkWayUtil;
 
@@ -203,18 +198,18 @@ public class ProcessHandoverAction extends BaseAdminAction {
 //						.toString();
 //				map.put("factoryUnitName", factoryUnitName);
 //			}
-			if(admin.getTeam() ==null){
-				return ajaxJsonSuccessMessage("未找到当前登录人的班组信息!");
-			}
-			if(admin.getTeam().getFactoryUnit() == null){
-				return ajaxJsonSuccessMessage("未找到当前登录人的单元信息!");
-			}
-			String productdate = admin.getProductDate();
-			String classtime = admin.getShift();
-			String factoryUnitName = admin.getTeam().getFactoryUnit().getFactoryUnitName();
-			map.put("productdate", productdate);
-			map.put("classtime", classtime);
-			map.put("factoryUnitName", factoryUnitName);
+//			if(admin.getTeam() ==null){
+//				return ajaxJsonSuccessMessage("未找到当前登录人的班组信息!");
+//			}
+//			if(admin.getTeam().getFactoryUnit() == null){
+//				return ajaxJsonSuccessMessage("未找到当前登录人的单元信息!");
+//			}
+//			String productdate = admin.getProductDate();
+//			String classtime = admin.getShift();
+//			String factoryUnitName = admin.getTeam().getFactoryUnit().getFactoryUnitName();
+//			map.put("productdate", productdate);
+//			map.put("classtime", classtime);
+//			map.put("factoryUnitName", factoryUnitName);
 			if (pager.is_search() == true && Param != null) {// 普通搜索功能
 				if (obj.get("empname") != null) {
 					String empname = obj.getString("empname").toString();
@@ -228,11 +223,11 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		
 		
 		pager = kqService.historyjqGrid(pager, map);
-		List<Kaoqin> kqlist = pager.getList();
-		List<Kaoqin> lst = new ArrayList<Kaoqin>();
+		List<TempKaoqin> kqlist = pager.getList();
+		List<TempKaoqin> lst = new ArrayList<TempKaoqin>();
 		try {
 			for (int i = 0; i < kqlist.size(); i++) {
-				Kaoqin kaoqin = kqlist.get(i);
+				TempKaoqin kaoqin = kqlist.get(i);
 				if (kaoqin.getTeam() != null) {
 					kaoqin.setXteam(kaoqin.getTeam().getTeamName());
 				}
@@ -249,9 +244,9 @@ public class ProcessHandoverAction extends BaseAdminAction {
 					kaoqin.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()));
 				}
 				
-				if(kaoqin.getModleNum()!=null)
+				if(kaoqin.getModelNum()!=null)
 				{
-					String[] models=kaoqin.getModleNum().split(",");
+					String[] models=kaoqin.getModelNum().split(",");
 					String modelsName="";
 					for(int n=0;n<models.length;n++)
 					{
@@ -272,7 +267,7 @@ public class ProcessHandoverAction extends BaseAdminAction {
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Kaoqin.class));// 排除有关联关系的属性字段
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(TempKaoqin.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}		

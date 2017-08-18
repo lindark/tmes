@@ -8,6 +8,7 @@ $(function() {
 	var $handoverprocess = $("#handoverprocess");// 交接
 	var $dailywork = $("#dailywork");// 报工
 	var $carton = $("#carton");// 纸箱收货
+	var $sark = $("#sark");// 纸箱收货
 	var $rework = $("#rework");// 返工
 	var $sample=$("#sample");//抽检
 	var $halfinspection=$("#halfinspection");//半成品巡检
@@ -25,6 +26,8 @@ $(function() {
 	var $locatHO = $("#locatHO");//线边仓
 	var $csll = $("#csll");//超市领料
 	var $processHO = $("#processHO");//工序交接
+	var $workbin = $("#workbin");//料箱收货
+	
 	
 	$table00.find("tbody tr").click(function(){
 		var battr = $(this).eq(0).find("input.ckbox").is(":checked");
@@ -210,6 +213,28 @@ $(function() {
 			window.location.href = "carton!list.action";
 		}
 
+	});
+	/**
+	 * 衬板收货按钮点击
+	 */
+	$sark.click(function() {
+		var istrue = init.notCheck();
+		if (istrue) {
+			var id = getCKboxById();
+			window.location.href = "sark!list.action";
+		}
+
+	});
+	/**
+	 * 料箱收货按钮点击
+	 */
+	$workbin.click(function(){
+		var istrue = init.notCheck();
+		if(istrue){
+			var id = getCKboxById();
+			window.location.href="workbin!list.action";
+		}
+		
 	});
 	/**
 	 * 报工按钮点击

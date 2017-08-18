@@ -31,9 +31,9 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	 * 根据当前的日期yyyyMMdd查询数据
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Kaoqin> getByKqdate(String strdate)
+	public List<TempKaoqin> getByKqdate(String strdate)
 	{
-		String hql="from Kaoqin where kqdate=? order by createDate desc";
+		String hql="from TempKaoqin where kqdate=? order by createDate desc";
 		return this.getSession().createQuery(hql).setParameter(0, strdate).list();
 	}
 
@@ -42,7 +42,7 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	 */
 	public Pager getKaoqinPager(Pager pager, HashMap<String, String> map)
 	{
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Kaoqin.class);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(TempKaoqin.class);
 		pagerSqlByjqGrid(pager,detachedCriteria);
 		if(map.size()>0)
 		{
@@ -88,14 +88,14 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Kaoqin> getKaoqinList(String productDate, String shift) {
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift) {
 		String hql = "";
 		if(shift!=null && !"".equals(shift)){
-			hql =  "from Kaoqin where productdate=? and classtime=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
+			hql =  "from TempKaoqin where productdate=? and classtime=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
 		}else{
-			hql =  "from Kaoqin where productdate=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();
+			hql =  "from TempKaoqin where productdate=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();
 		}
 	}
 
@@ -103,18 +103,25 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	 * 根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Kaoqin> getByTPS(String sameTeamId, String productDate,String shift)
+	public List<TempKaoqin> getByTPS(String sameTeamId, String productDate,String shift)
 	{
-		String hql="from Kaoqin where team.id=? and productdate=? and classtime=?";
+		String hql="from TempKaoqin where team.id=? and productdate=? and classtime=?";
 		return this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).list();
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
+	public List<TempKaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
 	{
-		String hql="from Kaoqin where team.factoryUnit.id=? and productdate=? and classtime=? and emp.id=?";
-		return this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).setParameter(3, adminId).list();
+		try {
+			String hql="from TempKaoqin where team.factoryUnit.id=? and productdate=? and classtime=? and emp.id=?";
+			List<TempKaoqin> kaoqinlist = this.getSession().createQuery(hql).setParameter(0, sameTeamId).setParameter(1, productDate).setParameter(2, shift).setParameter(3, adminId).list();
+			return kaoqinlist;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
 	
@@ -209,31 +216,31 @@ public class KaoqinDaoImpl extends BaseDaoImpl<Kaoqin, String>implements KaoqinD
 	}
 
 	@Override
-	public List<Kaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode) {
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode) {
 		String hql = "";
 		if( !"".equals(shift) && "".equals(factoryUnitCode) ){
-			hql =  "from Kaoqin where productdate=? and classtime=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
+			hql =  "from TempKaoqin where productdate=? and classtime=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).list();
 		}else if(!"".equals(shift) && !"".equals(factoryUnitCode)){
-			hql =  "from Kaoqin where productdate=? and classtime=? and factoryUnitCode=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).setParameter(2, factoryUnitCode).list();
+			hql =  "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift).setParameter(2, factoryUnitCode).list();
 		}else if("".equals(shift) && !"".equals(factoryUnitCode)){
-			hql =  "from Kaoqin where productdate=? and factoryUnitCode=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, factoryUnitCode).setParameter(1,factoryUnitCode).list();
+			hql =  "from TempKaoqin where productdate=? and factoryUnitCode=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, factoryUnitCode).setParameter(1,factoryUnitCode).list();
 		}else{
-			hql =  "from Kaoqin where productdate=? order by createDate desc";
-			return (List<Kaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();	
+			hql =  "from TempKaoqin where productdate=? order by createDate desc";
+			return (List<TempKaoqin>)this.getSession().createQuery(hql).setParameter(0, productDate).list();	
 		}
 	}
 
-	public List<Kaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState){
-		String hql = "from Kaoqin where productdate=? and classtime=? and factoryUnitCode=? and workState=?";
-		return (List<Kaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
+	public List<TempKaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState){
+		String hql = "from TempKaoqin where productdate=? and classtime=? and factoryUnitCode=? and workState=?";
+		return (List<TempKaoqin>) this.getSession().createQuery(hql).setParameter(0, productDate).setParameter(1, shift)
 				.setParameter(2, factoryUnitCode).setParameter(3, workState).list();
 	}
 	
 	public void updateWorkHours(String workHours,String productdate,String classtime,Team team){
-		 String hql = "update Kaoqin set workHours=? where productdate=? and classtime=? and team=?";
+		 String hql = "update TempKaoqin set workHours=? where productdate=? and classtime=? and team=?";
 		 this.getSession().createQuery(hql).setParameter(0, workHours).setParameter(1, productdate).setParameter(2, classtime).setParameter(3, team).executeUpdate();
 	 }
 }

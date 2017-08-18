@@ -1,7 +1,5 @@
 package cc.jiuyi.dao.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +8,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import cc.jiuyi.bean.Pager;
-import cc.jiuyi.bean.jqGridSearchDetailTo;
 import cc.jiuyi.dao.UnitConversionDao;
 import cc.jiuyi.entity.UnitConversion;
 
@@ -105,9 +102,10 @@ public class UnitConversionDaoImpl extends BaseDaoImpl<UnitConversion, String>
 	@Override
 	public void updateisdel(String[] ids, String oper) {
 		for (String id : ids) {
-			UnitConversion unitConversion = super.load(id);
-			unitConversion.setIsDel(oper);// 标记删除
-			super.update(unitConversion);
+//			UnitConversion unitConversion = super.load(id);
+//			unitConversion.setIsDel(oper);// 标记删除
+			super.delete(id);
+//			super.update(unitConversion);
 		}
 
 	}

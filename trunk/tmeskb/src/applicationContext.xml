@@ -204,6 +204,11 @@ xmlns:oscache="http://www.springmodules.org/schema/oscache"
 				<value>cc.jiuyi.entity.FactoryUnitSyn</value>
 				<value>cc.jiuyi.entity.ProcessHandoverAll</value>
 				<value>cc.jiuyi.entity.ProductStorage</value>
+				<value>cc.jiuyi.entity.RepairDetail</value>
+				<value>cc.jiuyi.entity.Workbin</value>
+				<value>cc.jiuyi.entity.WorkbinSon</value>
+				<value>cc.jiuyi.entity.Sark</value>
+				<value>cc.jiuyi.entity.SarkSon</value>
 			</list>
 		</property>
 	</bean>

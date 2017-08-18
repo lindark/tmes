@@ -114,6 +114,12 @@ public class Admin extends BaseEntity implements UserDetails {
 	private Set<Team> teamSet;//班组
 	private Set<Carton> cartonCreateUser;// 纸箱收货主表创建人
 	private Set<Carton> cartonConfirmUser;// 纸箱收货主表确认人
+	
+	private Set<Sark> sarkCreateUser;// 纸箱收货主表创建人
+	private Set<Sark> sarkConfirmUser;// 纸箱收货主表确认人
+	
+	private Set<Workbin> workbinCreateUser;// 纸箱收货主表创建人
+	private Set<Workbin> workbinConfirmUser;// 纸箱收货主表确认人
 
 	private Post post;//技能/岗位  工位是岗位里面的一个字段
 	private String workstate;//状态1，考勤：添加代班员工时用到
@@ -334,6 +340,15 @@ public class Admin extends BaseEntity implements UserDetails {
 	public void setCartonConfirmUser(Set<Carton> cartonConfirmUser) {
 		this.cartonConfirmUser = cartonConfirmUser;
 	}
+	
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<Sark> getSarkConfirmUser() {
+		return sarkConfirmUser;
+	}
+
+	public void setSarkConfirmUser(Set<Sark> sarkConfirmUser) {
+		this.sarkConfirmUser = sarkConfirmUser;
+	}
 
 	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
 	public Set<EnteringwareHouse> getEnteringwareHouseConfirmUser() {
@@ -390,6 +405,15 @@ public class Admin extends BaseEntity implements UserDetails {
 		this.cartonCreateUser = cartonCreateUser;
 	}
 
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<Sark> getSarkCreateUser() {
+		return sarkCreateUser;
+	}
+
+	public void setSarkCreateUser(Set<Sark> sarkCreateUser) {
+		this.sarkCreateUser = sarkCreateUser;
+	}
+	
 	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
 	public Set<DailyWork> getDailyWorkCreateUser() {
 		return dailyWorkCreateUser;
@@ -1402,6 +1426,23 @@ public class Admin extends BaseEntity implements UserDetails {
 
 	public void setxWorkshop(String xWorkshop) {
 		this.xWorkshop = xWorkshop;
+	}
+
+	@OneToMany(mappedBy = "createUser", fetch = FetchType.LAZY)
+	public Set<Workbin> getWorkbinCreateUser() {
+		return workbinCreateUser;
+	}
+
+	public void setWorkbinCreateUser(Set<Workbin> workbinCreateUser) {
+		this.workbinCreateUser = workbinCreateUser;
+	}
+	@OneToMany(mappedBy = "confirmUser", fetch = FetchType.LAZY)
+	public Set<Workbin> getWorkbinConfirmUser() {
+		return workbinConfirmUser;
+	}
+
+	public void setWorkbinConfirmUser(Set<Workbin> workbinConfirmUser) {
+		this.workbinConfirmUser = workbinConfirmUser;
 	}
 	
 	

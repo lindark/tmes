@@ -165,11 +165,11 @@ public class KaoqinAction extends BaseAdminAction {
 
 		}
 		pager = kqService.historyjqGrid(pager, map);
-		List<Kaoqin> kqlist = pager.getList();
-		List<Kaoqin> lst = new ArrayList<Kaoqin>();
+		List<TempKaoqin> kqlist = pager.getList();
+		List<TempKaoqin> lst = new ArrayList<TempKaoqin>();
 		try {
 			for (int i = 0; i < kqlist.size(); i++) {
-				Kaoqin kaoqin = kqlist.get(i);
+				TempKaoqin kaoqin = kqlist.get(i);
 				if (kaoqin.getTeam() != null) {
 					kaoqin.setXteam(kaoqin.getTeam().getTeamName());
 				}
@@ -190,9 +190,9 @@ public class KaoqinAction extends BaseAdminAction {
 					kaoqin.setXworkState(ThinkWayUtil.getDictValueByDictKey(dictService,"adminworkstate", kaoqin.getWorkState()));
 				}
 				
-				if(kaoqin.getModleNum()!=null)
+				if(kaoqin.getModelNum()!=null)
 				{
-					String[] models=kaoqin.getModleNum().split(",");
+					String[] models=kaoqin.getModelNum().split(",");
 					String modelsName="";
 					for(int n=0;n<models.length;n++)
 					{
@@ -213,7 +213,7 @@ public class KaoqinAction extends BaseAdminAction {
 		pager.setList(lst);
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);// 防止自包含
-		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(Kaoqin.class));// 排除有关联关系的属性字段
+		jsonConfig.setExcludes(ThinkWayUtil.getExcludeFields(TempKaoqin.class));// 排除有关联关系的属性字段
 		JSONArray jsonArray = JSONArray.fromObject(pager, jsonConfig);
 		return ajaxJson(jsonArray.get(0).toString());
 	}
@@ -251,20 +251,20 @@ public class KaoqinAction extends BaseAdminAction {
 		List<Object[]> kqlist = kqService.historyExcelExport(map);
 		for (int i = 0; i < kqlist.size(); i++) {
 			Object[] obj = kqlist.get(i);
-			Kaoqin kaoqin = (Kaoqin) obj[0];//
+			TempKaoqin kaoqin = (TempKaoqin) obj[0];//
 			Admin admin = (Admin) obj[1];//
 			if(kaoqin.getFactoryUnitCode()==null){
 				kaoqin.setFactoryUnitCode(kaoqin.getEmp().getTeam().getFactoryUnit()
 						.getFactoryUnitCode());
 			}
 			FactoryUnit factoryUnit = factoryUnitService.get("factoryUnitCode", kaoqin.getFactoryUnitCode());
-			List<Kaoqin> kqNumlist = kqService.getWorkNumList(kaoqin.getProductdate(), kaoqin.getClasstime(),
+			List<TempKaoqin> kqNumlist = kqService.getWorkNumList(kaoqin.getProductdate(), kaoqin.getClasstime(),
 					kaoqin.getFactoryUnitCode(), "2");
 			
 			String mjzh="";
-			if(kaoqin.getModleNum()!=null)
+			if(kaoqin.getModelNum()!=null)
 			{
-				String[] models=kaoqin.getModleNum().split(",");					
+				String[] models=kaoqin.getModelNum().split(",");					
 				for(int n=0;n<models.length;n++)
 				{
 					UnitdistributeModel model=unitdistributeModelService.get(models[n]);

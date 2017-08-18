@@ -95,7 +95,7 @@ function getName()
 		var rowData = $("#grid-table").jqGrid('getRowData',ids);
 		//var info={"postid":ids,"postname":rowData.postName,"station":rowData.station};
 		//var info={"postid":ids,"postname":rowData.postName};
-		var info={"postid":rowData.postCode,"postname":rowData.postName};
+		var info={"postid":ids,"postCode":rowData.postCode,"postname":rowData.postName};
 		return info;
 	}
 }

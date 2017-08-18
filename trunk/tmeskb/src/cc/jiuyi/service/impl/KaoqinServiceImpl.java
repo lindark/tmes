@@ -84,7 +84,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 	/**
 	 * 查询当天历史员工
 	 */
-	public List<Kaoqin>getSamedayEmp(String strdate)
+	public List<TempKaoqin>getSamedayEmp(String strdate)
 	{
 		return this.kqDao.getByKqdate(strdate);
 	}
@@ -135,26 +135,26 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 			{	
 				
 				/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
-				List<Kaoqin> kqList=this.kqDao.getByTPS(t.getId(),admin.getProductDate(),admin.getShift());
+				List<TempKaoqin> kqList=this.kqDao.getByTPS(t.getId(),admin.getProductDate(),admin.getShift());
 				
 				if(kqList!=null && kqList.size()>0)
 				{
 					//数据已经保存
 					str="ybc";
 					//为了能够重新保存，先全部删除
-					for(Kaoqin kq:kqList)
+					for(TempKaoqin kq:kqList)
 					{
-						kqDao.delete(kq);
+						tempKqDao.delete(kq);
 					}
 					kqList.clear();
 				}
 				
 					//不存在考勤数据，要从临时考勤表里读取数据，并进行存储
 					List<TempKaoqin> tempList=tempKqDao.getByTPS(t.getId(), admin.getProductDate(), admin.getShift());
-					kqList=new ArrayList<Kaoqin>();
+					kqList=new ArrayList<TempKaoqin>();
 					for(TempKaoqin tkq:tempList)
 					{
-						Kaoqin kq=new Kaoqin();						
+						TempKaoqin kq=new TempKaoqin();						
 						kq.setId(null);
 						kq.setCreateDate(new Date());
 						kq.setModifyDate(new Date());
@@ -172,7 +172,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 						kq.setWorkCode(tkq.getWorkCode());
 						kq.setPhoneNum(tkq.getPhoneNum());
 						kq.setStationCode(tkq.getStationCode());
-						kq.setModleNum(tkq.getModelNum());
+						kq.setModelNum(tkq.getModelNum());
 						kq.setWorkNum(tkq.getWorkNum());
 						kq.setPostCode(tkq.getPostCode());
 						kq.setFactoryUnit(tkq.getFactoryUnit());
@@ -180,7 +180,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 						kq.setWorkName(tkq.getWorkName());
 						kq.setIsdaiban(tkq.getIsdaiban());						
 						
-						kqDao.save(kq);
+						tempKqDao.save(kq);
 						kqList.add(kq);
 					}					
 					str="s";
@@ -234,7 +234,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		{
 			String str="s";
 			/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
-			List<Kaoqin>kqlist=this.kqDao.getByTPS(team.getId(),admin.getProductDate(),admin.getShift());
+			List<Kaoqin>kqlist=new ArrayList<Kaoqin>();//this.kqDao.getByTPS(team.getId(),admin.getProductDate(),admin.getShift());
 			List<Admin> adminList = adminService.getByTeamId(team.getId());
 			if(kqlist!=null&&kqlist.size()>0)
 			{
@@ -307,29 +307,29 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		if("Y".equals(t.getIsWork()))
 		{
 			String str="s";
-			/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
-			List<Kaoqin>kqlist=this.kqDao.getByTPS(sameTeamId,admin.getProductDate(),admin.getShift());
-			if(kqlist!=null&&kqlist.size()>0)
-			{
-				for(int i=0;i<list.size();i++)
-				{
-					Admin a=list.get(i);
-					/**员工下班*/
-					a.setWorkstate("1");//状态-默认为未上班
-					a.setIsdaiban("N");//是否代班默认为N
-					a.setModifyDate(new Date());//修改日期
-					a.setProductDate(null);//生产日期
-					a.setShift(null);//班次
-					a.setTardyHours(null);//误工小时数
-					this.adminService.update(a);
-				}
-				str=t.getTeamName();
-			}
-			else
-			{
-				saveKq(list,t,admin);
-			}
-			/**班组下班*/
+//			/**根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示*/
+//			List<Kaoqin>kqlist=this.kqDao.getByTPS(sameTeamId,admin.getProductDate(),admin.getShift());
+//			if(kqlist!=null&&kqlist.size()>0)
+//			{
+//				for(int i=0;i<list.size();i++)
+//				{
+//					Admin a=list.get(i);
+//					/**员工下班*/
+//					a.setWorkstate("1");//状态-默认为未上班
+//					a.setIsdaiban("N");//是否代班默认为N
+//					a.setModifyDate(new Date());//修改日期
+//					a.setProductDate(null);//生产日期
+//					a.setShift(null);//班次
+//					a.setTardyHours(null);//误工小时数
+//					this.adminService.update(a);
+//				}
+//				str=t.getTeamName();
+//			}
+//			else
+//			{
+//				saveKq(list,t,admin);
+//			}
+			/**关闭*/
 			t.setIsWork("N");
 			t.setIscancreditcard("Y");
 			t.setModifyDate(new Date());
@@ -493,7 +493,7 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		}
 	}
 	@Override
-	public List<Kaoqin> getKaoqinList(String productDate, String shift) {
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift) {
 		return this.kqDao.getKaoqinList(productDate, shift);
 	}
 	@Override
@@ -516,18 +516,18 @@ public class KaoqinServiceImpl extends BaseServiceImpl<Kaoqin, String> implement
 		return "N";
 	}
 	
-	public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
+	public List<TempKaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId)
 	{
 		return kqDao.getByTPSA(sameTeamId, productDate, shift, adminId);
 	}
 	@Override
-	public List<Kaoqin> getKaoqinList(String productDate, String shift,
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift,
 			String factoryUnitCode) {
 		return this.kqDao.getKaoqinList(productDate, shift,factoryUnitCode);
 	}
 	
 	@Override
-	public List<Kaoqin> getWorkNumList(String productDate, String shift,
+	public List<TempKaoqin> getWorkNumList(String productDate, String shift,
 			String factoryUnitCode, String workState) {
 		return this.kqDao.getWorkNumList(productDate, shift, factoryUnitCode, workState);
 	}

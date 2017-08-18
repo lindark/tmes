@@ -113,7 +113,6 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 		return bomDao.getMaterialName(materialCode);
 	}
 
-
 	/**
 	 * 根据订单号,生产日期,以"5"开关的查询
 	 */
@@ -133,7 +132,7 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 			for(int i=0;i<list.size();i++)
 			{
 				Bom bom = list.get(i);
-				if(bom.getMaterialCode().startsWith("5"))
+				if(bom.getMaterialCode().substring(0, 3).equals("501") || bom.getMaterialCode().substring(0, 3).equals("506"))//bom.getMaterialCode().startsWith(num) 17-8-11改
 				{
 					return bom;
 				}	
@@ -147,7 +146,7 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 				for(int i=0;i<list2.size();i++)
 				{
 					Bom bom = list2.get(i);
-					if(bom.getMaterialCode().startsWith("5"))
+					if(bom.getMaterialCode().substring(0, 3).equals("501") || bom.getMaterialCode().substring(0, 3).equals("506"))//bom.getMaterialCode().startsWith(num)
 					{
 						return bom;
 					}	
@@ -155,6 +154,50 @@ public class BomServiceImpl extends BaseServiceImpl<Bom, String> implements BomS
 			}
 		}
 		return null;
+	}
+	/**
+	 * 根据订单号,生产日期,以"5"开关的查询
+	 */
+	public List<Bom> getBomByConditions2(String aufnr, String productDate, String num,String workingBillCode)
+	{
+		List<Bom> bomlist = new ArrayList<Bom>();
+		String workingbilllast = StringUtils.substring(workingBillCode, workingBillCode.length()-2,workingBillCode.length());
+		Orders orders = orderservice.get("aufnr",aufnr);
+		Integer maxversion = bomDao.getMaxversion(orders.getId(),productDate);
+		if(maxversion == null){
+			return bomlist;
+		}
+		List<Bom>list=new ArrayList<Bom>();
+		List<Bom>list2=new ArrayList<Bom>();
+		list=bomDao.getBomList(aufnr, maxversion,workingbilllast);
+		if(list.size()>0)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				Bom bom = list.get(i);
+				System.out.println("bom.getMaterialCode()---------------"+bom.getMaterialCode());
+				if(bom.getMaterialCode().substring(0, 3).equals("501") || bom.getMaterialCode().substring(0, 3).equals("506"))//bom.getMaterialCode().startsWith(num) 17-8-11改
+				{
+					bomlist.add(bom);
+				}	
+			}
+		}
+		else
+		{
+			list2=bomDao.getBomList(aufnr, maxversion);
+			if(list2.size()>0)
+			{
+				for(int i=0;i<list2.size();i++)
+				{
+					Bom bom = list2.get(i);
+					if(bom.getMaterialCode().substring(0, 3).equals("501") || bom.getMaterialCode().substring(0, 3).equals("506"))//bom.getMaterialCode().startsWith(num)
+					{
+						bomlist.add(bom);
+					}	
+				}
+			}
+		}
+		return bomlist;
 	}
 
 

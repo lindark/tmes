@@ -26,6 +26,7 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 	private String matnr;// 物料号
 	private String maktx;// 物料 描述
 	private Integer cartonTotalAmount;// 纸箱累计收货数量
+	private Integer sarkTotalAmount;// 纸箱累计收货数量
 	private Double dailyWorkTotalAmount;// 累计报工数量
 	private Double totalSingleAmount;// 累计入库根量
 	private Integer totalRepairinAmount;// 累计返修收货数量
@@ -240,6 +241,17 @@ public class WorkingBill extends BaseEntity implements Comparable<WorkingBill> {
 		this.cartonTotalAmount = cartonTotalAmount;
 	}
 
+	public Integer getSarkTotalAmount() {
+		return sarkTotalAmount;
+	}
+
+	public void setSarkTotalAmount(Integer sarkTotalAmount) {
+		if (sarkTotalAmount == null) {
+			sarkTotalAmount = 0;
+		}
+		this.sarkTotalAmount = sarkTotalAmount;
+	}
+	
 	public Double getDailyWorkTotalAmount() {
 		return dailyWorkTotalAmount;
 	}

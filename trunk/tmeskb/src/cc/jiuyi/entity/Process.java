@@ -4,12 +4,9 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.compass.annotations.Searchable;
 
 /**
  * 实体类 - 工序
@@ -39,6 +36,7 @@ public class Process extends BaseEntity {
 	//private Set<ProcessRoute> processrouteSet;//工艺路线
 
 	private String version;// 版本号
+	private Set<RepairDetail> repairDetailSet;//工艺路线
 
 //	@OneToMany(mappedBy="process",fetch=FetchType.LAZY)
 //	public Set<ProcessRoute> getProcessrouteSet() {
@@ -146,6 +144,14 @@ public class Process extends BaseEntity {
 
 	public void setXworkShop(String xworkShop) {
 		this.xworkShop = xworkShop;
+	}
+	@OneToMany(mappedBy="process",fetch=FetchType.LAZY)
+	public Set<RepairDetail> getRepairDetailSet() {
+		return repairDetailSet;
+	}
+
+	public void setRepairDetailSet(Set<RepairDetail> repairDetailSet) {
+		this.repairDetailSet = repairDetailSet;
 	}
 
 

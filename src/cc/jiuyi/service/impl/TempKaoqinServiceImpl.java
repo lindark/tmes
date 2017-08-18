@@ -126,7 +126,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			}			
 		}
 		//先存储临时，再存储记录
-		saveKqListByTkqList( saveTkqList(adminList,team,admin,workHours));
+		saveTkqList(adminList,team,admin,workHours);
+//		saveKqListByTkqList( saveTkqList(adminList,team,admin,workHours));
 		for(Admin a :adminList){
 			a.setIsdaiban("N");
 		}
@@ -181,17 +182,18 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 					{
 						tkq.setWorkState("2");
 						tempKqDao.update(tkq);
-						Kaoqin kq=kqDao.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
-						kq.setWorkState(tkq.getWorkState());
-						kqDao.update(kq);
+//						Kaoqin kq=kqDao.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
+//						kq.setWorkState(tkq.getWorkState());
+//						kqDao.update(kq);
 					}
 					
 				}
 			}
 			else
 			{			
+				saveTkqList(adminList, t, admin, null);
 				//开启考勤后存到临时记录表里,同时存储到记录表里
-				saveKqListByTkqList(saveTkqList(adminList, t, admin, null)); 
+//				saveKqListByTkqList(saveTkqList(adminList, t, admin, null)); 
 			}			
 			
 			
@@ -245,15 +247,15 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 				tqk.setWorkState("2");
 				tqk.setModifyDate(new Date());
 				tempKqDao.update(tqk);				
-				List<Kaoqin> kqs=kqDao.getByTPSA(team.getFactoryUnit().getId(), a_login.getProductDate(), a_login.getShift(), a.getId());
-				if(kqs!=null && kqs.size()>0) 
-				{
-					tqk.setWorkHours(tqk.getWorkHours());
-					Kaoqin qk=kqs.get(0);
-					qk.setWorkState("2");
-					qk.setModifyDate(new Date());
-					kqDao.update(qk);
-				}
+//				List<Kaoqin> kqs=kqDao.getByTPSA(team.getFactoryUnit().getId(), a_login.getProductDate(), a_login.getShift(), a.getId());
+//				if(kqs!=null && kqs.size()>0) 
+//				{
+//					tqk.setWorkHours(tqk.getWorkHours());
+//					Kaoqin qk=kqs.get(0);
+//					qk.setWorkState("2");
+//					qk.setModifyDate(new Date());
+//					kqDao.update(qk);
+//				}
 				return 1;
 				//admin不做修改
 				/*a.setShift(a_login.getShift());//班次
@@ -270,7 +272,8 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 						a.setProductDate(a_login.getProductDate());//生产日期				
 						a.setModifyDate(new Date());
 						this.adminService.update(a);
-						saveKaoqin(saveTeamKaoqin(a));
+						saveTeamKaoqin(a);
+//						saveKaoqin(saveTeamKaoqin(a));
 						return 1;
 					}else{
 						return 3;

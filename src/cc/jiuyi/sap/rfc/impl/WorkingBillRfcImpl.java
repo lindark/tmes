@@ -13,6 +13,18 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import cc.jiuyi.entity.Bom;
+import cc.jiuyi.entity.Orders;
+import cc.jiuyi.entity.ProcessRoute;
+import cc.jiuyi.entity.UnitdistributeProduct;
+import cc.jiuyi.entity.WorkingBill;
+import cc.jiuyi.sap.rfc.WorkingBillRfc;
+import cc.jiuyi.service.WorkingBillService;
+import cc.jiuyi.util.CustomerException;
+import cc.jiuyi.util.Mapping;
+import cc.jiuyi.util.SAPModel;
+import cc.jiuyi.util.TableModel;
+
 import com.sap.mw.jco.IFunctionTemplate;
 import com.sap.mw.jco.JCO;
 import com.sap.mw.jco.JCO.Client;
@@ -21,23 +33,6 @@ import com.sap.mw.jco.JCO.ParameterList;
 import com.sap.mw.jco.JCO.Repository;
 import com.sap.mw.jco.JCO.Structure;
 import com.sap.mw.jco.JCO.Table;
-
-import cc.jiuyi.entity.Bom;
-import cc.jiuyi.entity.Dump;
-import cc.jiuyi.entity.DumpDetail;
-import cc.jiuyi.entity.Locationonside;
-import cc.jiuyi.entity.Orders;
-import cc.jiuyi.entity.ProcessRoute;
-import cc.jiuyi.entity.UnitdistributeProduct;
-import cc.jiuyi.entity.WorkingBill;
-import cc.jiuyi.sap.rfc.LocationonsideRfc;
-import cc.jiuyi.sap.rfc.WorkingBillRfc;
-import cc.jiuyi.service.WorkingBillService;
-import cc.jiuyi.util.CustomerException;
-import cc.jiuyi.util.Mapping;
-import cc.jiuyi.util.SAPModel;
-import cc.jiuyi.util.SAPUtil;
-import cc.jiuyi.util.TableModel;
 
 
 @Component
@@ -113,12 +108,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 		Table table02 = outs.getTable("ET_AFKO");//订单
 		Table table03 = outs.getTable("ET_AFVC");//订单工艺路线
 		Table table04 = outs.getTable("ET_RESB");//生产订单BOM
-		
 		List<WorkingBill> list = new ArrayList<WorkingBill>();
-		List<Orders> orderlist = new ArrayList<Orders>();//生产订单
-		List<ProcessRoute> processrouteList = new ArrayList<ProcessRoute>();//工艺路线
-		List<Bom> bomList = new ArrayList<Bom>();//BOM
-		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);
 		for(int i=0;i<table01.getNumRows();i++){
 			WorkingBill workingbill = new WorkingBill();
 			table01.setRow(i);
@@ -132,7 +122,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			workingbill.setWorkcenter(table01.getString("ARBPL"));//工作中心
 			list.add(workingbill);
 		}
-		
+		List<Orders> orderlist = new ArrayList<Orders>();//生产订单
 		for(int i=0;i<table02.getNumRows();i++){
 			Orders order = new Orders();
 			table02.setRow(i);
@@ -154,7 +144,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			orderlist.add(order);
 		}
 		
-		
+		List<ProcessRoute> processrouteList = new ArrayList<ProcessRoute>();//工艺路线
 		for(int i=0;i<table03.getNumRows();i++){
 			table03.setRow(i);
 			ProcessRoute processroute = new ProcessRoute();
@@ -166,7 +156,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			processrouteList.add(processroute);
 		}
 		
-		
+		List<Bom> bomList = new ArrayList<Bom>();//BOM
 		for(int i=0;i<table04.getNumRows();i++){
 			table04.setRow(i);
 			Bom bom = new Bom();
@@ -185,7 +175,7 @@ public class WorkingBillRfcImpl extends BaserfcServiceImpl implements WorkingBil
 			}
 			bomList.add(bom);
 		}
-		
+		workingbillservice.mergeWorkingBill(list,orderlist,processrouteList,bomList);
 	}
 
 	@Override

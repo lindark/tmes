@@ -111,7 +111,23 @@ function getGridId()
 		return result;
 	}
 }
-
+function getGridId1(){
+	var ids=$("#grid-table").jqGrid('getGridParam','selarrrow');
+	if(ids.length <1){
+		alert("请选择一条记录");
+		return false;
+	}else{
+		var array = [];
+		for(var i=0;i<ids.length;i++){
+			var rowData = $("#grid-table").jqGrid('getRowData',ids[i]);
+			var rowName=rowData.name;
+			var rowCode=rowData.workNumber;
+			var work=""+ids[i]+""+","+rowName+","+rowCode;
+			array[i]=work;	
+		}
+		return array;
+	}
+}
 $(document).keydown(function(event){
 	if(event.keyCode==13)
 	{

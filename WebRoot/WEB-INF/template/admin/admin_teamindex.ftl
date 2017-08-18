@@ -194,14 +194,35 @@
 													</button>
 												</div>
 												 -->
-												<div class="col-md-3 col-sm-4 access" style="padding:2px;"
+												
+												<div class="col-md-3 col-sm-4 " style="padding:2px;"
 													data-access-list="cartonreceiving">
-													<button
-														class="btn btn-green btn-success btn-bold btn-round btn-block" id="carton">
+													<button data-toggle="dropdown"
+														class="btn btn-green btn-success btn-bold btn-round dropdown-toggle btn-block" style="padding: 6px 0px;">
 														<i class="ace-icon fa fa-file-archive-o bigger-110"></i> <span
-															class="bigger-110 no-text-shadow">纸箱收货</span>
+															class="bigger-110 no-text-shadow">纸/料箱收货</span>
+															<i class="ace-icon fa fa-angle-down icon-on-right"></i>
 													</button>
+													<ul class="dropdown-menu dropdown-success dropdown-menu-right">
+														<li>
+															<a href="javascript:void(0);" id="carton">纸箱收货</a>
+														</li>
+	
+														<li>
+															<a href="javascript:void(0);" id="workbin">料箱收货</a>
+														</li>
+														
+														<!-- <li>
+															<a href="javascript:void(0);" id="sark">衬板收货</a>
+														</li> -->
+													</ul>
 												</div>
+												
+												
+												
+												
+												
+												
 												
 												<div class="col-md-3 col-sm-4" style="padding:2px;">
 													<button                                               

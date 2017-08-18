@@ -7,6 +7,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.TempKaoqin;
 
 
 /**
@@ -28,7 +29,7 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	/**
 	 * 查询当天历史员工
 	 */
-	public List<Kaoqin> getSamedayEmp(String strdate);
+	public List<TempKaoqin> getSamedayEmp(String strdate);
 
 	/**
 	 * 添加新代班员工
@@ -74,7 +75,7 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * @param shift
 	 * @return
 	 */
-	public List<Kaoqin> getKaoqinList(String productDate, String shift);
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift);
 	/**
 	 * 根据生产日期、班次和单元编码查询数据
 	 * @author Lk
@@ -83,7 +84,7 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
 	 * @param factoryCode
 	 * @return
 	 */
-	public List<Kaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 	
@@ -94,9 +95,9 @@ public interface KaoqinService extends BaseService<Kaoqin, String>
     public String getIsCanCreditCard(Admin admin);
     
     
-    public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId);
+    public List<TempKaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId);
     
-    public List<Kaoqin> getWorkNumList(String productDate, String shift,
+    public List<TempKaoqin> getWorkNumList(String productDate, String shift,
 			String factoryUnitCode, String workState);
     
     public void updateWorkHours(String workHours,String productdate,String classtime,Team team);

@@ -77,6 +77,7 @@ public class RepairAction extends BaseAdminAction {
 	private String costcenter;
 	private String departmentName;//部门描述
 	private List<Dict> processList;//责任工序 
+	private List<Dict> repairDetailList;//
 
 	@Resource
 	private TempKaoqinService tempKaoqinService;
@@ -330,6 +331,7 @@ public class RepairAction extends BaseAdminAction {
 		//根据订单号,生产日期查询工艺路线
 		//processRouteList= this.processRouteService.findProcessRoute(aufnr, productDate);
 		processList = dictService.getList("dictname", "process");
+		repairDetailList = dictService.getList("dictname", "repairDetail");
 		this.add="add";
 		return INPUT;
 	}
@@ -362,6 +364,7 @@ public class RepairAction extends BaseAdminAction {
 		//String productDate = workingbill.getProductDate();
 		processRouteList = new ArrayList<ProcessRoute>();
 		processList = dictService.getList("dictname", "process");
+		repairDetailList = dictService.getList("dictname", "repairDetail");
 //		processRouteList= processRouteService.findProcessRoute(aufnr, productDate);
 		this.edit="edit";
 		return INPUT;
@@ -521,7 +524,18 @@ public class RepairAction extends BaseAdminAction {
 				if(repair.getProcessCode()!=null)
 				{
 			//		repair.setResponseName(pr.getProcessName());
-					repair.setResponseName(ThinkWayUtil.getDictValueByDictKey(dictService,"process",repair.getProcessCode()));
+					String[] arrys = repair.getProcessCode().split(","); 
+					String str = "";
+					for(String s : arrys){
+						if(s.equals("")) continue;
+						if(str.equals("")){
+							str = ThinkWayUtil.getDictValueByDictKey(dictService,"process",s.trim());
+						}else{
+							str = str + ","+ThinkWayUtil.getDictValueByDictKey(dictService,"process",s.trim());
+						}
+						
+					}
+					repair.setResponseName(str);
 				}
 				repair.setXrepairtype(ThinkWayUtil.getDictValueByDictKey(dictService, "repairtype",repair.getRepairtype()));//成品/子件
 			}
@@ -967,6 +981,14 @@ public class RepairAction extends BaseAdminAction {
 
 	public void setProcessList(List<Dict> processList) {
 		this.processList = processList;
+	}
+
+	public List<Dict> getRepairDetailList() {
+		return repairDetailList;
+	}
+
+	public void setRepairDetailList(List<Dict> repairDetailList) {
+		this.repairDetailList = repairDetailList;
 	}
 	
 	

@@ -18,6 +18,7 @@ import cc.jiuyi.bean.Pager;
 import cc.jiuyi.bean.Pager.OrderType;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Dict;
+import cc.jiuyi.entity.Post;
 import cc.jiuyi.entity.Station;
 import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.TempKaoqin;
@@ -223,8 +224,11 @@ public class TempKaoqinAction extends BaseAdminAction {
 		if(kaoqin.getPostCode()!=null&&!"".equals(kaoqin.getPostCode()))
 		{
 			String postCode=kaoqin.getPostCode();
-			DBkaoqin.setPostCode(postCode);
-			DBkaoqin.setPostname(postService.get("postCode", postCode).getPostName());
+			Post post = postService.get("postCode", postCode);
+			if(post!=null) {
+				DBkaoqin.setPostCode(post.getPostCode());
+				DBkaoqin.setPostname(post.getPostName());
+			}
 		}
 		else
 		{

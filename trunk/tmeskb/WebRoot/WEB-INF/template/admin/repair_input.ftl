@@ -583,16 +583,14 @@ function showUnit(num1){
 	var title = "选择责任人";
 	var width="800px";
 	var height="632px";
-	var content="process_handover!browser.action";
+	var content="admin!addzrr.action";
 	jiuyi.admin.browser.dialog(title,width,height,content,function(index,layero){		
 		var iframeWin=window[layero.find('iframe')[0]['name']];//获得iframe的对象
-		var array=iframeWin.getGridId();
+		var array=iframeWin.getGridId1();
 		var behtml = "";
-		//alert(array);
+		//var id=array.split(",");
 		for(var i=0;i<array.length;i++){
-			var work = array[i];
-			var id=work.split(",");
-			//alert(id);
+			var id = array[i].split(",")
 			behtml = behtml+"<li class=\"jianxin_li\"><span>"+id[1]+id[2]+"</span><a href=\"javascript:void(0);\" id=\"a_"+id[2]+"\" onclick=\"del_li('#a_"+id[2]+"')\">X</a><input type=\"hidden\" name=\"repair.responsibleId\" value=\""+id[0]+"\"><input type=\"hidden\" name=\"repair.duty\" value=\""+id[1]+"\"><input type=\"hidden\" name=\"repair.responsibleNum\"  value=\""+id[2]+"\"></li>";
 		}
 		num1.parent().find("#jianxin_ul").append(behtml);

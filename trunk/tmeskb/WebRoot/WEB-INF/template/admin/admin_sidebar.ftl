@@ -635,6 +635,14 @@
 								<b class="arrow"></b>
 							</li>
 							
+							<!-- <li class="">
+								<a href="sarkonson!history.action">
+									<i class="menu-icon fa fa-caret-right"></i>
+									衬板收货记录
+								</a>
+
+								<b class="arrow"></b>
+							</li> -->
 							
 							<li class="" >
 								<a href="deptpick!history.action">
@@ -1451,6 +1459,17 @@
 
 						
 					</li>
+					<!-- <li class="">
+						<a href="repair_detail!list.action" >
+							<i class="menu-icon fa fa-caret-right"></i>
+							返修部位管理
+							<b class="arrow fa"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						
+					</li> -->
 					<!-- <li class="">
 						<a href="factory_unit_syn!list.action" >
 							<i class="menu-icon fa fa-caret-right"></i>

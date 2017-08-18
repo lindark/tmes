@@ -6,6 +6,7 @@ import java.util.List;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.entity.Kaoqin;
 import cc.jiuyi.entity.Team;
+import cc.jiuyi.entity.TempKaoqin;
 
 /**
  * 考勤
@@ -18,7 +19,7 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	/**
 	 * 根据当前的日期yyyyMMdd查询数据
 	 */
-	public List<Kaoqin> getByKqdate(String strdate);
+	public List<TempKaoqin> getByKqdate(String strdate);
 
 	/**
 	 * jqGrid查询
@@ -32,8 +33,8 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 * @param shift
 	 * @return
 	 */
-	public List<Kaoqin> getKaoqinList(String productDate, String shift);
-	public List<Kaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift);
+	public List<TempKaoqin> getKaoqinList(String productDate, String shift,String factoryUnitCode);
 
 	/**
 	 * 根据班组和班次和生产日期查询考勤记录是否已存在,如果存在则在返回中给提示
@@ -42,15 +43,15 @@ public interface KaoqinDao extends BaseDao<Kaoqin, String>
 	 * @param shift 班次
 	 * @return
 	 */
-	public List<Kaoqin> getByTPS(String sameTeamId, String productDate,String shift);
+	public List<TempKaoqin> getByTPS(String sameTeamId, String productDate,String shift);
 
-	public List<Kaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId);
+	public List<TempKaoqin> getByTPSA(String sameTeamId, String productDate,String shift,String adminId);
 	
 	public Pager historyjqGrid(Pager pager, HashMap<String,String> map);
 		
     public List<Object[]> historyExcelExport(HashMap<String,String> map);
 
-    public List<Kaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState);
+    public List<TempKaoqin> getWorkNumList(String productDate, String shift,String factoryUnitCode, String workState);
     
     public void updateWorkHours(String workHours,String productdate,String classtime,Team team);
 }

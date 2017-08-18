@@ -815,7 +815,7 @@ function post_event()
         	var info = iframeWin.getName();
         	if(info!="baga")
         	{
-        		$("#input_post").val(info.postid);
+        		$("#input_post").val(info.postCode);
             	$("#span_postname").text(info.postname);
             	//$("#span_workstation").text(info.station);
             	//获取对应的工位

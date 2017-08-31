@@ -9,8 +9,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import cc.jiuyi.action.admin.WorkbinAction;
 import cc.jiuyi.bean.Pager;
 import cc.jiuyi.dao.WorkbinDao;
 import cc.jiuyi.entity.Admin;
@@ -36,6 +38,8 @@ import cc.jiuyi.util.ThinkWayUtil;
 @Service
 public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> implements WorkbinService {
 
+	private static Logger log = Logger.getLogger(WorkbinServiceImpl.class);  
+	
 	@Resource
 	private WorkbinDao workbinDao;
 	@Resource
@@ -52,6 +56,8 @@ public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> impleme
 	private WorkbinsonService csService;
 	@Resource
 	private FactoryUnitService factoryUnitService;
+	@Resource
+	private WorkbinsonService workbinSonService;
 
 	@Resource
 	public void setBaseDao(WorkbinDao workbinDao) {
@@ -235,12 +241,12 @@ public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> impleme
 	/**
 	 * 新增保存
 	 */
-	public Map<String,String> saveData(List<WorkbinSon> list_cs, String cardnumber,String loginid,String bktxt)
+	public Map<String,Object> saveData(List<WorkbinSon> list_cs, String cardnumber,String loginid,String bktxt)
 	{
 		
-		Map<String,String> map  = workbinRfc.updateWorkbinRfc(bktxt);
-		System.out.println("------------------"+map.get("message")+"--------------------------");
-		if("S".equals(map.get("status"))){
+		Map<String,Object> map = new HashMap<String,Object>();
+//		System.out.println("------------------"+map.get("message")+"--------------------------");
+//		if("S".equals(map.get("status"))){
 			Admin admin = adminservice.getByCardnum(cardnumber);
 			Admin login_admin=this.adminservice.get(loginid);
 			/**主表数据插入*/
@@ -252,14 +258,18 @@ public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> impleme
 			c.setTeamshift(login_admin.getShift());//班次
 			c.setConfirmUser(admin);
 //			c.setFactoryUnit(login_admin.getTeam().getFactoryUnit());
-			c.setState("1");//状态-以保存
+			c.setState("2");//状态-以保存
 //			c.setBktxt(bktxt);
 			c.setOderNumber(bktxt);
 			String cid=this.save(c);//保存
+			c.setId(cid);
 			/**子表数据插入*/
-			System.out.println("------------------"+list_cs.size()+"--------------------------");
-			saveinfo(cid,list_cs);
-		}
+			log.info("-------------料想保存数据-----"+list_cs.size()+"--------------------------");
+			List<WorkbinSon> wblis = saveinfo(cid,list_cs);
+//		}
+			map.put("Status", "S");
+			map.put("workbin", c);
+			map.put("workbinson", wblis);
 		return map;
 		
 	}
@@ -267,8 +277,9 @@ public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> impleme
 	/**
 	 * 保存子表数据共用方法
 	 */
-	public void saveinfo(String cid,List<WorkbinSon> list_cs)
+	public List<WorkbinSon> saveinfo(String cid,List<WorkbinSon> list_cs)
 	{
+		List<WorkbinSon> wblist = new ArrayList<WorkbinSon>();
 		Workbin c=this.get(cid);
 		if(list_cs!=null)
 		{
@@ -276,10 +287,13 @@ public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> impleme
 			{
 				WorkbinSon cs=list_cs.get(i);
 				cs.setWorkbin(c);		
-				cs.setState("1");
-				this.csService.save(cs);
+				cs.setState("2");
+				String id = this.csService.save(cs);
+				cs.setId(id);
+				wblist.add(cs);
 			}
 		}
+		return wblist;
 	}
 	
 	/**
@@ -608,7 +622,16 @@ public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> impleme
 		return workbinDao.findWorkbinByPager(pager, mapcheck);
 	}
 
-
+	@Override
+	public void updateWorkbinAndSon(Workbin workbin, List<WorkbinSon> wbslist) {
+		workbin.setState("1");
+		update(workbin);
+		for(WorkbinSon wbs : wbslist) {
+			wbs.setState("1");
+			workbinSonService.update(wbs);
+		}
+		
+	}
 
 
 

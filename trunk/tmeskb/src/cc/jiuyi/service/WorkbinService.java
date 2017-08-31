@@ -49,7 +49,7 @@ public interface WorkbinService extends BaseService<Workbin, String> {
 	 * @param list_cs
 	 * @param cardnumber
 	 */
-	public Map<String,String> saveData(List<WorkbinSon> list_cs, String cardnumber,String loginid,String bktxt);
+	public Map<String,Object> saveData(List<WorkbinSon> list_cs, String cardnumber,String loginid,String bktxt);
 
 	/**
 	 * 获取bom中随工单对应的以5开头的各个物料--新增前
@@ -100,6 +100,6 @@ public interface WorkbinService extends BaseService<Workbin, String> {
 	 */
 	public Pager findWorkbinByPager(Pager pager,HashMap<String,String> mapcheck);
 	
+	public void updateWorkbinAndSon(Workbin workbin,List<WorkbinSon> wbslist);
 	
-
 }

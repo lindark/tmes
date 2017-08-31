@@ -15,6 +15,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.CycleDetectionStrategy;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import cc.jiuyi.bean.Pager;
@@ -42,6 +43,8 @@ public class WorkbinAction extends BaseAdminAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 4315940223927828255L;
+	
+	private static Logger log = Logger.getLogger(WorkbinAction.class);  
 	private static final String CONFIRMED = "1";
 	private static final String UNCONFIRM="2";
 	private static final String UNDO = "3";
@@ -129,12 +132,32 @@ public class WorkbinAction extends BaseAdminAction {
 	// 新增保存
 	public String creditsave() throws Exception
 	{
-		Map<String,String> map = this.workbinService.saveData(list_cs,cardnumber,loginid,bktxt);
-		if("S".equals(map.get("status"))){
-			return ajaxJsonSuccessMessage("您的操作已成功!");
-		}else{
-			return ajaxJsonErrorMessage("您的操作失败!"+map.get("message"));
+		try {
+			log.info("开始保存mes记录--------------------------------"+list_cs.size()+"---------"+bktxt);
+			Map<String,Object> map = this.workbinService.saveData(list_cs,cardnumber,loginid,bktxt);
+			Workbin wb = (Workbin)map.get("workbin");
+			List<WorkbinSon> wbslist = (List<WorkbinSon>)map.get("workbinson");
+			log.info("开始保存调用sap--------------------------------"+bktxt);
+			Map<String,String> maprfc  = workbinRfc.updateWorkbinRfc(bktxt);
+			log.info("sap调用结束--------------------------------"+bktxt+"----"+maprfc.get("status"));
+			if("S".equals(maprfc.get("status"))){
+				try {
+					workbinService.updateWorkbinAndSon(wb, wbslist);
+					log.info("保存mes记录结束--------------------------------"+bktxt+"----"+wbslist.size());
+				}catch(Exception e) {
+					log.info(e);
+					return ajaxJsonErrorMessage("您的操作失败!数据更新错误1");
+				}
+				
+				return ajaxJsonSuccessMessage("您的操作已成功!");
+			}else{
+				return ajaxJsonErrorMessage("您的操作失败!"+maprfc.get("message"));
+			}
+		}catch(Exception e){
+			log.info(e);
+			return ajaxJsonErrorMessage("您的操作失败!数据更新错误2");
 		}
+		
 		
 	}
 
@@ -351,7 +374,12 @@ public class WorkbinAction extends BaseAdminAction {
 		for (int i = 0; i < workbinSonList.size(); i++)
 		{
 			WorkbinSon c =workbinSonList.get(i);
-			c.setXstate("已保存");//状态
+			if("2".equals(c.getState())) {
+				c.setXstate("保存失敗");//状态
+			}else {
+				c.setXstate("已保存");//状态
+			}
+			
 			c.setConfirmUser(c.getWorkbin().getConfirmUser().getName());
 			c.setXteamshift(ThinkWayUtil.getDictValueByDictKey(dictService, "kaoqinClasses", c.getWorkbin().getTeamshift()));
 			c.setProductDate(c.getWorkbin().getProductDate());

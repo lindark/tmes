@@ -208,7 +208,8 @@
 				}
 			 	alert("开始过账日期不能为空");
 			 	return false;
-			}  
+			}
+		    $syncButton.attr("disabled",true);
 			window.location.href = "product_storage!sync.action?accountDateStart="+accountDateStart+"&accountDateEnd="+accountDateEnd+"&createDateStart="+createDateStart+"&createDateEnd="+createDateEnd+"&matnr="+matnr+"&aufnr="+aufnr+"&lgort="+lgort;
 			loading = new ol.loading({
 				id : "page-content"

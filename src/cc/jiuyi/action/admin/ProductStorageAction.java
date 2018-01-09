@@ -102,6 +102,8 @@ public class ProductStorageAction extends BaseAdminAction {
 	private String teamid;
 	private String teamName;
 	private List<Team> teamList;//班组
+
+	private boolean lock = true;
 	
 	@Resource
 	private ProductStorageRfc productstoragerfc;
@@ -141,17 +143,25 @@ public class ProductStorageAction extends BaseAdminAction {
 	}
 	
 	public void syncByQuartz(){
-		
-		try {
-			log.info("定时生产入库同步开始");
-			HashMap<String, Object> parameter = new HashMap<String, Object>();
-			productstoragerfc.sysnProductStorage(parameter);
-			log.info("定时生产入库同步结束");
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.info("定时生产入库同步错误"+e.getMessage());
-			e.printStackTrace();
+		log.info("定时生产入库同步开始lock"+ this.lock);
+		if(this.lock){
+			try {
+
+				this.lock = false;
+				HashMap<String, Object> parameter = new HashMap<String, Object>();
+				productstoragerfc.sysnProductStorage(parameter);
+				this.lock = true;
+				log.info("定时生产入库同步结束");
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.info("定时生产入库同步错误"+e.getMessage());
+				this.lock = true;
+				e.printStackTrace();
+			}
+		}else{
+			log.info("---------------上次运行未结束----------------");
 		}
+
 	}
 	
 	/**
@@ -238,41 +248,51 @@ public class ProductStorageAction extends BaseAdminAction {
 
 	//同步
 	public String sync() throws SchedulerException {
-		log.info("生产入库同步开始...");
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			HashMap<String,Object> parameter=new HashMap<String,Object>();
-			//System.out.println(accountDateStart+"accountDateStart");
-			parameter.put("S_BUDAT", sdf.parse(accountDateStart.replace("-", "")));
-			
-			if (accountDateEnd!=null && !accountDateEnd.equals("")) {
-				parameter.put("E_BUDAT",sdf.parse(accountDateEnd.replace("-", "")));
-			}else{
-				parameter.put("E_BUDAT",null);
+		log.info("生产入库同步开始...this.lock"+this.lock);
+		if(this.lock){
+			try {
+				this.lock = false;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				HashMap<String,Object> parameter=new HashMap<String,Object>();
+				//System.out.println(accountDateStart+"accountDateStart");
+				parameter.put("S_BUDAT", sdf.parse(accountDateStart.replace("-", "")));
+
+				if (accountDateEnd!=null && !accountDateEnd.equals("")) {
+					parameter.put("E_BUDAT",sdf.parse(accountDateEnd.replace("-", "")));
+				}else{
+					parameter.put("E_BUDAT",null);
+				}
+				if (createDateStart!=null && !createDateStart.equals("")) {
+					parameter.put("S_CPUDT",sdf.parse(createDateStart.replace("-", "")));
+				}else{
+					parameter.put("S_CPUDT",null);
+				}
+				if (createDateEnd!=null && !createDateEnd.equals("")) {
+					parameter.put("E_CPUDT",sdf.parse(createDateEnd.replace("-", "")));
+				}else{
+					parameter.put("E_CPUDT",null);
+				}
+				//System.out.println(createDateStart.replace("-", "")+"===>createDateStart");
+				parameter.put("S_LGORT", lgort);
+				parameter.put("S_AUFNR", aufnr);
+				parameter.put("X_FLAG", "x");
+
+				productstoragerfc.sysnProductStorage(parameter);
+				this.lock = true;
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.info("生产入库同步错误"+e);
+				this.lock = true;
+				e.printStackTrace();
+				addActionError("生产入库同步失败");
+				return "ERROR";
 			}
-			if (createDateStart!=null && !createDateStart.equals("")) {
-				parameter.put("S_CPUDT",sdf.parse(createDateStart.replace("-", "")));
-			}else{
-				parameter.put("S_CPUDT",null);
-			}
-			if (createDateEnd!=null && !createDateEnd.equals("")) {
-				parameter.put("E_CPUDT",sdf.parse(createDateEnd.replace("-", "")));
-			}else{
-				parameter.put("E_CPUDT",null);
-			}
-			//System.out.println(createDateStart.replace("-", "")+"===>createDateStart");
-			parameter.put("S_LGORT", lgort);
-			parameter.put("S_AUFNR", aufnr);
-			parameter.put("X_FLAG", "x");
-		
-			productstoragerfc.sysnProductStorage(parameter);
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.info("生产入库同步错误"+e);
-			e.printStackTrace();
-			addActionError("生产入库同步失败");
-			return "ERROR";
+		}else{
+			log.info("上一次生产入库同步进行中，请稍后重试！");
+			addActionError("上一次生产入库同步进行中，请稍后重试！");
+			return ERROR;
 		}
+
 		return SUCCESS;
 	}
 	

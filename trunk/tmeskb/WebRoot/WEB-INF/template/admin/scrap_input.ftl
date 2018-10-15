@@ -292,7 +292,8 @@ body {background: #fff;font-family: 微软雅黑;}
 															<th style="width: 5%;">倍数</th>
 															<th style="width: 10%;">裁切后报废</th>
 															<th style="width: 15%;">批次</th>
-															<th style="width: 45%;min-width:105px;">责任人</th>
+															<th style="width: 40%;min-width:105px;">责任人</th>
+														    <th style="width: 5%;min-width:105px;">前裁后</th>
 													</tr>
 													
 													
@@ -316,6 +317,7 @@ body {background: #fff;font-family: 微软雅黑;}
 																		</#list>
 																	</select> -->
 																</td>
+																<td><input id="qch${num}" type="checkbox" class=" input-value" /></td>
 															</tr>
 															<#assign num=num+1 />
 														</#list>												
@@ -592,11 +594,18 @@ function boxtorow_event(index)
 			var des="${(list.causeName)!}";
 			var ph=$("#ph"+i).val().replace(/\s+/g,"");
 			var zrr=$("#zrr"+i).val();
+			var
 	//		console.log(zrr);
 			rowids=rowids+id+",";
 			rownums=rownums+boxnum+",";
-			count=floatAdd(count,boxnum);			
-			spanbug=spanbug+des+""+"/"+boxnum+"/"+ph+"/"+zrr+"; ";
+			count=floatAdd(count,boxnum);
+			var qch = $("#qch"+i).is(":checked");
+			if(qch){
+                      spanbug=spanbug+des+""+"/"+boxnum+"/"+ph+"/"+zrr+"/是"+"; ";
+			}else{
+                      spanbug=spanbug+des+""+"/"+boxnum+"/"+ph+"/"+zrr+"/否"+"; ";
+			}
+
 		}
 		i+=1;
 	</#list>

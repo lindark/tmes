@@ -16,6 +16,48 @@ $(function(){
 		window.history.back();
 	});
 });
+function change_sample_num(t) {
+    var idval=t.attr("id");
+    i=idval.substring(6,idval.length);
+    var samplenum=$("#sample_num").val();//抽检数量
+    var num_bt=$("#sr_num2"+i).val();//备胎
+    var num_qx=t.val().replace(/\s+/g,"");//缺陷
+    if(num_qx!=null&&num_qx!=""){
+        var reg=/^[0-9]+(\.[0-9]+)?$/;//整数或小数
+        if(reg.test(num_qx)){
+            num_qx=setScale(num_qx,0,"");//精度--去小数
+            t.val(num_qx);
+            t.next().val(num_qx);
+            // var id = t.next().attr('id');
+            // var the_sr_num2 = id.substring(7);
+            if(num_qx>=0&&(samplenum!=null&&samplenum!="")){
+                if(num_bt>0&&num_bt!=null&&num_bt!=""){
+                    tocalc(samplenum,num_qx,num_bt);
+                }else{
+                    tocalc(samplenum,num_qx,"");
+                }
+            }else{
+                $("#span_tip").text("");
+            }
+        }else{
+            layer.alert("输入不合法!",false);
+            t.val("");//缺陷数量
+            $("#sr_num2"+i).val("");//缺陷数量--备胎
+            if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!="")){
+                tocalc(samplenum,"",num_bt);
+            }
+        }
+    }else{
+//				$("#sr_num2"+i).val("");//缺陷数量--备胎
+        num_bt = t.next().val();
+        t.next().val("");
+        //alert(samplenum);
+        if(num_bt!=""&&num_bt!=null&&num_bt>0&&(samplenum!=null&&samplenum!=""))
+        {
+            tocalc(samplenum,"",num_bt);
+        }
+    }
+}
 //抽检数量事件
 function sample_event()
 {

@@ -14,7 +14,7 @@ import org.compass.annotations.Searchable;
 
 /**
  * 实体类 - 领料/退料主表
- * @param args
+ * @param
  */
 
 
@@ -23,10 +23,6 @@ import org.compass.annotations.Searchable;
 @Table(name = "Pick")
 public class Pick extends BaseEntity{
 
-
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1219337885128932022L;
 	
 

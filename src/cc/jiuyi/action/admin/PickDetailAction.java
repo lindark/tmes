@@ -160,30 +160,7 @@ public class PickDetailAction extends BaseAdminAction {
 				String labst = data.get(i).get("labst");
 				String maktx = data.get(i).get("maktx");
 				String charg = data.get(i).get("charg");
-				
-//				for (int j = 0; j < bomList.size(); j++) {
-//					Bom bom = bomList.get(j);
-//					if(matnr.equals(bom.getMaterialCode())){
-//						bom.setStockAmount(labst);
-//						Material mt = materialService.get("materialCode", bom.getMaterialCode());
-//						if(mt==null){
-//							bom.setCqmultiple("1");
-//							bom.setCqhStockAmount(bom.getStockAmount());
-//						}else{
-//							if(mt.getCqmultiple()==null || "".equals(mt.getCqmultiple())){
-//								bom.setCqmultiple("1");
-//								bom.setCqhStockAmount(bom.getStockAmount());
-//							}else{
-//								bom.setCqmultiple(mt.getCqmultiple());
-//								BigDecimal multiple = new BigDecimal(mt.getCqmultiple());
-//								BigDecimal stockAmount = new BigDecimal(bom.getStockAmount());
-//								BigDecimal total = multiple.multiply(stockAmount);
-//								bom.setCqhStockAmount(total.toString());
-//							}
-//						}
-//						bomList.set(j, bom);
-//					}
-//				}
+
 				Bom bom = new Bom();
 				bom.setMaterialName(maktx);
 				bom.setMaterialCode(matnr);

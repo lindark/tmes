@@ -19,6 +19,10 @@ import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.Mapping;
 import cc.jiuyi.util.SAPModel;
 import cc.jiuyi.util.TableModel;
+
+/**
+ *领料/退料 sap 交互
+ */
 @Component
 public class PickRfcImpl extends BaserfcServiceImpl implements PickRfc{
 	public static Logger log = Logger.getLogger(PickRfcImpl.class);

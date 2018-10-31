@@ -92,6 +92,9 @@ public class DictDaoImpl extends BaseDaoImpl<Dict, String> implements DictDao {
 	{
 		String hql="from Dict as a where a.dictname=? and a.dictkey=?";
 		List<Dict> list=this.getSession().createQuery(hql).setParameter(0, dictname).setParameter(1, state).list();
+		if(list == null || list.size() == 0){
+			return "";
+		}
 		Dict d=list.get(0);
 		return d.getDictvalue();
 	}

@@ -185,16 +185,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 					pickDetailNow.setCqPickAmount(pickDetailOld.getCqPickAmount());
 					pickDetailNow.setCqhStockAmount(pickDetailOld.getCqhStockAmount());
 					pickDetailNow.setModifyDate(new Date());
-					
-					/**
-					 * if (pickDetailOld.getPickType() == "262") {
-						Double d = ArithUtil.mul(Double.parseDouble(pickDetailOld.getPickAmount()), -1);
-						int str = d.intValue();
-						pickDetailNow.setXpickAmount(str + "");
-					}else{
-						pickDetailNow.setXpickAmount(pickDetailOld.getPickAmount());
-					}
-					 */		
+
 					this.update(pickDetailNow);
 				} else {
 					this.delete(pickDetailNow.getId());
@@ -203,16 +194,7 @@ public class PickDetailServiceImpl extends BaseServiceImpl<PickDetail, String>im
 				if (pickDetailOld.getPickAmount() != null && !"".equals(pickDetailOld.getPickAmount())) {
 					pickDetailOld.setPickType(info);
 					pickDetailOld.setPick(pickNew);
-					
-					/**
-					 * if (pickDetailOld.getPickType() == "262") {
-						Double d = ArithUtil.mul(Double.parseDouble(pickDetailOld.getPickAmount()), -1);
-						int str = d.intValue();
-						pickDetailOld.setXpickAmount(str + "");
-					}else{
-						pickDetailOld.setXpickAmount(pickDetailOld.getPickAmount());
-					}
-					 */					
+
 					this.save(pickDetailOld);
 				}				
 			}

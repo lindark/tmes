@@ -28,12 +28,12 @@ public class ProductStorageDaoImpl extends BaseDaoImpl<ProductStorage, String>
 		//String sql="insert into ProductStorage(MBLNR,budat,ZEILE,CPUDT,CPUTM,matnr,maktx,aufnr,SGTXT,werks,bwart,menge,charg,lgort,wemng,zdate,ztime) values(productstorage_sequence.nextval,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		//SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		//SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
+//		try {
 //			Date ztime=new java.util.Date(Long.parseLong(ps.getZtime()));
 			//Connection conn=getSession().connection();
 			//PreparedStatement pre=conn.prepareStatement("select count(*) from productstorage where mblnr=? and budat=? and ZEILE=?");
-			String sql = "SELECT COUNT(*) FROM PRODUCTSTORAGE WHERE MBLNR='"+ps.getMBLNR()+"' AND BUDAT='"+ps.getBudat()+"' AND ZEILE='"+ps.getZEILE()+"'";
-			Object uqinueConstraint = (Object)getSession().createSQLQuery(sql).uniqueResult();
+//			String sql = "SELECT COUNT(*) FROM PRODUCTSTORAGE WHERE MBLNR='"+ps.getMBLNR()+"' AND BUDAT='"+ps.getBudat()+"' AND ZEILE='"+ps.getZEILE()+"'";
+//			Object uqinueConstraint = (Object)getSession().createSQLQuery(sql).uniqueResult();
 			//pre.setString(1, ps.getMBLNR());
 			//pre.setString(2, ps.getBudat());
 			//pre.setString(3, ps.getZEILE());
@@ -42,8 +42,8 @@ public class ProductStorageDaoImpl extends BaseDaoImpl<ProductStorage, String>
 //			if(rs.next()){
 //				uqinueConstraint=rs.getInt(1);
 //			}
-			if (Integer.parseInt(uqinueConstraint.toString())==0) {
-				save(ps);
+//			if (Integer.parseInt(uqinueConstraint.toString())==0) {
+//				save(ps);
 				/*getSession().createSQLQuery(sql).setParameter(0, ps.getMBLNR())
 						.setParameter(1, ps.getBudat())
 						.setParameter(2, ps.getZEILE())
@@ -61,20 +61,78 @@ public class ProductStorageDaoImpl extends BaseDaoImpl<ProductStorage, String>
 						.setParameter(14, ps.getWEMNG())
 						.setParameter(15, ps.getZdate())
 						.setParameter(16, ps.getZtime()).executeUpdate();*/
-			}
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+
+		try {
+				String hql = "from ProductStorage where MBLNR = ? and BUDAT = ? and ZEILE = ? ";
+				List<ProductStorage> list = getSession().createQuery(hql).setParameter(0,ps.getMBLNR()).setParameter(1,ps.getBudat()).setParameter(2,ps.getZEILE()).list();
+				if(list!=null && list.size()>0){
+					ProductStorage productStorage = list.get(0);
+					productStorage.setMBLNR(ps.getMBLNR());
+					productStorage.setBudat(ps.getBudat());
+					productStorage.setZEILE(ps.getZEILE());
+					productStorage.setCPUDT(ps.getCPUDT());
+					productStorage.setCPUTM(ps.getCPUTM());
+					productStorage.setMatnr(ps.getMatnr());
+					productStorage.setMaktx(ps.getMaktx());
+					productStorage.setAufnr(ps.getAufnr());
+					productStorage.setSGTXT(ps.getSGTXT());
+					productStorage.setWerks(ps.getWerks());
+					productStorage.setBwart(ps.getBwart());
+					productStorage.setMenge(ps.getMenge());
+					productStorage.setCharg(ps.getCharg());
+					productStorage.setLgort(ps.getLgort());
+					productStorage.setWEMNG(ps.getWEMNG());
+					productStorage.setZdate(ps.getZdate());
+					productStorage.setZtime(ps.getZtime());
+					update(productStorage);
+				}else{
+					save(ps);
+				}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
+
 	}
 	
 	public synchronized void addProductStorage(List<ProductStorage> pslist){
 		try {
 			for(ProductStorage ps : pslist){
-				String sql = "SELECT COUNT(*) FROM PRODUCTSTORAGE WHERE MBLNR='"+ps.getMBLNR()+"' AND BUDAT='"+ps.getBudat()+"' AND ZEILE='"+ps.getZEILE()+"'";
-				Object uqinueConstraint = (Object)getSession().createSQLQuery(sql).uniqueResult();
-				if (Integer.parseInt(uqinueConstraint.toString())==0) {
-					log.info("-------save-------"+ps.getMBLNR()+ps.getBudat()+ps.getZEILE()+"---------");
+//				String sql = "SELECT COUNT(*) FROM PRODUCTSTORAGE WHERE MBLNR='"+ps.getMBLNR()+"' AND BUDAT='"+ps.getBudat()+"' AND ZEILE='"+ps.getZEILE()+"'";
+//				Object uqinueConstraint = (Object)getSession().createSQLQuery(sql).uniqueResult();
+//				if (Integer.parseInt(uqinueConstraint.toString())==0) {
+//					log.info("-------save-------"+ps.getMBLNR()+ps.getBudat()+ps.getZEILE()+"---------");
+//					save(ps);
+//				}
+				String hql = "from ProductStorage where MBLNR = ? and BUDAT = ? and ZEILE = ? ";
+				List<ProductStorage> list = getSession().createQuery(hql).setParameter(0,ps.getMBLNR()).setParameter(1,ps.getBudat()).setParameter(2,ps.getZEILE()).list();
+				if(list!=null && list.size()>0){
+//					log.info("-------update-------"+ps.getMBLNR()+ps.getBudat()+ps.getZEILE()+"---------");
+					ProductStorage productStorage = list.get(0);
+					productStorage.setMBLNR(ps.getMBLNR());
+					productStorage.setBudat(ps.getBudat());
+					productStorage.setZEILE(ps.getZEILE());
+					productStorage.setCPUDT(ps.getCPUDT());
+					productStorage.setCPUTM(ps.getCPUTM());
+					productStorage.setMatnr(ps.getMatnr());
+					productStorage.setMaktx(ps.getMaktx());
+					productStorage.setAufnr(ps.getAufnr());
+					productStorage.setSGTXT(ps.getSGTXT());
+					productStorage.setWerks(ps.getWerks());
+					productStorage.setBwart(ps.getBwart());
+					productStorage.setMenge(ps.getMenge());
+					productStorage.setCharg(ps.getCharg());
+					productStorage.setLgort(ps.getLgort());
+					productStorage.setWEMNG(ps.getWEMNG());
+					productStorage.setZdate(ps.getZdate());
+					productStorage.setZtime(ps.getZtime());
+					update(productStorage);
+				}else{
+//					log.info("-------save-------"+ps.getMBLNR()+ps.getBudat()+ps.getZEILE()+"---------");
 					save(ps);
 				}
 			}

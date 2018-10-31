@@ -135,6 +135,9 @@ public class WorkbinAction extends BaseAdminAction {
 		try {
 			log.info("开始保存mes记录--------------------------------"+list_cs.size()+"---------"+bktxt);
 			Map<String,Object> map = this.workbinService.saveData(list_cs,cardnumber,loginid,bktxt);
+			if("E".equals(map.get("status"))) {
+				return ajaxJsonErrorMessage("您的操作失败："+map.get("message"));
+			}
 			Workbin wb = (Workbin)map.get("workbin");
 			List<WorkbinSon> wbslist = (List<WorkbinSon>)map.get("workbinson");
 			log.info("开始保存调用sap--------------------------------"+bktxt);

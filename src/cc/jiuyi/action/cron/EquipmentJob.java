@@ -17,7 +17,9 @@ import cc.jiuyi.sap.rfc.WorkingBillRfc;
 import cc.jiuyi.service.EquipmentService;
 import cc.jiuyi.util.SpringUtil;
 
-
+/**
+ * 设备主数据自动任务同步
+ */
 @Component 
 public class EquipmentJob extends MyDetailQuartzJobBean {
 	

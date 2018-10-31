@@ -35,7 +35,7 @@ import cc.jiuyi.service.WorkingInoutCalculateBase;
 import cc.jiuyi.util.ArithUtil;
 
 /**
- * Service实现类 返修
+ * Service实现类 返修收货
  */
 @Service
 public class RepairServiceImpl extends BaseServiceImpl<Repair, String>

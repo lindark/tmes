@@ -48,11 +48,6 @@ public class TempKaoqinAction extends BaseAdminAction {
 	private static final long serialVersionUID = -7695470770728132309L;
 
 	/**
-	 * ========================variable,object,interface
-	 * start========================
-	 */
-
-	/**
 	 * 对象，变量
 	 */
 	private TempKaoqin kaoqin;
@@ -359,19 +354,8 @@ public class TempKaoqinAction extends BaseAdminAction {
 		{
 			return this.ajaxJsonErrorMessage("0");// 移除成功
 		}
-		
-		//String adminId=tkq.getEmp().getId();		
-//		Kaoqin kq=kqService.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
 
 		tkqService.delete(id);
-//		kqService.delete(kq);
-		
-		/*Admin rda=adminService.get(adminId);
-		rda.setIsdaiban("N");
-		rda.setModifyDate(new Date());
-		rda.setProductDate(null);
-		rda.setShift(null);		
-		adminService.update(rda);*/
 		
 		return this.ajaxJsonSuccessMessage("1");// 移除成功
 	}

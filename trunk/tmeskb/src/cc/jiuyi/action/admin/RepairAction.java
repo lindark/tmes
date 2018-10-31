@@ -44,7 +44,7 @@ import cc.jiuyi.util.ExportExcel;
 import cc.jiuyi.util.ThinkWayUtil;
 
 /**
- * 返修
+ * 返修收货
  * 
  */
 @ParentPackage("admin")
@@ -124,18 +124,15 @@ public class RepairAction extends BaseAdminAction {
 			// 此处处理普通查询结果 Param 是表单提交过来的json 字符串,进行处理。封装到后台执行
 			JSONObject obj = JSONObject.fromObject(Param);
 			if (obj.get("maktx") != null) {
-				String maktx = obj.getString("maktx")
-						.toString();
+				String maktx = obj.getString("maktx").toString();
 				map.put("maktx", maktx);
 			}
 			if (obj.get("mblnr") != null) {
-				String mblnr = obj.getString("mblnr")
-						.toString();
+				String mblnr = obj.getString("mblnr").toString();
 				map.put("mblnr", mblnr);
 			}
 			if (obj.get("state") != null) {
-				String state = obj.getString("state")
-						.toString();
+				String state = obj.getString("state").toString();
 				map.put("state", state);
 			}
 			if (obj.get("start") != null) {
@@ -217,17 +214,6 @@ public class RepairAction extends BaseAdminAction {
 	        header.add("随工单号");
 	        header.add("产品编码");
 	        header.add("物料凭证号");
-/*	        header.add("组件编码");
-	        header.add("组件名称");
-	        header.add("组件数量");
-	        header.add("组件总数量");*/
-	        
-	        
-	        
-	        
-	        
-	        
-	        
 	        header.add("返修日期");
 	        header.add("创建人");
 	        header.add("确认人");
@@ -501,7 +487,6 @@ public class RepairAction extends BaseAdminAction {
 		}
 
 		pager = repairService.findPagerByjqGrid(pager, map, workingBillId);
-		@SuppressWarnings("unchecked")
 		List<Repair> repairList = pager.getList();
 		List<Repair> lst = new ArrayList<Repair>();
 		for (int i = 0; i < repairList.size(); i++) 

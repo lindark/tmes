@@ -279,6 +279,7 @@ public class ProductStorageAction extends BaseAdminAction {
 
 				productstoragerfc.sysnProductStorage(parameter);
 				this.lock = true;
+				log.info("生产入库同步结束...this.lock"+this.lock);
 			} catch (Exception e) {
 				// TODO: handle exception
 				log.info("生产入库同步错误"+e);

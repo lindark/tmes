@@ -11,6 +11,8 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import cc.jiuyi.service.impl.ProductStorageServiceImpl;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.sap.mw.jco.IFunctionTemplate;
@@ -32,6 +34,8 @@ import cc.jiuyi.util.CustomerException;
 import cc.jiuyi.util.SAPModel;
 @Component
 public class ProductStorageRfcImpl  extends BaserfcServiceImpl implements ProductStorageRfc{
+
+	private static Logger log = Logger.getLogger(ProductStorageRfcImpl.class);
 	
 	@Resource
 	private ProductStorageService productstorageservice;
@@ -69,9 +73,13 @@ public class ProductStorageRfcImpl  extends BaserfcServiceImpl implements Produc
 		ParameterList outs = mode.getOuttab();//返回表
 		Table table01 = outs.getTable("GT_AUFNR");//返回的表名
 		List<ProductStorage> pslist = new ArrayList<ProductStorage>();
+		log.info("生产入库获取sap数据......="+table01.getNumRows());
 		for(int i=0;i<table01.getNumRows();i++){
+
 //			WorkingBill workingbill = new WorkingBill();
 			table01.setRow(i);
+//			log.info("生产入库获取sap数据,MBLNR="+table01.getString("MBLNR")+".....文本SGTXT......="+table01.getString("SGTXT"));
+
 			//System.out.println("product storage sap"+table01.getString(1));
 			//System.out.println(table01.getString(2));
 			//System.out.println("product storage sap menge==>"+table01.getString("MENGE"));

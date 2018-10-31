@@ -182,9 +182,6 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 					{
 						tkq.setWorkState("2");
 						tempKqDao.update(tkq);
-//						Kaoqin kq=kqDao.getByTPSA(tkq.getTeam().getFactoryUnit().getId(), tkq.getProductdate(), tkq.getClasstime(), tkq.getEmp().getId()).get(0);
-//						kq.setWorkState(tkq.getWorkState());
-//						kqDao.update(kq);
 					}
 					
 				}
@@ -192,36 +189,11 @@ public class TempKaoqinServiceImpl extends BaseServiceImpl<TempKaoqin, String> i
 			else
 			{			
 				saveTkqList(adminList, t, admin, null);
-				//开启考勤后存到临时记录表里,同时存储到记录表里
-//				saveKqListByTkqList(saveTkqList(adminList, t, admin, null)); 
-			}			
-			
-			
-			/*List<WorkingBill>wblist=this.workingbillservice.getListWorkingBillByDate(admin);
-			if(wblist!=null&&wblist.size()>0)
-			{
-				for(int i=0;i<wblist.size();i++)
-				{
-					WorkingBill wb=wblist.get(i);
-					if(wb.getTeam()==null)
-					{
-						wb.setTeam(t);
-						wb.setModifyDate(new Date());
-						this.workingbillservice.update(wb);
-					}
-				}
-			}*/
-			
-			
+			}
 		}		
 		
 	}
 	
-	
-	
-	
-	
-
 	/**
 	 * 点击后刷卡
 	 */

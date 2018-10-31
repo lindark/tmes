@@ -11,6 +11,9 @@ import cc.jiuyi.service.CreditCardService;
 import cc.jiuyi.service.FactoryUnitService;
 import cc.jiuyi.util.SpringUtil;
 
+/**
+ * 生产入库自动任务同步
+ */
 public class ProductStorageJob extends MyDetailQuartzJobBean {
 	public static Logger log = Logger.getLogger(ProductStorageJob.class);
 	private ProductStorageRfc productstoragerfc;

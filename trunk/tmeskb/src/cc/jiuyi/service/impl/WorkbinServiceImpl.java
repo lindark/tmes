@@ -18,6 +18,7 @@ import cc.jiuyi.dao.WorkbinDao;
 import cc.jiuyi.entity.Admin;
 import cc.jiuyi.entity.Bom;
 import cc.jiuyi.entity.FactoryUnit;
+import cc.jiuyi.entity.Team;
 import cc.jiuyi.entity.Workbin;
 import cc.jiuyi.entity.WorkbinSon;
 import cc.jiuyi.entity.WorkingBill;
@@ -249,6 +250,28 @@ public class WorkbinServiceImpl extends BaseServiceImpl<Workbin, String> impleme
 //		if("S".equals(map.get("status"))){
 			Admin admin = adminservice.getByCardnum(cardnumber);
 			Admin login_admin=this.adminservice.get(loginid);
+			
+			Team team = login_admin.getTeam();
+			if(team == null){
+				map.put("status", "E");
+				map.put("message", "当前人员未绑定班组");
+				return map;
+			}
+			FactoryUnit factoryUnit = team.getFactoryUnit();
+			if(factoryUnit == null){
+				map.put("status", "E");
+				map.put("message", "当前人员未绑定单元");
+				return map;
+			}
+			String xbcCode = factoryUnit.getWarehouse(); 
+			for(WorkbinSon wbs : list_cs) {
+				if(!wbs.getJslgort().equals(xbcCode)) {
+					map.put("status", "E");
+					map.put("message", "存在交货单收货地址"+wbs.getJslgort()+"与当前线边仓地址"+xbcCode+"不一致！");
+					return map;
+				}
+			}
+			
 			/**主表数据插入*/
 			Workbin c=new Workbin();
 			c.setCreateDate(new Date());//创建日期

@@ -643,7 +643,7 @@ public class DailyWorkAction extends BaseAdminAction {
 			dailyWork.setStateRemark(ThinkWayUtil.getDictValueByDictKey(
 					dictService, "dailyWorkState", dailyWork.getState()));
 			if (dailyWork.getConfirmUser() != null) {
-				dailyWork.setAdminName(dailyWork.getConfirmUser().getName());
+				dailyWork.setAdminName(dailyWork.getConfirmUser()==null?"":dailyWork.getConfirmUser().getName());
 			}
 			/*dailyWork.setXmoudle(ThinkWayUtil.getDictValueByDictKey(dictService,
 					"moudleType", dailyWork.getMoudle()));*/
